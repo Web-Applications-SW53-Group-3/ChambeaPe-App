@@ -3,11 +3,9 @@
 </script>
 
 <template>
-    <p>Hola mundo</p>
-    <a>Hola mundo</a>
-    <h1>Hola mundo</h1>
-    <h2>Hola mundo</h2>
-    <h2>Hola Ray</h2>
+  <main>
+    <router-view></router-view>
+  </main>
 </template>
 
 <style scoped>
