@@ -1,4 +1,5 @@
 <script>
+
 window.handleCredentialResponse=(response)=> {
   console.log("Encoded JWT ID token: " + response.credential);
 }
@@ -11,6 +12,31 @@ export default {
     };
   },
   methods: {
+    handleCredentialResponse(response) {
+      console.log("Encoded JWT ID token: " + response.credential);
+
+      //TO-DO: Decode JWT Token and map to user object
+      let user={
+        firstName: "Pedro",
+        lastName: "Gomez",
+        email: "pedro_gomez@gmail.com",
+        profilePic: "https://google.com"
+      }
+
+      this.LoginService
+          .create(user)
+          .then((response) => {
+            if (response.status === 201) {
+              alert("User created " + response.data.id);
+            } else {
+              alert("Error creating user");
+            }
+          })
+          .catch((error) => {
+            console.log("An error has occurred: ", error);
+            alert(error.message);
+          });
+    },
   },
 };
 </script>
