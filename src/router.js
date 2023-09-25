@@ -8,7 +8,6 @@ const routes = [
     {path:'/post/:id', component: employerPostComponent},
     {path: '/post', redirect: '/post/1'},
     { path: '/',component: loginComponent },
-
 ]
 
 const router = createRouter({

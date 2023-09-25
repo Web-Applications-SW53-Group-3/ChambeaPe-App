@@ -5,8 +5,11 @@ import App from './App.vue';
 import PrimeVue from 'primevue/config';
 
 import "primevue/resources/primevue.min.css";
-import "primevue/resources/themes/lara-light-blue/theme.css";
+import '@/assets/css/theme.css'
+import Sidebar from 'primevue/sidebar';
+
 import "primeicons/primeicons.css";
+import "primeflex/primeflex.css";
 
 import Toolbar from 'primevue/toolbar';
 import Password from "primevue/password";
@@ -25,10 +28,12 @@ app.use(router);
 app.use(PrimeVue);
 
 app.component('pv-toolbar', Toolbar);
-app.component('pv-password', Password)
-app.component('pv-input-mask', InputMask)
-app.component('pv-input-text', InputText)
-app.component('pv-button', Button)
+
+app.component('pv-password', Password);
+app.component('pv-input-mask', InputMask);
+app.component('pv-input-text', InputText);
+app.component('pv-button', Button);
+app.component('pv-sidebar', Sidebar);
 app.component('pv-card', Card)
 
 app.mount('#app');

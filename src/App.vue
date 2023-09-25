@@ -1,13 +1,11 @@
 <script setup>
+import NavigationComponent from "./components/layout/nav-component.vue";
 
 </script>
 
 <template>
-  <main>
-    <router-view></router-view>
-  </main>
+  <navigation-component></navigation-component>
+  <router-view></router-view>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
