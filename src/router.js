@@ -3,8 +3,9 @@ import loginComponent from "@/components/login/login-component.vue";
 
 
 const routes = [
-    { path: '/',component: loginComponent },
-    {path:'/login', component: loginComponent}
+    { path: '/', redirect: '/login'},
+    { path: '/login', name: 'Login' , component: loginComponent},
+    { path: '/:pathMatch(.*)*', redirect: '/login' },
 ]
 
 const router = createRouter({
