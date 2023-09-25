@@ -16,6 +16,7 @@ import Password from "primevue/password";
 import InputMask from 'primevue/inputmask';
 import InputText from 'primevue/inputtext';
 import Button from "primevue/button";
+import Card from "primevue/card";
 
 import i18n from "@/i18n";
 import router from "@/router";
@@ -27,11 +28,13 @@ app.use(router);
 app.use(PrimeVue);
 
 app.component('pv-toolbar', Toolbar);
+
 app.component('pv-password', Password);
 app.component('pv-input-mask', InputMask);
 app.component('pv-input-text', InputText);
 app.component('pv-button', Button);
 app.component('pv-sidebar', Sidebar);
+app.component('pv-card', Card)
 
 app.mount('#app');
 
