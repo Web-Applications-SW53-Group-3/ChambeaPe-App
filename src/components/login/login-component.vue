@@ -109,10 +109,10 @@ export default {
       <br>
       <span class="p-float-label">
         <pv-password v-model="password" toggleMask :feedback="false" input-id="password" />
-        <label for="password">Password</label>
+        <label for="password">{{$t("password")}}</label>
       </span>
-      <pv-button label="Log in"></pv-button>
-      <a href="#" @click="showForgotPasswordComponent">¿Olvidaste tu contraseña?</a>
+      <pv-button :label="$t('login')"></pv-button>
+      <a href="#" @click="showForgotPasswordComponent">{{$t("forgotPassword")}}</a>
       <div class="forgot-password-modal" v-if="showForgotPassword">
         <ForgotPasswordComponent @reset-password-clicked="showVerificationCodeComponent" />
       </div>
