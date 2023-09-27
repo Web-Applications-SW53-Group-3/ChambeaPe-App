@@ -17,6 +17,7 @@ import InputMask from 'primevue/inputmask';
 import InputText from 'primevue/inputtext';
 import Button from "primevue/button";
 import Card from "primevue/card";
+import Textarea from "primevue/textarea";
 
 import i18n from "@/i18n";
 import router from "@/router";
@@ -35,6 +36,7 @@ app.component('pv-input-text', InputText);
 app.component('pv-button', Button);
 app.component('pv-sidebar', Sidebar);
 app.component('pv-card', Card)
+app.component('pv-textarea', Textarea)
 
 app.mount('#app');
 
