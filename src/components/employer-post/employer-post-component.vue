@@ -26,7 +26,10 @@ export default {
     }
   },
   methods: {
-
+    viewPost(workerId) {
+      const postId = this.$route.params.id;
+      this.$router.push({path:'/worker/'+workerId,query:{postId: postId}});
+    },
   },
   watch: {
     $route: {
@@ -81,8 +84,9 @@ export default {
 
       <template #footer>
         <div class="p-card-actions">
-          <pv-button label="Ver perfil" class="card-button" style="width: 80%;" />
+          <pv-button @click="viewPost(worker.id)" label="Ver perfil" class="card-button" style="width: 80%;" />
           <pv-button label="Chatear" class="card-button" style="width: 80%;" />
+          <pv-button label="Eliminar" class="card-button" style="width: 80%;" />
         </div>
       </template>
     </pv-card>
