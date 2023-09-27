@@ -42,15 +42,15 @@ onMounted(async () => {
       </div>
     </div>
     <div class="SearchResult">
-      <div class="Availability">Disponible</div>
+      <div class="Availability">DISPONIBLE</div>
       <div class="UserInfo">
         <img :src="employer.image" alt="Imagen de usuario" class="UserImage" />
         <div class="UserName">{{ employer.name }}</div>
         <div class="UserDescription">{{ employer.description }}</div>
       </div>
       <div class="UserActions">
-        <button class="ViewProfileButton">Ver Perfil</button>
-        <button class="ChatButton">Chatear</button>
+        <p-button class="p-button ViewProfileButton" >Ver Perfil</p-button>
+        <p-button class="p-button ChatButton">Chatear</p-button>
       </div>
     </div>
   </div>
@@ -58,6 +58,8 @@ onMounted(async () => {
 
 <style scoped>
 .SearchContainer {
+  width: 80%;
+  margin: 0 auto;
   background-color: white;
   padding: 1rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -65,6 +67,7 @@ onMounted(async () => {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
+  
   @media (min-width: 768px) {
     grid-template-columns: 1fr;
   }
@@ -86,7 +89,7 @@ onMounted(async () => {
 }
 
 .SearchIcon {
-  font-size: 2rem;
+  font-size: 1rem;
   margin-right: 0.5rem;
 }
 
@@ -114,8 +117,7 @@ onMounted(async () => {
   border: none;
   color: orange;
   cursor: pointer;
-  font-size: 1.5rem;
-  margin-top: 1rem;
+  font-size: 1.2rem;
 }
 
 .SearchResult {
@@ -123,15 +125,16 @@ onMounted(async () => {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   background-color: white;
   font-size: 1.5rem;
-  font-family: 'Arial', sans-serif;
   @media (min-width: 768px) {
     grid-column: 1 / span 2;
   }
 }
 
 .Availability {
-  font-weight: bold;
+  font-weight: 700;
   color: green;
+  font-size: 1.2rem;
+  text-align: center;
 }
 
 .UserInfo {
@@ -163,20 +166,22 @@ onMounted(async () => {
   align-items: center;
   justify-content: center;
   margin-top: 0.5rem;
+  gap: 1rem;
 }
 
 .ViewProfileButton,
 .ChatButton {
-  background-color: orange;
-  color: white;
+  display: flex;
+  align-items: center;
+  width: 10rem;
   border: none;
-  border-radius: 4px;
-  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  justify-content: center;
+  border: none;
+  font-size: 1rem;
   cursor: pointer;
-  font-size: 1.5rem;
-  margin-right: 1rem;
-  min-width: 150px;
 }
+
 
 .ChatButton {
   margin-left: 0;

@@ -5,13 +5,13 @@ import TopWorkers from "./components/top-worker-component.vue";
 </script>
 
 <template>
-  <div class="Home">
+  <div>
     <SearchContainer></SearchContainer>
     <TopEmployers></TopEmployers>
     <TopWorkers></TopWorkers>
   </div>
 </template>
 
-<style scoped>
+<style>
 
 </style>

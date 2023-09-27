@@ -18,7 +18,7 @@ export default {
     <div class="title">Te hemos enviado un código por email</div>
     <div class="subtitle">
       Introduce el código de verificación de 6 dígitos que te hemos enviado a s******@gmail.com
-      <button class="transparent-button color-text-text">Cambiar</button>
+      <button class="transparent-button color-text">Cambiar</button>
     </div>
     <div class="p-inputgroup">
       <span class="p-inputgroup-addon">
@@ -30,7 +30,7 @@ export default {
       <button class="transparent-button left-align color-text">Reenviar código</button>
     </div>
     <div class="footer">
-      <button class="p-button-success large-button" @click="submitVerificationCode">Enviar</button>
+      <button class="p-button large-button" @click="submitVerificationCode">Enviar</button>
     </div>
     <p>
       Si no ves el email en tu buzón, mira en la carpeta de spam.
@@ -47,20 +47,18 @@ export default {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   background-color: white;
   font-size: 1.5rem;
-  font-family: 'Arial', sans-serif;
+  text-align: center;
 }
 
 .title {
   color: black;
   font-weight: bold;
   font-size: 1.8rem;
-  font-family: 'Georgia', serif;
 }
 
 .subtitle {
   margin-top: 1rem;
-  font-size: 1.2rem;
-  font-family: 'Verdana', sans-serif;
+  font-size: 1rem;
   display: flex;
   align-items: center;
 }
@@ -70,7 +68,6 @@ export default {
   border: none;
   font-size: 1rem;
   cursor: pointer;
-  color: orange;
 }
 
 .color-text {
@@ -90,7 +87,7 @@ export default {
 
 .footer {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   margin-top: 1rem;
 }
 
@@ -100,13 +97,10 @@ export default {
 
 .large-button {
   width: 100%;
-  font-size: 1.2rem;
   padding: 0.5rem 1rem;
-  border-radius: 20px;
-  background-color: orange;
-  color: white;
+  border-radius: 5px;
+  justify-content: center;
   border: none;
-  cursor: pointer;
 }
 
 p {

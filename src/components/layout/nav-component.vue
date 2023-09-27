@@ -107,8 +107,7 @@ header {
             padding-bottom: 4px;
             border-bottom: 1px solid transparent;
             &:hover {
-                color: #f1a636;
-                border-color: #f1a636;
+                border-color: #fff;
             }
         }
 
