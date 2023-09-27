@@ -104,7 +104,7 @@ export default {
       <br>
       <span class="p-float-label">
         <pv-input-text id="mail" class="mail" v-model="email" />
-        <label for="mail">Email</label>
+        <label for="mail">{{$t("email")}}</label>
       </span>
       <br>
       <span class="p-float-label">

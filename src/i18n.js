@@ -1,9 +1,10 @@
 import { createI18n } from 'vue-i18n'
 
 const i18n = createI18n({
-    locale: 'en',
+    locale: 'es',
     messages: {
-        en: {
+        
+        es: {
         welcome: 'Bienvenido a Chambea Pe',
         login: 'Iniciar Sesión',
         email: 'Correo electrónico',
@@ -68,6 +69,14 @@ const i18n = createI18n({
         checkNotification: 'Notify me about new messages',
         btnPublish: 'Publish',
         placeSearch: 'Search',
+        lastSearch: 'Last search',
+        btnEdit: 'Edit',
+        statusOn: 'Available',
+        btnViewProfile: 'View profile',
+        btnChat: 'Chat',
+        topChambeadores:  'Top Chambeadores',
+        topEmployers: 'Top Employers',
+
 
 
         }
