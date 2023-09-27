@@ -11,6 +11,7 @@ import Sidebar from 'primevue/sidebar';
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 
+import Steps from 'primevue/steps';
 import Toolbar from 'primevue/toolbar';
 import Password from "primevue/password";
 import InputMask from 'primevue/inputmask';
@@ -32,6 +33,7 @@ app.use(i18n);
 app.use(router);
 app.use(PrimeVue);
 
+
 app.component('pv-toolbar', Toolbar);
 
 app.component('pv-input-mask', InputMask);
@@ -45,5 +47,6 @@ app.component('pv-password', Password);
 app.component('pv-selectbutton', SelectButton);
 app.component('pv-radiobutton', RadioButton);
 app.component('pv-checkbox', Checkbox);
+app.component('pv-steps', Steps);
 app.mount('#app');
 
