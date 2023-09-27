@@ -1,8 +1,8 @@
 import axios from "axios";
 import {environment} from "@/environments/environment";
 
+
 class LoginService {
-    baseUrl= "http://localhost:3000"
     getAll() {
         return axios.get(environment.baseUrl+"/users");
     }
