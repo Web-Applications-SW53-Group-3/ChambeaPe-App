@@ -5,7 +5,7 @@
                 <img src="@/assets/images/Logo.png" alt="">
             </div>
             <ul v-show="!mobile" class="navigation">
-                <li><router-link  class="link" :to="{name: ''}">Inicio</router-link></li>
+                <li><router-link class="link" :to="{ path: '/home' }">Inicio</router-link></li>
                 <li><router-link  class="link" :to="{name: ''}">Empleos</router-link></li>
                 <li><router-link  class="link" :to="{name: ''}">Chambeadores</router-link></li>
                 <li><router-link  class="link" :to="{name: ''}">Perfil</router-link></li>                 
