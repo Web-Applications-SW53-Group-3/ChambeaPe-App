@@ -4,8 +4,16 @@ import NavigationComponent from "./components/layout/nav-component.vue";
 </script>
 
 <template>
-  <navigation-component></navigation-component>
-  <router-view></router-view>
+    <navigation-component></navigation-component>
+    <div class="container">
+      <router-view></router-view>
+    </div>
 </template>
 
-<style scoped></style>
+
+<style scoped>
+.container {
+  padding : 6rem 0 0 0;
+}
+
+</style>

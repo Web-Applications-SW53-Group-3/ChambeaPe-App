@@ -111,8 +111,8 @@ export default {
         <pv-password v-model="password" toggleMask :feedback="false" input-id="password" />
         <label for="password">Password</label>
       </span>
-      <pv-button label="Log in"></pv-button>
-      <a href="#" @click="showForgotPasswordComponent">¿Olvidaste tu contraseña?</a>
+      <pv-button class="login" label="Log in"></pv-button>
+      <a  @click="showForgotPasswordComponent" class="forgot">¿Olvidaste tu contraseña?</a>
       <div class="forgot-password-modal" v-if="showForgotPassword">
         <ForgotPasswordComponent @reset-password-clicked="showVerificationCodeComponent" />
       </div>
@@ -157,7 +157,7 @@ export default {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
+  z-index: 2;
 }
 
 .forgot-password-modal,
@@ -168,7 +168,18 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1000;
+  z-index: 10;
+}
+
+.login {
+  width: 15.5rem;
+}
+
+.forgot {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #eeae48;
+  cursor: pointer;
 }
 </style>
 

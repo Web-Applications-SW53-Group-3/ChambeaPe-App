@@ -20,7 +20,7 @@ export default {
   <div class="updated-password" style="width: 15em">
     <div class="title">Se ha cambiado tu contraseña</div>
     <img src="https://cdn.discordapp.com/attachments/1037343952694685706/1155673854576971869/Group_110.png" alt="Imagen" class="card-image" />
-    <button @click="redirectToHome" class="p-button-success large-button">Ir a ChambeaPe</button>
+    <button @click="redirectToHome" class="p-button large-button">Ir a ChambeaPe</button>
     <div class="verification-box">
       <button class="transparent-button orange-text">Activar el proceso de verificación en dos pasos</button>
       <div class="verification-text">
@@ -32,19 +32,18 @@ export default {
 
 <style scoped>
 .updated-password {
+  text-align: center;
   margin: 0 auto;
   padding: 2rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   background-color: white;
   font-size: 1.5rem;
-  font-family: 'Arial', sans-serif;
 }
 
 .title {
   color: black;
   font-weight: bold;
   font-size: 1.8rem;
-  font-family: 'Georgia', serif;
   margin-bottom: 1rem;
 }
 
@@ -57,14 +56,11 @@ export default {
 
 .large-button {
   width: 100%;
-  font-size: 1.2rem;
   padding: 0.5rem 1rem;
-  border-radius: 20px;
-  background-color: orange;
-  color: white;
+  border-radius: 5px;
+  justify-content: center;
   border: none;
   margin-bottom: 1rem;
-  cursor: pointer;
 }
 
 .verification-box {

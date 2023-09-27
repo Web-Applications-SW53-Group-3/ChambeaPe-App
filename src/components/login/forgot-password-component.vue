@@ -26,37 +26,35 @@ export default {
       <input type="text" v-model="email" class="p-inputtext large-input" placeholder="Correo Electrónico o número" />
     </div>
     <div class="footer">
-      <pv-button icon="pi pi-check" label="Restablecer Contraseña" @click="resetPassword" class="p-button-success large-button" />
+      <pv-button icon="pi pi-check" label="Restablecer Contraseña" @click="resetPassword" class="large-button" />
     </div>
     <div class="footer">
-      <pv-button icon="pi pi-arrow-left" label="Volver" @click="goBack" class="p-button-secondary small-button" />
+      <pv-button icon="pi pi-arrow-left" label="Cancelar" @click="goBack" class="p-button-secondary small-button" />
     </div>
   </div>
 </template>
 
 <style scoped>
 .forgot-password {
+  text-align: center;
   display: block;
   z-index: 10;
   margin: 0 auto;
   padding: 2rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  background-color: white;
+  background-color: #fff;
   font-size: 1.8rem;
-  font-family: 'Arial', sans-serif;
 }
 
 .title {
   color: black;
   font-weight: bold;
   font-size: 2rem;
-  font-family: 'Georgia', serif;
 }
 
 .subtitle {
   margin-top: 1rem;
   font-size: 1rem;
-  font-family: 'Verdana', sans-serif;
 }
 
 .p-inputgroup {
@@ -77,15 +75,9 @@ export default {
 
 .large-button {
   width: 100%;
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   padding: 0.5rem 1rem;
-  border-radius: 20px;
-}
-
-.p-button-success {
-  background-color: orange;
-  color: white;
-  border: none;
+  border-radius: 5px;
 }
 
 .p-button-secondary {
@@ -96,7 +88,8 @@ export default {
 
 .small-button {
   width: 120px;
-  font-size: 1.2rem;
-  border-radius: 20px;
+  font-size: 1rem;
+  border-radius: 5px;
 }
+
 </style>

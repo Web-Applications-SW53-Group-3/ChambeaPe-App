@@ -4,7 +4,7 @@ import employerPostComponent from "@/components/employer-post/employer-post-comp
 import employerMypostsComponent from "@/components/employer-myposts/employer-myposts.component.vue";
 import workerProfile from "@/components/worker-profile/worker-profile.vue";
 import registerComponent from "@/components/register/form-register.component.vue";
-import jobPostComponent from "@/components/job-post/job-post.component.vue";
+// import jobPostComponent from "@/components/job-post/job-post.component.vue";
 import HomeComponent from "@/components/home/home-component.vue";
 
 const routes = [
@@ -13,9 +13,10 @@ const routes = [
     {path:'/posts/:id', component: employerPostComponent},
     {path: '/posts', component: employerMypostsComponent},
     {path: '/register', component: registerComponent},
-    {path: '/job-post', component: jobPostComponent},
+    // {path: '/job-post', component: jobPostComponent},
     { path: '/',component: loginComponent },
     { path: '/home', component: HomeComponent },
+    { path: '/:pathMatch(.*)*', redirect: '/login' }
 ]
 
 const router = createRouter({

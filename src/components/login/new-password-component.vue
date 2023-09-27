@@ -44,7 +44,7 @@ export default {
       <input type="checkbox" v-model="requestLoginOnAllDevices" />
       Solicitar que todos los dispositivos inicien sesión con la nueva contraseña
     </div>
-    <button class="p-button-success large-button" style="margin-top: 1rem;" @click="submitPassword">Enviar</button>
+    <button class="p-button large-button" style="margin-top: 1rem;" @click="submitPassword">Enviar</button>
   </div>
 </template>
 
@@ -55,20 +55,18 @@ export default {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   background-color: white;
   font-size: 1.5rem;
-  font-family: 'Arial', sans-serif;
+  text-align: center;
 }
 
 .title {
   color: black;
   font-weight: bold;
   font-size: 1.8rem;
-  font-family: 'Georgia', serif;
 }
 
 .subtitle {
   margin-top: 1rem;
   font-size: 1.2rem;
-  font-family: 'Verdana', sans-serif;
 }
 
 .transparent-button {
@@ -76,7 +74,6 @@ export default {
   border: none;
   font-size: 1rem;
   cursor: pointer;
-  color: orange;
 }
 
 .color-text {
@@ -102,15 +99,12 @@ export default {
   margin-top: 1rem;
   font-size: 1rem;
 }
-
 .large-button {
   width: 100%;
-  font-size: 1.2rem;
   padding: 0.5rem 1rem;
-  border-radius: 20px;
-  background-color: orange;
-  color: white;
+  border-radius: 5px;
+  justify-content: center;
   border: none;
-  cursor: pointer;
 }
+
 </style>

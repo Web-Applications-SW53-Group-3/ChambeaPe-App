@@ -34,7 +34,8 @@ export default {
     },
     async saveChanges() {
       try {
-        const response = await new EmployerPostService().update(this.post);
+        const postId = this.$route.params.id;
+        const response = await new EmployerPostService().update(postId, this.post);
         console.log(response.data);
         this.editMode = false;
       } catch (error) {
@@ -72,21 +73,23 @@ export default {
 
 <template>
 
-  <pv-card class="post-card" style="width: 25em">
-    <template #header>
-      <pv-input-text v-if="editMode" type="text" v-model="post.postImgUrl" placeholder="URL de la imagen"></pv-input-text>
+  <pv-card class="post-card">
+    <template #header >
+      <pv-input-text  class="edit" v-if="editMode" type="text" v-model="post.postImgUrl" placeholder="URL de la imagen">
+      </pv-input-text>
+      <img v-if="editMode" class="prev-image" :src="post.postImgUrl" alt="Post Image">
       <img v-else class="post-image" :src="post.postImgUrl" alt="Post Image">
     </template>
     <template #title>
-      <pv-input-text v-if="editMode" type="text" v-model="post.postTitle" placeholder="Título del post"></pv-input-text>
+      <pv-input-text class="edit"  v-if="editMode" type="text" v-model="post.postTitle" placeholder="Título del post"></pv-input-text>
       <h1 v-else class="title">{{post.postTitle}}</h1>
     </template>
     <template #subtitle>
-      <pv-input-text v-if="editMode" type="text" v-model="post.postSubtitle" placeholder="Subtítulo del post"></pv-input-text>
+      <pv-input-text class="edit"  v-if="editMode" type="text" v-model="post.postSubtitle" placeholder="Subtítulo del post"></pv-input-text>
       <h3 v-else>{{post.postSubtitle}}</h3>
     </template>
     <template #content>
-      <pv-textarea v-if="editMode" v-model="post.postDescription" placeholder="Descripción del post"></pv-textarea>
+      <pv-textarea class="edit"  v-if="editMode" v-model="post.postDescription" placeholder="Descripción del post" rows="7" autoResize ></pv-textarea>
       <p v-else>
         {{post.postDescription}}
       </p>
@@ -99,9 +102,7 @@ export default {
     </template>
   </pv-card>
 
-  <br>
   <h1 class="title">Chambeadores</h1>
-  <br>
   <div class="container-champ">
     <pv-card v-for="(worker, index) in post.workers" :key="index" class="example-card">
       <template #header>
@@ -136,8 +137,50 @@ export default {
 
 <style scoped>
 @import url(../../assets/css/employer-post.css);
+
+.post-card{
+  width: 60%;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;  
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+}
+
+.p-card-image{
+  padding-top: 2rem;
+}
 .post-image{
-  width: 400px;
-  heigth: 300px;
+  width: 12rem;
+  height: 12rem;
+  object-fit: cover;
+}
+.prev-image{
+  display: block;
+  margin: 1rem auto;
+  width: 12rem;
+  height: 12rem;
+  object-fit: cover;
+}
+
+.p-card-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.p-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit {
+  width: 50rem;
 }
 </style>
