@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     handleCredentialResponse(response) {
-      console.log("Encoded JWT ID token: " + response.credential);
+      console.log("JWT ID token: " + response.credential);
 
       // TO-DO: Decode JWT Token and map to user object
       let user = {
@@ -42,7 +42,6 @@ export default {
           .then((response) => {
             if (response.status === 201) {
               alert("User created " + response.data.id);
-              this.$router.push("/home");
             } else {
               alert("Error creating user");
             }
@@ -51,6 +50,7 @@ export default {
             console.log("An error has occurred: ", error);
             alert(error.message);
           });
+      this.$router.push("/home");
     },
     showForgotPasswordComponent() {
       this.showForgotPassword = true;
