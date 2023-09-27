@@ -34,7 +34,8 @@ export default {
     },
     async saveChanges() {
       try {
-        const response = await new EmployerPostService().update(this.post);
+        const postId = this.$route.params.id;
+        const response = await new EmployerPostService().update(postId, this.post);
         console.log(response.data);
         this.editMode = false;
       } catch (error) {
