@@ -1,0 +1,17 @@
+<script setup>
+import SearchContainer from "./components/seeker-component.vue";
+import TopEmployers from "./components/top-employer-component.vue";
+import TopWorkers from "./components/top-worker-component.vue";
+</script>
+
+<template>
+  <div class="Home">
+    <SearchContainer></SearchContainer>
+    <TopEmployers></TopEmployers>
+    <TopWorkers></TopWorkers>
+  </div>
+</template>
+
+<style scoped>
+
+</style>
