@@ -89,6 +89,7 @@
 </template>
   
 <script>
+import EmployerPostService from "@/services/employer-post.service";
 export default {
     data() {
         return {
@@ -106,7 +107,7 @@ export default {
                 isPremium: false,
                 isTownChambeador: false,
                 isMessages: false,
-                selectedArea: null,
+                selectedArea: '',
             },
             area: [
                 { label: 'Limpieza', value: 'Limpieza' },
@@ -141,8 +142,17 @@ export default {
         getFileOnLoad(event) {
             console.log('Archivo seleccionado:', event.target.files[0]);
         },
-        enviarDatos() {
-            console.log('Datos a enviar:', this.userData);
+        async enviarDatos() {
+          let jobPost= {
+            id: 0,
+            postTitle: this.userData.title,
+            postDescription: this.userData.description,
+            postSubtitle: this.userData.selectedArea,
+            postImgUrl: 'https://humanidades.com/wp-content/uploads/2017/10/trabajo-1-e1571886459117.jpg',
+            workers: [],
+          };
+          await new EmployerPostService().create(jobPost);
+          this.$router.push('/posts');
         },
     },
 };
