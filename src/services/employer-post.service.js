@@ -17,6 +17,10 @@ class EmployerPostService{
     update(id, body) {
         return axios.put(environment.baseUrl+"/post/" + id, body);
     }
+
+    delete(id) {
+        return axios.delete(environment.baseUrl+"/post/" + id);
+    }
 }
 
 export default EmployerPostService;

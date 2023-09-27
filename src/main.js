@@ -18,11 +18,15 @@ import InputMask from 'primevue/inputmask';
 import InputText from 'primevue/inputtext';
 import Button from "primevue/button";
 import Card from "primevue/card";
+
 import Calendar from 'primevue/calendar';
 import SelectButton from 'primevue/selectbutton';
 
 import RadioButton from 'primevue/radiobutton';
 import Checkbox from 'primevue/checkbox';
+
+import Textarea from "primevue/textarea";
+
 
 import i18n from "@/i18n";
 import router from "@/router";
@@ -48,5 +52,8 @@ app.component('pv-selectbutton', SelectButton);
 app.component('pv-radiobutton', RadioButton);
 app.component('pv-checkbox', Checkbox);
 app.component('pv-steps', Steps);
+
+app.component('pv-textarea', Textarea)
+
 app.mount('#app');
 
