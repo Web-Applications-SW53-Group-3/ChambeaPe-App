@@ -1,5 +1,6 @@
 <script>
 import EmployerPostService from "@/services/employer-post.service";
+import WorkerProfileService from "@/services/worker-profile.service";
 
 export default {
   name: "user-list.component",
@@ -12,7 +13,8 @@ export default {
         postSubtitle: "",
         postImgUrl: "",
         workers: [],
-      }
+      },
+      editMode: false
     };
   },
   async mounted() {
@@ -30,6 +32,30 @@ export default {
       const postId = this.$route.params.id;
       this.$router.push({path:'/worker/'+workerId,query:{postId: postId}});
     },
+    async saveChanges() {
+      try {
+        const response = await new EmployerPostService().update(this.post);
+        console.log(response.data);
+        this.editMode = false;
+      } catch (error) {
+        console.error("Error al guardar los cambios:", error);
+      }
+
+    },
+    disableEditMode(){
+      this.editMode = false;
+    },
+    async deletePost(){
+      const postId = this.$route.params.id;
+      new EmployerPostService().delete(postId);
+      await new EmployerPostService().getAll();
+      this.$router.push('/posts');
+    },
+    deleteWorker(workerId){
+      let postId = this.$route.params.id;
+      new WorkerProfileService().delete(workerId,postId);
+      this.post.workers = this.post.workers.filter(worker => worker.id !== workerId);
+    }
   },
   watch: {
     $route: {
@@ -45,19 +71,33 @@ export default {
 </script>
 
 <template>
-  <div class="post-container">
-    <h1 class="title">{{post.postTitle}}</h1>
-    <br>
-    <img :src="post.postImgUrl" alt="Post Image">
-    <br>
-    <h2>Descripción</h2>
-    <br>
-    <p class="post-subtitle">Área aproximada: 50m2</p>
-    <br>
-    <p>
-      {{post.postDescription}}
-    </p>
-  </div>
+
+  <pv-card class="post-card" style="width: 25em">
+    <template #header>
+      <pv-input-text v-if="editMode" type="text" v-model="post.postImgUrl" placeholder="URL de la imagen"></pv-input-text>
+      <img v-else class="post-image" :src="post.postImgUrl" alt="Post Image">
+    </template>
+    <template #title>
+      <pv-input-text v-if="editMode" type="text" v-model="post.postTitle" placeholder="Título del post"></pv-input-text>
+      <h1 v-else class="title">{{post.postTitle}}</h1>
+    </template>
+    <template #subtitle>
+      <pv-input-text v-if="editMode" type="text" v-model="post.postSubtitle" placeholder="Subtítulo del post"></pv-input-text>
+      <h3 v-else>{{post.postSubtitle}}</h3>
+    </template>
+    <template #content>
+      <pv-textarea v-if="editMode" v-model="post.postDescription" placeholder="Descripción del post"></pv-textarea>
+      <p v-else>
+        {{post.postDescription}}
+      </p>
+    </template>
+    <template #footer>
+      <pv-button v-if="editMode" icon="pi pi-check" label="Guardar" @click="saveChanges"/>
+      <pv-button v-if="editMode" icon="pi pi-times" label="Cancelar" @click="disableEditMode()" severity="secondary" style="margin-left: 0.5em" />
+      <pv-button v-else icon="pi pi-check" label="Editar" @click="editMode = true"/>
+      <pv-button v-if="!editMode" icon="pi pi-times" label="Eliminar" @click="deletePost()" severity="secondary" style="margin-left: 0.5em" />
+    </template>
+  </pv-card>
 
   <br>
   <h1 class="title">Chambeadores</h1>
@@ -86,7 +126,7 @@ export default {
         <div class="p-card-actions">
           <pv-button @click="viewPost(worker.id)" label="Ver perfil" class="card-button" style="width: 80%;" />
           <pv-button label="Chatear" class="card-button" style="width: 80%;" />
-          <pv-button label="Eliminar" class="card-button" style="width: 80%;" />
+          <pv-button @click="deleteWorker(worker.id)" label="Eliminar" class="card-button" style="width: 80%;" />
         </div>
       </template>
     </pv-card>
@@ -96,4 +136,8 @@ export default {
 
 <style scoped>
 @import url(../../assets/css/employer-post.css);
+.post-image{
+  width: 400px;
+  heigth: 300px;
+}
 </style>
