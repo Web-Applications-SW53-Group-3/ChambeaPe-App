@@ -32,9 +32,9 @@ export default {
 
       // TO-DO: Decode JWT Token and map to user object
       let user = {
-        firstName: "Pedro",
-        lastName: "Gomez",
-        email: "pedro_gomez@gmail.com",
+        firstName: "User",
+        lastName: "Test",
+        email: "user_test@gmail.com",
         profilePic: "https://google.com",
       };
 
@@ -42,6 +42,7 @@ export default {
           .then((response) => {
             if (response.status === 201) {
               alert("User created " + response.data.id);
+              this.$router.push("/home");
             } else {
               alert("Error creating user");
             }
