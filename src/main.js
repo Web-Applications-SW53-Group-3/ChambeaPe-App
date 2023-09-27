@@ -20,6 +20,9 @@ import Card from "primevue/card";
 import Calendar from 'primevue/calendar';
 import SelectButton from 'primevue/selectbutton';
 
+import RadioButton from 'primevue/radiobutton';
+import Checkbox from 'primevue/checkbox';
+
 import i18n from "@/i18n";
 import router from "@/router";
 
@@ -40,5 +43,7 @@ app.component('pv-input', InputText);
 app.component('pv-calendar', Calendar);
 app.component('pv-password', Password);
 app.component('pv-selectbutton', SelectButton);
+app.component('pv-radiobutton', RadioButton);
+app.component('pv-checkbox', Checkbox);
 app.mount('#app');
 
