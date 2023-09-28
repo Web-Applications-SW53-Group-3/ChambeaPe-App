@@ -39,7 +39,7 @@ const i18n = createI18n({
         btnChat: 'Chat',
         topChambeadores:  'Chambeadores Destacados',
         topEmployers: 'Empleadores Destacados',
-
+        register: 'Regístrate'
         },
         en: {
         welcome: 'Welcome to Chambea Pe',
@@ -76,7 +76,7 @@ const i18n = createI18n({
         btnChat: 'Chat',
         topChambeadores:  'Top Chambeadores',
         topEmployers: 'Top Employers',
-
+            register: 'Register'
 
 
         }

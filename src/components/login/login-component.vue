@@ -105,7 +105,7 @@ export default {
   <div class="login-container">
     <div class="overlay" v-if="showForgotPassword || showVerificationCode || showNewPassword || showUpdatedPassword" @click="closeOverlay"></div>
     <div class="wrapper">
-      <h1>Log in</h1>
+      <h1>{{$t("login")}}</h1>
       <br>
       <span class="p-float-label">
         <pv-input-text id="mail" class="mail" v-model="email" />
@@ -116,9 +116,9 @@ export default {
         <pv-password v-model="password" toggleMask :feedback="false" input-id="password" />
         <label for="password">{{$t("password")}}</label>
       </span>
-      <pv-button class="login" label="Log in"></pv-button>
-      <a  @click="showForgotPasswordComponent" class="forgot">¿Olvidaste tu contraseña?</a>
-      <pv-button @click="redirectToRegister()">Regístrate</pv-button>
+      <pv-button class="login" :label="$t('login')"></pv-button>
+      <a  @click="showForgotPasswordComponent" class="forgot">{{$t("forgotPassword")}}</a>
+      <pv-button @click="redirectToRegister()">{{$t("register")}}</pv-button>
       <div class="forgot-password-modal" v-if="showForgotPassword">
         <ForgotPasswordComponent @reset-password-clicked="showVerificationCodeComponent" />
       </div>

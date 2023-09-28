@@ -6,6 +6,7 @@ import workerProfile from "@/components/worker-profile/worker-profile.vue";
 import registerComponent from "@/components/register/form-register.component.vue";
 // import jobPostComponent from "@/components/job-post/job-post.component.vue";
 import HomeComponent from "@/components/home/home-component.vue";
+import jobPostComponent from "@/components/job-post/job-post.component.vue";
 
 const routes = [
     {path:'/login', component: loginComponent},
@@ -13,7 +14,7 @@ const routes = [
     {path:'/posts/:id', component: employerPostComponent},
     {path: '/posts', component: employerMypostsComponent},
     {path: '/register', component: registerComponent},
-    // {path: '/job-post', component: jobPostComponent},
+    {path: '/job-post', component: jobPostComponent},
     { path: '/',component: loginComponent },
     { path: '/home', component: HomeComponent },
     { path: '/:pathMatch(.*)*', redirect: '/login' }
