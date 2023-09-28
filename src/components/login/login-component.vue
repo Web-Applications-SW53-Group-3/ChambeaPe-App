@@ -6,6 +6,7 @@ import UpdatedPasswordComponent from "@/components/login/updated-password-compon
 
 window.handleCredentialResponse = (response) => {
   console.log("Encoded JWT ID token: " + response.credential);
+  this.$router.push("/home");
 };
 
 export default {
@@ -27,6 +28,9 @@ export default {
     };
   },
   methods: {
+    redirectToRegister(){
+      this.$router.push('/register')
+    },
     handleCredentialResponse(response) {
       console.log("JWT ID token: " + response.credential);
 
@@ -114,6 +118,7 @@ export default {
       </span>
       <pv-button class="login" label="Log in"></pv-button>
       <a  @click="showForgotPasswordComponent" class="forgot">¿Olvidaste tu contraseña?</a>
+      <pv-button @click="redirectToRegister()">Regístrate</pv-button>
       <div class="forgot-password-modal" v-if="showForgotPassword">
         <ForgotPasswordComponent @reset-password-clicked="showVerificationCodeComponent" />
       </div>
@@ -144,6 +149,8 @@ export default {
           data-logo_alignment="left"
       ></div>
     </div>
+
+
   </div>
 </template>
 

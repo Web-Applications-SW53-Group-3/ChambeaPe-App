@@ -2,13 +2,13 @@
     <header :class="{'scrolled-nav' : scrolledNav}">
         <nav>
             <div class="branding">
-                <img src="@/assets/images/Logo.png" alt="">
+                <img @click="redirectToLogin()" style="cursor: pointer" src="@/assets/images/Logo.png" alt="">
             </div>
             <ul v-show="!mobile" class="navigation">
                 <li><router-link class="link" :to="{ path: '/home' }">Inicio</router-link></li>
-                <li><router-link  class="link" :to="{name: ''}">Empleos</router-link></li>
-                <li><router-link  class="link" :to="{name: ''}">Chambeadores</router-link></li>
-                <li><router-link  class="link" :to="{name: ''}">Perfil</router-link></li>                 
+                <li @click="redirectToEmpleos()" style="cursor: pointer">Empleos</li>
+                <li>Chambeadores</li>
+                <li>Perfil</li>
             </ul>
             <div class="icon">                
                 <i @click="toggleMobileNav" v-show="mobile" class="fa-solid fa-bars" style="color: white " :class="{'icon-active' : mobileNav}"></i>
@@ -16,7 +16,7 @@
             <transition name="mobile-nav">
                 <ul v-show="mobileNav" class="dropdown-nav">
                     <li><router-link  class="link" :to="{name: ''}">Inicio</router-link></li>
-                    <li><router-link  class="link" :to="{name: ''}">Empleos</router-link></li>
+                    <li @click="redirectToEmpleos()">Empleos</li>
                     <li><router-link  class="link" :to="{name: ''}">Chambeadores</router-link></li>
                     <li><router-link  class="link" :to="{name: ''}">Perfil</router-link></li> 
                 </ul>
@@ -49,6 +49,15 @@ export default {
         this.updateScroll();
     },
     methods: {
+      redirectToLogin(){
+        this.$router.push("/login");
+      },
+      redirectToHome(){
+        this.$router.push("/home");
+      },
+      redirectToEmpleos(){
+        this.$router.push("/posts");
+      },
         toggleMobileNav() {
             this.mobileNav = !this.mobileNav;
         },
