@@ -3,7 +3,6 @@ import { createI18n } from 'vue-i18n'
 const i18n = createI18n({
     locale: 'es',
     messages: {
-        
         es: {
         welcome: 'Bienvenido a Chambea Pe',
         login: 'Iniciar Sesión',
@@ -54,6 +53,7 @@ const i18n = createI18n({
         btnChat: 'Chatear',
         topChambeadores:  'Chambeadores Destacados',
         topEmployers: 'Empleadores Destacados',
+
         register: 'Regístrate',
         activate2FA: 'Activar el proceso de verificación en dos pasos',
         text2FA: 'La verificación en dos pasos es un nivel añadido de seguridad, ya que solicita un código cada vez que inicias sesión en un dispositivo nuevo.',
@@ -100,6 +100,9 @@ const i18n = createI18n({
         placeTitle: 'Título del la publicación',
         placeSubtitule: 'Subtítulo de la publicación',
         placeDescriptionPost: 'Descripción de la publicación',
+        choosePassword: 'Elija una contraseña',
+        changePasswordSuccess: 'Su contraseña se ha cambiado correctamente',
+        verificationNotification: 'La verificación en dos pasos es un nivel añadido de seguridad, ya que solicita un código cada vez que inicias sesión en un dispositivo nuevo.'
     },
 
         en: {
