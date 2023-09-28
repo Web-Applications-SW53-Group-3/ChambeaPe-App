@@ -75,30 +75,30 @@ export default {
 
   <pv-card class="post-card">
     <template #header >
-      <pv-input-text  class="edit" v-if="editMode" type="text" v-model="post.postImgUrl" placeholder="URL de la imagen">
+      <pv-input-text  class="edit" v-if="editMode" type="text" v-model="post.postImgUrl" :placeholder="$t('placeUrlImage')">
       </pv-input-text>
       <img v-if="editMode" class="prev-image" :src="post.postImgUrl" alt="Post Image">
       <img v-else class="post-image" :src="post.postImgUrl" alt="Post Image">
     </template>
     <template #title>
-      <pv-input-text class="edit"  v-if="editMode" type="text" v-model="post.postTitle" placeholder="Título del post"></pv-input-text>
+      <pv-input-text class="edit"  v-if="editMode" type="text" v-model="post.postTitle" :placeholder="$t('placeTitle')"></pv-input-text>
       <h1 v-else class="title">{{post.postTitle}}</h1>
     </template>
     <template #subtitle>
-      <pv-input-text class="edit"  v-if="editMode" type="text" v-model="post.postSubtitle" placeholder="Subtítulo del post"></pv-input-text>
+      <pv-input-text class="edit"  v-if="editMode" type="text" v-model="post.postSubtitle" :placeholder="$t('placeSubtitule')"></pv-input-text>
       <h3 v-else>{{post.postSubtitle}}</h3>
     </template>
     <template #content>
-      <pv-textarea class="edit"  v-if="editMode" v-model="post.postDescription" placeholder="Descripción del post" rows="7" autoResize ></pv-textarea>
+      <pv-textarea class="edit"  v-if="editMode" v-model="post.postDescription" :placeholder="$t('placeDescriptionPost')" rows="7" autoResize ></pv-textarea>
       <p v-else>
         {{post.postDescription}}
       </p>
     </template>
     <template #footer>
-      <pv-button v-if="editMode" icon="pi pi-check" label="Guardar" @click="saveChanges"/>
-      <pv-button v-if="editMode" icon="pi pi-times" label="Cancelar" @click="disableEditMode()" severity="secondary" style="margin-left: 0.5em" />
-      <pv-button v-else icon="pi pi-check" label="Editar" @click="editMode = true"/>
-      <pv-button v-if="!editMode" icon="pi pi-times" label="Eliminar" @click="deletePost()" severity="secondary" style="margin-left: 0.5em" />
+      <pv-button v-if="editMode" icon="pi pi-check" :label="$t('btnEdit')" @click="saveChanges"/>
+      <pv-button v-if="editMode" icon="pi pi-times" :label="$t('cancel')" @click="disableEditMode()" severity="secondary" style="margin-left: 0.5em" />
+      <pv-button v-else icon="pi pi-check" :label="$t('btnEdit')" @click="editMode = true"/>
+      <pv-button v-if="!editMode" icon="pi pi-times" :label="$t('btnDelete')" @click="deletePost()" severity="secondary" style="margin-left: 0.5em" />
     </template>
   </pv-card>
 
@@ -113,8 +113,8 @@ export default {
 
       <template #title>
         <span>{{ worker.name }}</span>
-        <span class="p-card-subtitle" v-if="worker.status">Disponible</span>
-        <span class="p-card-subtitle" v-if="!worker.status">No Disponible</span>
+        <span class="p-card-subtitle" v-if="worker.status">{{$t('statusOn')}}</span>
+        <span class="p-card-subtitle" v-if="!worker.status">{{$t('statusOff')}}</span>
       </template>
 
       <template #content>
@@ -125,9 +125,9 @@ export default {
 
       <template #footer>
         <div class="p-card-actions">
-          <pv-button @click="viewPost(worker.id)" label="Ver perfil" class="card-button" style="width: 80%;" />
-          <pv-button label="Chatear" class="card-button" style="width: 80%;" />
-          <pv-button @click="deleteWorker(worker.id)" label="Eliminar" class="card-button" style="width: 80%;" />
+          <pv-button @click="viewPost(worker.id)" :label="$t('btnProfile')" class="card-button" style="width: 80%;" />
+          <pv-button :label="$t('btnChat')" class="card-button" style="width: 80%;" />
+          <pv-button @click="deleteWorker(worker.id)" :label="$t('btnDelete')" class="card-button" style="width: 80%;" />
         </div>
       </template>
     </pv-card>

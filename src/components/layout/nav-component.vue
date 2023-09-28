@@ -5,20 +5,20 @@
                 <img @click="redirectToLogin()" style="cursor: pointer" src="@/assets/images/Logo.png" alt="">
             </div>
             <ul v-show="!mobile" class="navigation">
-                <li><router-link class="link" :to="{ path: '/home' }">Inicio</router-link></li>
-                <li @click="redirectToEmpleos()" style="cursor: pointer">Empleos</li>
-                <li @click="redirectToCreatePost()">  Create </li>
-                <li>Perfil</li>
+                <li><router-link class="link" :to="{ path: '/home' }">{{$t("naHome")}}</router-link></li>
+                <li @click="redirectToEmpleos()" style="cursor: pointer">{{$t("naJobs")}}</li>
+                <li @click="redirectToCreatePost()">  {{$t("naPublish")}} </li>
+                <li>{{$t("naProfile")}}</li>
             </ul>
             <div class="icon">                
                 <i @click="toggleMobileNav" v-show="mobile" class="fa-solid fa-bars" style="color: white " :class="{'icon-active' : mobileNav}"></i>
             </div>
             <transition name="mobile-nav">
                 <ul v-show="mobileNav" class="dropdown-nav">
-                    <li><router-link  class="link" :to="{name: ''}">Inicio</router-link></li>
-                    <li @click="redirectToEmpleos()">Empleos</li>
-                    <li><router-link  class="link" :to="{name: ''}">Chambeadores</router-link></li>
-                    <li><router-link  class="link" :to="{name: ''}">Perfil</router-link></li> 
+                    <li><router-link  class="link" :to="{name: ''}">{{$t("naHome")}}</router-link></li>
+                    <li @click="redirectToEmpleos()">{{$t("naJobs")}}</li>
+                    <li><router-link  class="link" :to="{name: ''}">{{$t("naPublish")}}</router-link></li>
+                    <li><router-link  class="link" :to="{name: ''}">{{$t("naProfile")}}</router-link></li> 
                 </ul>
             </transition>
           <language-selector></language-selector>

@@ -3,7 +3,7 @@ export default {
   data() {
     return {
       email: "",
-    };
+    }; 
   },
   methods: {
     resetPassword() {
@@ -17,19 +17,19 @@ export default {
 </script>
 <template>
   <div class="forgot-password" style="width: 15em;">
-    <div class="title">¿Has olvidado tu contraseña?</div>
-    <div class="subtitle">Restablecer contraseña en dos pasos rápidos</div>
+    <div class="title">{{$t("forgotPassword")}}</div>
+    <div class="subtitle">{{$t("textChangePassword")}}</div>
     <div class="p-inputgroup">
       <span class="p-inputgroup-addon">
         <i class="pi pi-envelope" style="margin-right: 0.5rem;"></i>
       </span>
-      <input type="text" v-model="email" class="p-inputtext large-input" placeholder="Correo Electrónico o número" />
+      <input type="text" v-model="email" class="p-inputtext large-input" :placeholder="$t('login')" />
     </div>
     <div class="footer">
-      <pv-button icon="pi pi-check" label="Restablecer Contraseña" @click="resetPassword" class="large-button" />
+      <pv-button icon="pi pi-check" :label="$t('btnChangePassword')" @click="resetPassword" class="large-button" />
     </div>
     <div class="footer">
-      <pv-button icon="pi pi-arrow-left" label="Cancelar" @click="goBack" class="p-button-secondary small-button" />
+      <pv-button icon="pi pi-arrow-left" :label="$t('cancel')" @click="goBack" class="p-button-secondary small-button" />
     </div>
   </div>
 </template>

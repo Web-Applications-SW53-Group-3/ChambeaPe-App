@@ -32,7 +32,7 @@ export default {
     <h1>{{worker.name}}</h1>
     <p>{{worker.status}}</p>
     <br>
-    <pv-button class="button">Conectar</pv-button>
+    <pv-button class="button">{{$t('btnConect')}}</pv-button>
     <br>
     <h6 style="font-weight: bold"></h6>
     <p>{{worker.description}}</p>
