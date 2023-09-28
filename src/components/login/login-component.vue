@@ -116,9 +116,11 @@ export default {
         <pv-password v-model="password" toggleMask :feedback="false" input-id="password" />
         <label for="password">{{$t("password")}}</label>
       </span>
+
       <pv-button class="login" :label="$t('login')"></pv-button>
       <a  @click="showForgotPasswordComponent" class="forgot">{{$t("forgotPassword")}}</a>
       <pv-button @click="redirectToRegister()">{{$t("register")}}</pv-button>
+
       <div class="forgot-password-modal" v-if="showForgotPassword">
         <ForgotPasswordComponent @reset-password-clicked="showVerificationCodeComponent" />
       </div>

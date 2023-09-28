@@ -25,6 +25,8 @@ export default {
 <style scoped>
 .language-selector {
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .language-selector button {
@@ -32,7 +34,7 @@ export default {
   border: none;
   cursor: pointer;
   margin-right: 10px;
-  color: #007bff;
+  color: #4e2900;
 }
 
 .language-selector button.active {

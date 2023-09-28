@@ -18,13 +18,13 @@ export default {
 
 <template>
   <div class="updated-password" style="width: 15em">
-    <div class="title">Se ha cambiado tu contraseña</div>
+    <div class="title">{{ $t("changePasswordSuccess") }}</div>
     <img src="https://cdn.discordapp.com/attachments/1037343952694685706/1155673854576971869/Group_110.png" alt="Imagen" class="card-image" />
-    <button @click="redirectToHome" class="p-button large-button">Ir a ChambeaPe</button>
+    <button @click="redirectToHome" class="p-button large-button">{{ $t("goToChambea") }}</button>
     <div class="verification-box">
-      <button class="transparent-button orange-text">Activar el proceso de verificación en dos pasos</button>
+      <pv-button class="transparent-button orange-text"  :label="$t('activate2FA')"></pv-button>
       <div class="verification-text">
-        La verificación en dos pasos es un nivel añadido de seguridad, ya que solicita un código cada vez que inicias sesión en un dispositivo nuevo.
+        {{ $t("text2FA") }}
       </div>
     </div>
   </div>

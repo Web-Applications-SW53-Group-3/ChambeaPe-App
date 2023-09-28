@@ -52,7 +52,7 @@ export default {
 
       <template #footer>
         <div class="p-card-actions">
-          <pv-button @click="viewPost(post.id)" label="Ver publicación" class="card-button" style="width: 80%;" />
+          <pv-button @click="viewPost(post.id)" class="card-button" style="width: 80%;">{{$t("viewPost")}}</pv-button>
         </div>
       </template>
     </pv-card>
@@ -74,6 +74,7 @@ export default {
 .card-button {
   margin: 0 auto;
   width: 100%;
+  justify-content: center;
 }
 
 .p-card-image img {

@@ -15,27 +15,27 @@ export default {
 
 <template>
   <div class="verification-code" style="width: 15em">
-    <div class="title">Te hemos enviado un código por email</div>
+    <div class="title">{{ $t("titleCodeEmail") }}</div>
     <div class="subtitle">
-      Introduce el código de verificación de 6 dígitos que te hemos enviado a s******@gmail.com
-      <button class="transparent-button color-text">Cambiar</button>
+      {{ $t("textSendCode") }}
+      <pv-button class="transparent-button color-text" :label="$t('btnChangePassword')"></pv-button>
     </div>
     <div class="p-inputgroup">
       <span class="p-inputgroup-addon">
         <i class="pi pi-lock" style="margin-right: 0.5rem;"></i>
       </span>
-      <input type="text" v-model="verificationCode" class="p-inputtext large-input" placeholder="Código de 6 dígitos" />
+      <input type="text" v-model="verificationCode" class="p-inputtext large-input" :placeholder="$t('placeCodeText')" />
     </div>
     <div class="footer">
-      <button class="transparent-button left-align color-text">Reenviar código</button>
+      <button class="transparent-button left-align color-text">{{ $t('resendCode') }}</button>
     </div>
     <div class="footer">
-      <button class="p-button large-button" @click="submitVerificationCode">Enviar</button>
+      <button class="p-button large-button" @click="submitVerificationCode">{{ $t('send') }}</button>
     </div>
     <p>
-      Si no ves el email en tu buzón, mira en la carpeta de spam.
+      {{ $t("textSpam") }}
       <br />
-      <button class="transparent-button color-text">¿No puedes acceder a este email?</button>
+      <pv-button class="transparent-button color-text" :label="$t('noAccesEmail')"></pv-button>
     </p>
   </div>
 </template>

@@ -21,30 +21,30 @@ export default {
 
 <template>
   <div class="new-password" style="width: 15em">
-    <div class="title">Escoge otra contraseña</div>
+    <div class="title">{{ $t("pickAnotherPassword") }}</div>
     <div class="subtitle">
-      Para proteger tu cuenta, elige una contraseña segura que no hayas usado antes y que tenga al menos 8 caracteres
+      {{ $t("textPickAnotherPassword") }}
     </div>
-    <button class="transparent-button color-text">¿Cómo debe ser una contraseña segura?</button>
+    <pv-button class="transparent-button color-text" :label="$t('buttonSecurePassword')"></pv-button>
     <div class="p-inputgroup">
       <span class="p-inputgroup-addon">
         <i class="pi pi-lock" style="margin-right: 0.5rem;"></i>
       </span>
-      <input v-if="!showPassword" type="password" v-model="newPassword" class="p-inputtext p-inputtext-large" placeholder="Contraseña nueva" />
-      <input v-else type="text" v-model="newPassword" class="p-inputtext p-inputtext-large" placeholder="Contraseña nueva" />
+      <input v-if="!showPassword" type="password" v-model="newPassword" class="p-inputtext p-inputtext-large" :placeholder="$t('placeNewPassword')" />
+      <input v-else type="text" v-model="newPassword" class="p-inputtext p-inputtext-large" :placeholder="$t('placeNewPassword')" />
       <button class="transparent-button show-button" @click="togglePasswordVisibility">{{ showPassword ? 'Ocultar' : 'Mostrar' }}</button>
     </div>
     <div class="p-inputgroup">
       <span class="p-inputgroup-addon">
         <i class="pi pi-lock" style="margin-right: 0.5rem;"></i>
       </span>
-      <input type="password" v-model="confirmPassword" class="p-inputtext p-inputtext-large" placeholder="Vuelve a escribir tu contraseña" />
+      <input type="password" v-model="confirmPassword" class="p-inputtext p-inputtext-large" :placeholder="$t('placeConfirmPassword')"  />
     </div>
     <div class="text">
       <input type="checkbox" v-model="requestLoginOnAllDevices" />
-      Solicitar que todos los dispositivos inicien sesión con la nueva contraseña
+      {{ $t("textMultiDevice") }}
     </div>
-    <button class="p-button large-button" style="margin-top: 1rem;" @click="submitPassword">Enviar</button>
+    <pv-button class="p-button large-button" style="margin-top: 1rem;" @click="submitPassword" :label="$t('send')"></pv-button>
   </div>
 </template>
 

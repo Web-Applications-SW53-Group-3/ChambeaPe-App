@@ -3,7 +3,6 @@ import { createI18n } from 'vue-i18n'
 const i18n = createI18n({
     locale: 'es',
     messages: {
-        
         es: {
         welcome: 'Bienvenido a Chambea Pe',
         login: 'Iniciar Sesión',
@@ -12,11 +11,25 @@ const i18n = createI18n({
         btnLoing: 'Este es un boton para iniciar Sesión',
         forgotPassword: '¿Olvidaste tu contraseña?',
         btnLoginGoogle: 'Iniciar Sesión con Google',
-        btnChangePassword: 'Restablece contraseña',
+        textChangePassword: 'Restablecer contraseña en dos pasos rápidos',
+        titleCodeEmail: 'Código de verificación enviado a tu correo electrónico',
+        textSendCode: 'Ingresa el código de verificación que enviamos a tu correo electrónico',
+        textSpam: 'Si no ves el email en tu buzón, mira en la carpeta de spam.',
+        noAccesEmail: '¿No tienes acceso a tu correo electrónico?',
+        btnChangePassword: 'Cambiar contraseña',
+        changePasswordSuccess: 'Contraseña cambiada con éxito',
+        goToChambea: 'Ir a ChambeaPe',
+        placeCodeText: 'Codigo de 6 dígitos',
         btnBack: 'Regresar',
+
+
         resendCode: 'Reenviar código',
         send: 'Enviar',
         title: 'Título',
+        cancel: 'Cancelar',
+        
+        
+        
         area: 'Área',
         placeArea: 'Selecciona un área',
         textArea: 'Área de texto',
@@ -31,25 +44,81 @@ const i18n = createI18n({
         checkChambeador: 'Aceptar solo chambeadores de mi ciudad',
         checkNotification: 'Notificarme sobre nuevas mensajes',
         btnPublish: 'Publicar',
+
         placeSearch: 'Buscar',
         lastSearch: 'Última búsqueda',
+        
         btnEdit: 'Editar',
-        statusOn: 'Disponible',
         btnViewProfile: 'Ver perfil',
-        btnChat: 'Chat',
+        btnChat: 'Chatear',
         topChambeadores:  'Chambeadores Destacados',
         topEmployers: 'Empleadores Destacados',
-        register: 'Regístrate'
-        },
+
+        register: 'Regístrate',
+        activate2FA: 'Activar el proceso de verificación en dos pasos',
+        text2FA: 'La verificación en dos pasos es un nivel añadido de seguridad, ya que solicita un código cada vez que inicias sesión en un dispositivo nuevo.',
+        pickAnotherPassword: 'Elige otra contraseña',
+        textPickAnotherPassword: 'Para proteger tu cuenta, elige una contraseña segura que no hayas usado antes y que tenga al menos 8 caracteres.',
+        buttonSecurePassword: '¿Cómo debe ser una contraseña segura?',
+        placeNewPassword: 'Nueva contraseña',
+        placeConfirmPassword: 'Confirmar contraseña',
+        textMultiDevice: 'Solicitar que todos los dispositivos inicien sesión con la nueva contraseña',
+        buttonTextShow: 'Mostrar',
+        buttonTextHide: 'Ocultar',
+
+        naHome: 'Inicio',
+        naSearch: 'Buscar',
+        naPublish: 'Publicar',
+        naProfile: 'Perfil',
+        naJobs: 'Trabajos',
+        
+        tittleRegister: 'Regístrate',
+        checkEmployer: 'Empleador',
+        checkChambeador: 'Chambeador',
+        inName: 'Nombre',
+        inLastName: 'Apellido',
+        inBirthDate: 'Fecha de nacimiento',
+        inPhone: 'Teléfono',
+        inEmail: 'Correo electrónico',
+        inPassword: 'Contraseña',
+        inGenderWoman: 'Mujer',
+        inGenderMan: 'Hombre',
+        btnRegister: 'Regístrate',
+        pickDate: 'Selecciona una fecha',
+        viewPost: 'Ver publicación',
+
+        btnDelete: 'Eliminar',
+        btnSave: 'Guardar',
+
+        statusOn: 'Disponible',
+        statusOff: 'No disponible',
+
+        btnConect: 'Conectar',
+        btnProfile: 'Ver Perfil',
+
+        placeUrlImage: 'Url de la imagen',
+        placeTitle: 'Título del la publicación',
+        placeSubtitule: 'Subtítulo de la publicación',
+        placeDescriptionPost: 'Descripción de la publicación',
+        choosePassword: 'Elija una contraseña',
+        changePasswordSuccess: 'Su contraseña se ha cambiado correctamente',
+        verificationNotification: 'La verificación en dos pasos es un nivel añadido de seguridad, ya que solicita un código cada vez que inicias sesión en un dispositivo nuevo.'
+    },
+
         en: {
         welcome: 'Welcome to Chambea Pe',
         login: 'Login',
         email: 'Email',
+        cancel: 'Cancel',
         password: 'Password',
         btnLoing: 'This is a button to login',
         forgotPassword: 'Forgot your password?',
+        titleCodeEmail: 'Verification code sent to your email',
+        textSendCode: 'Enter the verification code we sent to your email',
         btnLoginGoogle: 'Login with Google',
         btnChangePassword: 'Change password',
+        textChangePassword: 'Reset password in two quick steps',
+        textSpam: 'If you do not see the email in your inbox, look in the spam folder.',
         btnBack: 'Back',
         resendCode: 'Resend code',
         send: 'Send',
@@ -71,15 +140,65 @@ const i18n = createI18n({
         placeSearch: 'Search',
         lastSearch: 'Last search',
         btnEdit: 'Edit',
-        statusOn: 'Available',
         btnViewProfile: 'View profile',
         btnChat: 'Chat',
         topChambeadores:  'Top Chambeadores',
         topEmployers: 'Top Employers',
-            register: 'Register'
+        register: 'Register',
+        placeCodeText: '6 digit code',
+        noAccesEmail: 'Don’t have access to your email?',
+        changePasswordSuccess: 'Password changed successfully',
+        goToChambea: 'Go to ChambeaPe',
+        activate2FA: 'Activate the two-step verification process',
+        text2FA: 'Two-step verification is an added level of security, as it requests a code each time you log in on a new device.',
+        pickAnotherPassword: 'Pick another password',
+        textPickAnotherPassword: 'To protect your account, pick a secure password you haven’t used before and that has at least 8 characters.',
+        buttonSecurePassword: 'How should a secure password be?',
+        placeNewPassword: 'New password',
+        placeConfirmPassword: 'Confirm password',
+        textMultiDevice: 'Request all devices to log in with the new password',
+        buttonTextShow: 'Show',
+        buttonTextHide: 'Hide',
+
+        naHome: 'Home',
+        naSearch: 'Search',
+        naPublish: 'Publish',
+        naProfile: 'Profile',
+        naJobs: 'Jobs',
 
 
-        }
+        tittleRegister: 'Register',
+        checkEmployer: 'Employer',
+        checkChambeador: 'Chambeador',
+        inName: 'Name',
+        inLastName: 'Last name',
+        inBirthDate: 'Birth date',
+        inPhone: 'Phone',
+        inEmail: 'Email',
+        inPassword: 'Password',
+        inGenderMan: 'Man',
+        inGenderWoman: 'Woman',
+        btnRegister: 'Register',
+        pickDate: 'Pick a date',
+
+        viewPost: 'View post',
+
+        btnDelete: 'Delete',
+        btnSave: 'Save',
+    
+        statusOn: 'Available',
+        statusOff: 'Not available',
+
+        btnConect: 'Connect',
+        btnProfile: 'View Profile',
+
+        placeUrlImage: 'Url image',
+        placeTitle: 'Title post',
+        placeSubtitule: 'Subtitule post',
+        placeDescriptionPost: 'Description post',
+
+    }
+
     }
 })
 

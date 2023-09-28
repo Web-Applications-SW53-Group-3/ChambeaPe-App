@@ -34,23 +34,23 @@ onMounted(async () => {
     <div class="SearchHeader">
       <div class="SearchBar">
         <i class="pi pi-search SearchIcon"></i>
-        <input type="text" class="SearchInput" placeholder="Buscar..." />
+        <input type="text" class="SearchInput" :placeholder="$t('cancel')" />
       </div>
       <div class="SearchActions">
-        <span class="RecentSearches">Últimas Búsquedas</span>
-        <button class="EditButton">Editar</button>
+        <span class="RecentSearches">{{$t("lastSearch")}}</span>
+        <pv-button class="EditButton">{{$t("btnEdit")}}</pv-button>
       </div>
     </div>
     <div class="SearchResult">
-      <div class="Availability">DISPONIBLE</div>
+      <div class="Availability">{{$t("statusOn")}}</div>
       <div class="UserInfo">
         <img :src="employer.image" alt="Imagen de usuario" class="UserImage" />
         <div class="UserName">{{ employer.name }}</div>
         <div class="UserDescription">{{ employer.description }}</div>
       </div>
       <div class="UserActions">
-        <p-button class="p-button ViewProfileButton" >Ver Perfil</p-button>
-        <p-button class="p-button ChatButton">Chatear</p-button>
+        <p-button class="p-button ViewProfileButton">{{$t("btnViewProfile")}}</p-button>
+        <p-button class="p-button ChatButton">{{$t("btnChat")}}</p-button>
       </div>
     </div>
   </div>

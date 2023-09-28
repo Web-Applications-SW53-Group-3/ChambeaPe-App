@@ -20,7 +20,7 @@ onMounted(async () => {
 
 <template>
   <div class="TopWorkers">
-    <h2 class="TopWorkersTitle">Top Trabajadores</h2>
+    <h2 class="TopWorkersTitle">{{$t("topChambeadores")}}</h2>
     <div class="TopWorkersImages">
       <div class="TopWorker" v-for="(worker, index) in topWorkers" :key="index">
         <img :src="worker.image" :alt="worker.name" />
