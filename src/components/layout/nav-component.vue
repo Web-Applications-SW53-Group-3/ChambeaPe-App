@@ -7,7 +7,7 @@
             <ul v-show="!mobile" class="navigation">
                 <li><router-link class="link" :to="{ path: '/home' }">Inicio</router-link></li>
                 <li @click="redirectToEmpleos()" style="cursor: pointer">Empleos</li>
-                <li>Chambeadores</li>
+                <li @click="redirectToCreatePost()">  Create </li>
                 <li>Perfil</li>
             </ul>
             <div class="icon">                
@@ -49,6 +49,9 @@ export default {
         this.updateScroll();
     },
     methods: {
+      redirectToCreatePost(){
+        this.$router.push("/job-post");
+      },
       redirectToLogin(){
         this.$router.push("/login");
       },

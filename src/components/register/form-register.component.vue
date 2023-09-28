@@ -99,7 +99,7 @@
       </div>
 
       <div class="align-self-center">
-        <pv-button @click="submitForm">Registro</pv-button>
+        <pv-button @click="redirectToHome()">Registro</pv-button>
       </div>
     </div>
   </div>
@@ -109,6 +109,11 @@
 import { reactive, ref } from 'vue';
 
 export default {
+  methods: {
+    redirectToHome() {
+      this.$router.push('/home');
+    },
+  },
   name: 'FormRegister',
   setup() {
     const formData = reactive({
@@ -149,6 +154,7 @@ export default {
 
     const submitForm = () => {
       console.log('Form Data', formData);
+      this.$router.push('/home');
     };
 
     const setIsCandidate = (isCandidate) => {
