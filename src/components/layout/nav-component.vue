@@ -21,12 +21,17 @@
                     <li><router-link  class="link" :to="{name: ''}">Perfil</router-link></li> 
                 </ul>
             </transition>
+          <language-selector></language-selector>
         </nav>
     </header>
 </template>
 <script>
+import LanguageSelector from "@/components/language/language-selector.vue";
 export default {
     name: 'NavigationComponent',
+    components: {
+    LanguageSelector
+    },
     data() {
         return {
             scrolledNav: null,
