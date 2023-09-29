@@ -22,9 +22,8 @@ export default {
       const postId = this.$route.params.id;
       const response = await new EmployerPostService().getByid(postId);
       this.post = response.data;
-      console.log(this.post);
     } catch (error) {
-      console.error("Error al cargar los datos:", error);
+
     }
   },
   methods: {
@@ -36,10 +35,9 @@ export default {
       try {
         const postId = this.$route.params.id;
         const response = await new EmployerPostService().update(postId, this.post);
-        console.log(response.data);
         this.editMode = false;
       } catch (error) {
-        console.error("Error al guardar los cambios:", error);
+
       }
 
     },

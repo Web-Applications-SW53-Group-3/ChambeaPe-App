@@ -15,10 +15,9 @@ export default {
   async mounted() {
     try {
       const response = await new WorkerProfileService().getByid(this.workerId, this.postId);
-      console.log(response.data);
       this.worker = response.data;
     } catch (error) {
-      console.error("Error al cargar el perfil:", error);
+
     }
   },
 };
