@@ -18,13 +18,13 @@ onMounted(async () => {
       if (firstEmployer) {
         employer.value = firstEmployer;
       } else {
-        console.error('No se encontraron empleadores en la respuesta.');
+
       }
     } else {
-      console.error('Error en la respuesta de la solicitud HTTP.');
+
     }
   } catch (error) {
-    console.error('Error al obtener al empleador:', error);
+
   }
 });
 </script>

@@ -13,7 +13,7 @@ onMounted(async () => {
 
     topEmployers.value = firstSixEmployers;
   } catch (error) {
-    console.error('Error al obtener la lista de empleadores:', error);
+
   }
 });
 </script>

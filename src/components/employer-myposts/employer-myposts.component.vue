@@ -17,9 +17,8 @@ export default {
     try {
       const response = await new EmployerPostService().getAll();
       this.posts = response.data;
-      console.log(this.posts);
     } catch (error) {
-      console.error("Error al cargar los datos:", error);
+
     }
   },
 };

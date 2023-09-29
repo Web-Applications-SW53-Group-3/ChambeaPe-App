@@ -5,7 +5,7 @@ import NewPasswordComponent from "@/components/login/new-password-component.vue"
 import UpdatedPasswordComponent from "@/components/login/updated-password-component.vue";
 
 window.handleCredentialResponse = (response) => {
-  console.log("Encoded JWT ID token: " + response.credential);
+
   this.$router.push("/home");
 };
 
@@ -32,7 +32,7 @@ export default {
       this.$router.push('/register')
     },
     handleCredentialResponse(response) {
-      console.log("JWT ID token: " + response.credential);
+
 
       // TO-DO: Decode JWT Token and map to user object
       let user = {
@@ -51,7 +51,7 @@ export default {
             }
           })
           .catch((error) => {
-            console.log("An error has occurred: ", error);
+
             alert(error.message);
           });
       this.$router.push("/home");

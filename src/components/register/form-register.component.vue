@@ -153,7 +153,6 @@ export default {
 
 
     const submitForm = () => {
-      console.log('Form Data', formData);
       this.$router.push('/home');
     };
 
