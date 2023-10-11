@@ -102,7 +102,15 @@ const i18n = createI18n({
         placeDescriptionPost: 'Descripción de la publicación',
         choosePassword: 'Elija una contraseña',
         changePasswordSuccess: 'Su contraseña se ha cambiado correctamente',
-        verificationNotification: 'La verificación en dos pasos es un nivel añadido de seguridad, ya que solicita un código cada vez que inicias sesión en un dispositivo nuevo.'
+        verificationNotification: 'La verificación en dos pasos es un nivel añadido de seguridad, ya que solicita un código cada vez que inicias sesión en un dispositivo nuevo.',
+
+            description: 'Descripción',
+            skills: 'Habilidades',
+            portfolio: 'Mis trabajos',
+            certificates: 'Certificados',
+            viewCertificate: 'Ver certificado',
+            viewMore: 'Ver más',
+            reviews: 'Comentarios',
     },
 
         en: {
@@ -197,6 +205,13 @@ const i18n = createI18n({
         placeSubtitule: 'Subtitule post',
         placeDescriptionPost: 'Description post',
 
+            description: 'Description',
+            skills: 'Skills',
+            portfolio: 'Portfolio',
+            certificates: 'Certificates',
+            viewCertificate: 'View certificate',
+            viewMore: 'View more',
+            reviews: 'Reviews',
     }
 
     }
