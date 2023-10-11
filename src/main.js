@@ -24,6 +24,8 @@ import SelectButton from 'primevue/selectbutton';
 import InlineMessage from 'primevue/inlinemessage';
 import RadioButton from 'primevue/radiobutton';
 import Checkbox from 'primevue/checkbox';
+import Carousel from "primevue/carousel";
+import Rating from "primevue/rating";
 
 import Textarea from "primevue/textarea";
 import FileUpload from 'primevue/fileupload';
@@ -57,6 +59,8 @@ app.component('pv-textarea', Textarea)
 app.component('pv-fileupload', FileUpload)
 app.component('pv-dropdown', Dropdown);
 app.component('pv-inline-message', InlineMessage);
+app.component('pv-carousel', Carousel);
+app.component('pv-rating', Rating);
 
 app.mount('#app');
 
