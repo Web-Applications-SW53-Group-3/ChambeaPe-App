@@ -111,6 +111,9 @@ const i18n = createI18n({
             viewCertificate: 'Ver certificado',
             viewMore: 'Ver más',
             reviews: 'Comentarios',
+            myPosts: 'Mis publicaciones',
+            jobs: 'Empleos',
+            apply: 'Postular',
     },
 
         en: {
@@ -212,6 +215,9 @@ const i18n = createI18n({
             viewCertificate: 'View certificate',
             viewMore: 'View more',
             reviews: 'Reviews',
+            myPosts: 'My posts',
+            jobs: 'Jobs',
+            apply: 'Apply',
     }
 
     }

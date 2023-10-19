@@ -10,6 +10,10 @@ class EmployerPostService{
         return axios.get(environment.baseUrl+"/post/" + id);
     }
 
+    getByEmployerId(id) {
+        return axios.get(environment.baseUrl+'/post' + '?employerId=' + id);
+    }
+
     create(body) {
         return axios.post(environment.baseUrl+"/post", body);
     }
