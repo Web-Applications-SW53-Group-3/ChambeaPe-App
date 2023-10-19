@@ -5,7 +5,9 @@ export default {
   name: "employer-myposts",
   data() {
     return {
-      posts: []
+      posts: [],
+      userRole:this.userRole,
+      employerId: '1'
     };
   },
   methods: {
@@ -15,8 +17,14 @@ export default {
   },
   async mounted() {
     try {
-      const response = await new EmployerPostService().getAll();
-      this.posts = response.data;
+      if(this.userRole === 'worker'){
+        const response = await new EmployerPostService().getAll();
+        this.posts = response.data;
+      }
+      if(this.userRole === 'employer'){
+        const response = await new EmployerPostService().getByEmployerId(this.employerId);
+        this.posts = response.data;
+      }
     } catch (error) {
 
     }
@@ -25,6 +33,9 @@ export default {
 </script>
 
 <template>
+  <div>
+  <h1 v-if="this.userRole === 'employer'" class="posts-title" style="text-align: center;">{{$t("myPosts")}}</h1>
+  <h1 v-if="this.userRole === 'worker'" class="posts-title" style="text-align: center;">{{$t("jobs")}}</h1>
   <div class="container-champ">
     <pv-card v-for="(post, index) in posts" :key="index" class="example-card">
       <template #header>
@@ -51,11 +62,19 @@ export default {
 
       <template #footer>
         <div class="p-card-actions">
-          <pv-button @click="viewPost(post.id)" class="card-button" style="width: 80%;">{{$t("viewPost")}}</pv-button>
+          <pv-button @click="viewPost(post.id)" class="card-button" style="width: 80%;">
+            <p v-if="this.userRole === 'employer'">
+              {{$t("viewPost")}}
+            </p>
+            <p v-if="this.userRole === 'worker'">
+              {{$t("apply")}}
+            </p>
+          </pv-button>
         </div>
       </template>
     </pv-card>
   </div>
+</div>
 </template>
 
 <style scoped>
@@ -100,6 +119,16 @@ height: 50px;
   margin: 0 auto;
   width: 100%;
   max-width: 1200px;
+}
+
+.posts-title{
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1200px;
+  text-align: center;
+  font-size: 35px;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
 </style>

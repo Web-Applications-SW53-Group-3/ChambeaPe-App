@@ -8,7 +8,6 @@ window.handleCredentialResponse = (response) => {
 
   this.$router.push("/home");
 };
-
 export default {
   name: "login",
   components: {
@@ -91,6 +90,24 @@ export default {
       this.showNewPassword = false;
       this.showUpdatedPassword = false;
     },
+
+    login(){
+      try {
+      if(this.email== 'empleador@gmail.com'){
+        this.$userRole = 'empleador';
+      }
+      else if(this.email== 'chambeador@gmail.com'){
+        this.$userRole = 'chambeador';
+      }
+      else{
+        throw new Error("Email no definido");
+      }
+      this.$router.push("/home");
+
+    } catch (error) {
+      alert("Email o contraseña incorrectos");
+    }  
+    }
   },
   created() {
     window.addEventListener('reset-password-clicked', this.showVerificationCodeComponent);
@@ -117,7 +134,7 @@ export default {
         <label for="password">{{$t("password")}}</label>
       </span>
 
-      <pv-button class="login" :label="$t('login')"></pv-button>
+      <pv-button @click="login()" class="login" :label="$t('login')"></pv-button>
       <a  @click="showForgotPasswordComponent" class="forgot">{{$t("forgotPassword")}}</a>
       <pv-button @click="redirectToRegister()">{{$t("register")}}</pv-button>
 
