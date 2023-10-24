@@ -5,6 +5,7 @@ import employerMypostsComponent from "@/components/employer-myposts/employer-myp
 import workerProfile from "@/components/worker-profile/worker-profile.vue";
 import registerComponent from "@/components/register/form-register.component.vue";
 import chatComponent from "@/components/chat/chat.component.vue";
+import supportChatComponent from "@/components/chat/support-chat.component.vue";
 // import jobPostComponent from "@/components/job-post/job-post.component.vue";
 import HomeComponent from "@/components/home/home-component.vue";
 import jobPostComponent from "@/components/job-post/job-post.component.vue";
@@ -19,7 +20,8 @@ const routes = [
     { path: '/',component: loginComponent },
     { path: '/home', component: HomeComponent },
     { path: '/:pathMatch(.*)*', redirect: '/login' },
-    { path: '/chat', component: chatComponent }
+    { path: '/chat', component: chatComponent },
+    { path: '/support-chat', component: supportChatComponent },
 ]
 
 const router = createRouter({
