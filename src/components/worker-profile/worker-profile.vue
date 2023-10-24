@@ -137,6 +137,9 @@ const responsiveOptions = ref([
       </div>
     </div>
     <pv-button>{{$t("viewMore")}}</pv-button>
+    <router-link to="/reviews">
+      <pv-button style="margin-left: 1rem;">Publicar reseña</pv-button>
+    </router-link>
   </div>
 
 </template>

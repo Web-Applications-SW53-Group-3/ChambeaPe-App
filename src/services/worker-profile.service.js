@@ -14,6 +14,10 @@ class WorkerProfileService{
         return axios.post(environment.baseUrl + '/post/' + postId + '/workers/', worker);
     }
 
+    createReview(review, workerId, postId) {
+        return axios.post(environment.baseUrl + '/post/' + postId + '/workers/' + workerId + '/reviews', review);
+    }
+
     update(worker) {
         return axios.put(environment.baseUrl + '/post/' + worker.postId + '/workers/'+worker.id, worker);
     }
