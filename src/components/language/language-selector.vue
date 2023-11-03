@@ -1,3 +1,10 @@
+<template>
+    <li @click="toggleLanguage" :class="{ active: currentLanguage === 'en' }">
+      <i class="fa-solid fa-earth-americas"></i>
+      <p>{{ currentLanguage === 'en' ? 'ENG' : 'ES' }} </p>
+    </li>
+</template>
+
 <script>
 export default {
   data() {
@@ -6,38 +13,31 @@ export default {
     };
   },
   methods: {
-    changeLanguage(language) {
-      this.currentLanguage = language;
+    toggleLanguage() {
+      this.currentLanguage = this.currentLanguage === 'en' ? 'es' : 'en';
 
-      this.$i18n.locale = language;
+      this.$i18n.locale = this.currentLanguage;
     },
   },
 };
 </script>
 
-<template>
-  <div class="language-selector">
-    <button @click="changeLanguage('en')" :class="{ active: currentLanguage === 'en' }">English</button>
-    <button @click="changeLanguage('es')" :class="{ active: currentLanguage === 'es' }">Español</button>
-  </div>
-</template>
-
 <style scoped>
-.language-selector {
+
+li {
   display: flex;
   justify-content: center;
   align-items: center;
-}
+  gap: .4rem;
 
-.language-selector button {
   background: none;
   border: none;
   cursor: pointer;
   margin-right: 10px;
-  color: #4e2900;
-}
+  color: white;
 
-.language-selector button.active {
-  font-weight: bold;
+  &:hover {
+    color: #fff;
+  }
 }
 </style>

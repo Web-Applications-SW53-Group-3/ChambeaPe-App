@@ -2,28 +2,26 @@ import axios from "axios";
 import {environment} from "@/environments/environment";
 
 class WorkerProfileService{
-    getAll(postId) {
-        return axios.get(environment.baseUrl + '/post/' + postId + '/workers/');
+    baseUrl = environment.baseUrl + '/worker/';
+
+    async getAllWorker() {
+        return await axios.get(this.baseUrl);
+    }
+    
+    async postWorker(data) {
+        return await axios.post(this.baseUrl, data);
     }
 
-    getByid(workerId, postId) {
-        return axios.get(environment.baseUrl + '/post/' + postId + '/workers/'+workerId);
+    async getWorkerById(id) {
+        return await axios.get(this.baseUrl + id);
     }
 
-    create(worker, postId) {
-        return axios.post(environment.baseUrl + '/post/' + postId + '/workers/', worker);
+    async putWorkerById(id, data) {
+        return await axios.put(this.baseUrl + id, data);
     }
 
-    createReview(review, workerId, postId) {
-        return axios.post(environment.baseUrl + '/post/' + postId + '/workers/' + workerId + '/reviews', review);
-    }
-
-    update(worker) {
-        return axios.put(environment.baseUrl + '/post/' + worker.postId + '/workers/'+worker.id, worker);
-    }
-
-    delete(workerId, postId) {
-        return axios.delete(environment.baseUrl + '/post/' + postId + '/workers/'+workerId);
+    async deleteWorkerById(id) {
+        return await axios.delete(this.baseUrl + id);
     }
 }
 
