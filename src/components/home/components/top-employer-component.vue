@@ -1,17 +1,16 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import WorkerProfileService from "@/services/worker-profile.service";
+import EmployerPostService from "@/services/employer-post.service";
 
-const postId = 6;
 const topEmployers = ref([]);
 
 onMounted(async () => {
   try {
-    const workerService = new WorkerProfileService();
-    const response = await workerService.getAll(postId);
-    const firstSixEmployers = response.data.slice(0, 6);
+    const employerService = new EmployerPostService();
+    const response = await employerService.getAllEmployer();
+    const firstFourEmployers = response.data.slice(0, 4);
 
-    topEmployers.value = firstSixEmployers;
+    topEmployers.value = firstFourEmployers;
   } catch (error) {
 
   }
@@ -20,10 +19,11 @@ onMounted(async () => {
 
 <template>
   <div class="TopWorkers">
-    <h2 class="TopWorkersTitle">{{$t("topEmployers")}}</h2>
+    <h2 class="TopWorkersTitle">{{ $t("topEmployers") }}</h2>
     <div class="TopWorkersImages">
-      <div class="TopWorker" v-for="(worker, index) in topEmployers" :key="index">
-        <img :src="worker.image" :alt="worker.name" />
+      <div class="TopWorker" v-for="(employer, index) in topEmployers" :key="index">
+        <img :src="employer.profilePic" :alt="employer.firstName" />
+        <p> {{ employer.firstName }} {{ employer.lastName }}</p>
       </div>
     </div>
   </div>
@@ -31,9 +31,9 @@ onMounted(async () => {
 
 <style scoped>
 .TopWorkers {
+  margin-top: .625rem;
   background-color: white;
   padding: 1rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   text-align: center;
 }
@@ -55,8 +55,9 @@ onMounted(async () => {
 }
 
 .TopWorker img {
-  width: 100%;
-  height: auto;
+  width: inherit;
+  height: 12.5rem;
+  object-fit: cover;
   border-radius: 8px;
 }
 </style>

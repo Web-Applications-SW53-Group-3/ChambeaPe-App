@@ -2,7 +2,6 @@
 import { ref, onMounted } from 'vue';
 import WorkerProfileService from "@/services/worker-profile.service";
 
-const postId = 2;
 const employer = ref({
   name: '',
   description: '',
@@ -12,7 +11,7 @@ const employer = ref({
 onMounted(async () => {
   try {
     const workerService = new WorkerProfileService();
-    const response = await workerService.getAll(postId);
+    const response = await workerService.getAllWorker();
     if (response.status === 200 && response.data) {
       const firstEmployer = response.data[0];
       if (firstEmployer) {
@@ -44,8 +43,8 @@ onMounted(async () => {
     <div class="SearchResult">
       <div class="Availability">{{$t("statusOn")}}</div>
       <div class="UserInfo">
-        <img :src="employer.image" alt="Imagen de usuario" class="UserImage" />
-        <div class="UserName">{{ employer.name }}</div>
+        <img :src="employer.profilePic" alt="Imagen de usuario" class="UserImage" />
+        <div class="UserName">{{ employer.firstName }} {{ employer.lastName }} </div>
         <div class="UserDescription">{{ employer.description }}</div>
       </div>
       <div class="UserActions">
@@ -58,17 +57,17 @@ onMounted(async () => {
 
 <style scoped>
 .SearchContainer {
-  width: 80%;
+  width: 100%;
   margin: 0 auto;
   background-color: white;
   padding: 1rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
   
   @media (min-width: 768px) {
+    width: 50%;
     grid-template-columns: 1fr;
   }
 }
@@ -98,7 +97,11 @@ onMounted(async () => {
   outline: none;
   background: none;
   width: 100%;
-  font-size: 1.5rem;
+  font-size: 1rem;
+
+  @media (min-width: 768px) {
+    font-size: 1.5rem;
+  }
 }
 
 .SearchActions {
@@ -114,18 +117,24 @@ onMounted(async () => {
 
 .EditButton {
   background-color: transparent;
-  border: none;
-  color: orange;
+  border: 1px solid #f2af4a;
   cursor: pointer;
-  font-size: 1.2rem;
+  font-size: 1rem;
+  color: #f2af4a;
+
+  @media (min-width: 768px) {
+    font-size: 1.2rem;
+  }
 }
 
 .SearchResult {
-  padding: 2rem;
+  padding: 1rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   background-color: white;
-  font-size: 1.5rem;
+  font-size: 1rem;
+
   @media (min-width: 768px) {
+    padding: 2rem;
     grid-column: 1 / span 2;
   }
 }
@@ -133,8 +142,12 @@ onMounted(async () => {
 .Availability {
   font-weight: 700;
   color: green;
-  font-size: 1.2rem;
+  font-size: 1rem;
   text-align: center;
+
+  @media (min-width: 768px) {
+    font-size: 1.2rem;
+  }
 }
 
 .UserInfo {
@@ -146,15 +159,24 @@ onMounted(async () => {
 }
 
 .UserImage {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   margin-bottom: 1rem;
+
+  @media (min-width: 768px) {
+    width: 80px;
+    height: 80px;
+  }
 }
 
 .UserName {
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+
+  @media (min-width: 768px) {
+    font-size: 1.5rem;
+  }
 }
 
 .UserDescription {
@@ -173,15 +195,23 @@ onMounted(async () => {
 .ChatButton {
   display: flex;
   align-items: center;
-  width: 10rem;
+  width: 100%;
   border: none;
   border-radius: 5px;
   justify-content: center;
   border: none;
-  font-size: 1rem;
+  font-size: 0.8rem;
   cursor: pointer;
-}
 
+  &:hover{
+    opacity: 0.8;
+  }
+
+  @media (min-width: 768px) {
+    width: 10rem;
+    font-size: 1rem;
+  }
+}
 
 .ChatButton {
   margin-left: 0;

@@ -2,28 +2,26 @@ import axios from "axios";
 import {environment} from "@/environments/environment";
 
 class EmployerPostService{
-    getAll() {
-        return axios.get(environment.baseUrl+"/post");
+    baseUrl = environment.baseUrl + '/employer/';
+
+    async getAllEmployer() {
+        return await axios.get(this.baseUrl);
     }
 
-    getByid(id) {
-        return axios.get(environment.baseUrl+"/post/" + id);
+    async postEmployer(data) {
+        return await axios.post(this.baseUrl, data);
     }
 
-    getByEmployerId(id) {
-        return axios.get(environment.baseUrl+'/post' + '?employerId=' + id);
+    async getEmployerById(id) {
+        return await axios.get(this.baseUrl + id);
     }
 
-    create(body) {
-        return axios.post(environment.baseUrl+"/post", body);
+    async putEmployerById(id, data) {
+        return await axios.put(this.baseUrl + id, data);
     }
 
-    update(id, body) {
-        return axios.put(environment.baseUrl+"/post/" + id, body);
-    }
-
-    delete(id) {
-        return axios.delete(environment.baseUrl+"/post/" + id);
+    async deleteEmployerById(id) {
+        return await axios.delete(this.baseUrl + id);
     }
 }
 

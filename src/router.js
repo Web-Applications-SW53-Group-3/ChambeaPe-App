@@ -7,7 +7,6 @@ import registerComponent from "@/components/register/form-register.component.vue
 import chatComponent from "@/components/chat/chat.component.vue";
 import supportChatComponent from "@/components/chat/support-chat.component.vue";
 import reviewComponent from "@/components/reviews/review.component.vue";
-// import jobPostComponent from "@/components/job-post/job-post.component.vue";
 import HomeComponent from "@/components/home/home-component.vue";
 import jobPostComponent from "@/components/job-post/job-post.component.vue";
 

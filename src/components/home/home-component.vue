@@ -8,6 +8,7 @@ import TopWorkers from "./components/top-worker-component.vue";
   <div>
     <SearchContainer></SearchContainer>
     <TopEmployers></TopEmployers>
+    <TopWorkers></TopWorkers>
 
   </div>
 </template>

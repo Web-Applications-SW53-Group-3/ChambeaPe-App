@@ -2,16 +2,19 @@
 import { ref, onMounted } from 'vue';
 import WorkerProfileService from "@/services/worker-profile.service";
 
-const postId = 1;
+
 const topWorkers = ref([]);
+
 
 onMounted(async () => {
   try {
-    const workerService = new WorkerProfileService();
-    const response = await workerService.getAll(postId);
-    const firstSixWorkers = response.data.slice(0, 6);
+    
+    const workerService = await new WorkerProfileService();
+    const response = await workerService.getAllWorker();
+    const firstFourWorkers = response.data.slice(0, 4);
 
-    topWorkers.value = firstSixWorkers;
+    topWorkers.value = firstFourWorkers;
+
   } catch (error) {
 
   }
@@ -23,7 +26,9 @@ onMounted(async () => {
     <h2 class="TopWorkersTitle">{{$t("topChambeadores")}}</h2>
     <div class="TopWorkersImages">
       <div class="TopWorker" v-for="(worker, index) in topWorkers" :key="index">
-        <img :src="worker.image" :alt="worker.name" />
+        <img :src="worker.profilePic" :alt="worker.firstName" />
+        <p> {{ worker.firstName }} {{ worker.lastName }}</p>
+
       </div>
     </div>
   </div>
@@ -31,9 +36,9 @@ onMounted(async () => {
 
 <style scoped>
 .TopWorkers {
+  margin-top: .625rem;
   background-color: white;
   padding: 1rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   text-align: center;
 }
@@ -55,8 +60,10 @@ onMounted(async () => {
 }
 
 .TopWorker img {
-  width: 100%;
-  height: auto;
+  width: inherit;
+  height: 12.5rem;
+  object-fit: cover;
+
   border-radius: 8px;
 }
 </style>
