@@ -3,6 +3,7 @@ import ForgotPasswordComponent from "@/components/login/forgot-password-componen
 import VerificationCodeComponent from "@/components/login/verification-code-component.vue";
 import NewPasswordComponent from "@/components/login/new-password-component.vue";
 import UpdatedPasswordComponent from "@/components/login/updated-password-component.vue";
+import LoginService from "@/services/login.service.js";
 
 window.handleCredentialResponse = (response) => {
 
@@ -24,6 +25,7 @@ export default {
       showVerificationCode: false,
       showNewPassword: false,
       showUpdatedPassword: false,
+      LoginService: new LoginService(),
     };
   },
   methods: {
@@ -90,18 +92,40 @@ export default {
       this.showNewPassword = false;
       this.showUpdatedPassword = false;
     },
-
-    login(){
+    async authenticate(email, password) {
       try {
-      if(this.email== 'empleador@gmail.com'){
+        const body={
+          email: email,
+          password: password
+        }
+
+        this.LoginService.login(body)
+          .then((response) => {
+            if (response.data.success) {
+              this.authorize(response.data)
+          }
+          })
+          .catch((error) => {
+
+            alert(error.message);
+          });
+      } 
+      catch (error)
+      {
+        console.error(error);
+      }
+    },
+
+    authorize(response){
+      try {
+      if(response.role == 'E'){
         this.$userRole = 'empleador';
       }
-      else if(this.email== 'chambeador@gmail.com'){
+      else if(response.role == 'W'){
         this.$userRole = 'chambeador';
       }
-      else{
-        throw new Error("Email no definido");
-      }
+      console.log(response.email);
+      console.log(response.name);
       this.$router.push("/home");
 
     } catch (error) {
@@ -134,7 +158,7 @@ export default {
         <label for="password">{{$t("password")}}</label>
       </span>
 
-      <pv-button @click="login()" class="login" :label="$t('login')"></pv-button>
+      <pv-button @click="authenticate(this.email, this.password)" class="login" :label="$t('login')"></pv-button>
       <a  @click="showForgotPasswordComponent" class="forgot">{{$t("forgotPassword")}}</a>
       <pv-button @click="redirectToRegister()">{{$t("register")}}</pv-button>
 
