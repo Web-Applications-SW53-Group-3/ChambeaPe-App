@@ -1,81 +1,72 @@
 <template>
-  <div class="center-container">
-    <div class="chat-container">
-      <div class="chat-header">
-        <div class="user-info">
-          <div class="user-avatar">
-            <img class="circular-avatar" src="https://cdn.discordapp.com/attachments/1037343952694685706/1162061124162822184/image.png?ex=653a90c2&is=65281bc2&hm=f79a328d4f5ed52b2addd2b65b9d65b6feb9d374bc51cd67f3469bd6293fcd8c&" alt="Avatar" />
-          </div>
-          <div class="user-name">Steve Castillo</div>
+  <div class="chat-container">
+    <div class="chat-header">
+      <div class="user-info">
+        <div class="user-avatar">
+          <img
+            class="circular-avatar"
+            src="https://cdn.discordapp.com/attachments/1037343952694685706/1162061124162822184/image.png?ex=653a90c2&is=65281bc2&hm=f79a328d4f5ed52b2addd2b65b9d65b6feb9d374bc51cd67f3469bd6293fcd8c&"
+            alt="Avatar"
+          />
         </div>
-        <Button class="negociar-button" @click="iniciarNegociacion">Negociar</Button>
+        <div class="user-name">
+          <pv-input v-model="selectedUser" placeholder="Nombre de usuario" />
       </div>
-      <div class="chat-messages">
-        <div v-for="(mensaje, index) in mensajes" :key="index" class="mensaje">
-          <p :class="{ 'mensaje-empleado': mensaje.empleado, 'mensaje-trabajador': !mensaje.empleado }">
-            {{ mensaje.texto }}
-          </p>
-        </div>
       </div>
-      <div class="chat-input">
-        <input v-model="nuevoMensaje" @keyup.enter="enviarMensaje" placeholder="Mensaje" />
-        <Button @click="enviarMensaje" class="enviar-button">
-          <i class="pi pi-send"></i>
-        </Button>
+      <Button class="negociar-button" @click="iniciarNegociacion">Negociar</Button>
+    </div>
+    <div v-for="message in messages" :key="message.id" class="message-container">
+      <div :class="message.user === 'Usuario1' ? 'message-right' : 'message-left'">
+        {{ message.text }}
       </div>
+    </div>
+    <div class="input-container">
+      <input v-model="newMessage" @keyup.enter="enviarMensaje" placeholder="Escribe un mensaje" class="input-message" />
+      <pv-button @click="enviarMensaje" class="enviar-button">
+        <i class="pi pi-send"></i>
+      </pv-button>
     </div>
   </div>
 </template>
 
 <script>
+import * as signalR from "@microsoft/signalr";
+
 export default {
   data() {
     return {
-      otroUsuario: 'Empleador',
-      mensajes: [],
-      nuevoMensaje: '',
+      connection: null,
+      messages: [],
+      newMessage: "",
+      selectedUser: "Usuario2",
     };
   },
+  mounted() {
+    this.connection = new signalR.HubConnectionBuilder()
+      .withUrl("https://localhost:7209/chatHub")
+      .build();
+
+    this.connection.start().catch((err) => console.error(err));
+
+    this.connection.on("ReceiveMessage", (user, message) => {
+      this.messages.push({ user: user, text: message });
+    });
+  },
   methods: {
-    iniciarNegociacion() {
-    },
     enviarMensaje() {
-      if (this.nuevoMensaje) {
-        this.mensajes.push({ texto: this.nuevoMensaje, empleado: true });
-        this.nuevoMensaje = '';
-      }
+      this.connection.invoke("SendMessage", this.selectedUser, this.newMessage);
+      this.newMessage = "";
     },
   },
 };
 </script>
 
 <style scoped>
-.center-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
 .user-avatar {
   width: 50px;
   height: 50px;
   border-radius: 50%;
   overflow: hidden;
-}
-
-.circular-avatar {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.chat-container {
-  width: 1800px;
-  height: 500px;
-  border: 1px solid #ccc;
-  display: flex;
-  flex-direction: column;
 }
 
 .chat-header {
@@ -97,35 +88,56 @@ export default {
   font-weight: bold;
 }
 
-.chat-messages {
-  flex: 1;
+.circular-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.chat-container {
+  width: 600px;
+  height: 700px;
+  margin: auto;
+  border: 2px solid #ccc;
+  border-radius: 10px;
   padding: 10px;
-  overflow-y: scroll;
-  height: 70%;
+  margin-top: 20px;
 }
 
-.mensaje {
-  margin: 5px 0;
+.message-container {
   display: flex;
-  justify-content: flex-end;
+  margin: 10px 0;
 }
 
-.mensaje-empleado {
-  text-align: right;
-  background-color: orange;
+.message-left,
+.message-right {
   color: white;
-  padding: 5px 10px;
-  border-radius: 15px;
+  border-radius: 20px;
+  padding: 10px;
   max-width: 70%;
   word-wrap: break-word;
 }
 
-.chat-input {
-  display: flex;
-  padding: 10px;
+.message-left {
+  background-color: gray;
+  margin-right: auto;
 }
 
-input {
+.message-right {
+  background-color: orange;
+  margin-left: auto;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+}
+
+.select-user {
+  margin-right: 10px;
+}
+
+.input-message {
   flex: 1;
   padding: 5px;
   border: 1px solid #ccc;
@@ -136,22 +148,9 @@ input {
   background-color: orange;
   color: white;
   border: none;
-  padding: 5px 10px;
+  padding: 5px 22px;
   border-radius: 5px;
   cursor: pointer;
-}
-
-.negociar-button {
-  background-color: transparent;
-  border: none;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  border-radius: 30px;
-}
-
-.negociar-button:hover {
-  background-color: darkorange;
+  margin-left: 5px;
 }
 </style>
