@@ -19,11 +19,11 @@ class LoginService {
     //     return axios.put(environment.baseUrl+"/users" + id, body);
     // }
     async login(body) {
-        return await axios.post("https://localhost:7209/account/login", body);
+        return await axios.post('https://chambeape.azurewebsites.net'+"/account/login", body);
     }
 
     async logout() {
-        return await axios.get("https://localhost:7209/account/logout");
+        return await axios.get('https://chambeape.azurewebsites.net'+"/account/logout");
     }
 }
 
