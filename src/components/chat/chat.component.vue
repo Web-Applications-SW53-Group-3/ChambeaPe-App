@@ -11,23 +11,24 @@
         </div>
         <div class="user-name">
           {{ selectedUser }}
-      </div>
+        </div>
       </div>
       <Button class="negociar-button" @click="iniciarNegociacion">Negociar</Button>
     </div>
-    <div v-for="message in messages" :key="message.id" class="message-container">
-      <div :class="message.user === 'Usuario1' ? 'message-right' : 'message-left'">
+    <div v-for="(message, index) in this.messages" :key="index" class="message-container">
+      <div :class="message.senderUserId === currentUserId ? 'message-right' : 'message-left'">
         {{ message.text }}
       </div>
     </div>
     <div class="input-container">
-      <input v-model="newMessage" @keyup.enter="enviarMensaje" placeholder="Escribe un mensaje" class="input-message" />
-      <pv-button @click="enviarMensaje" class="enviar-button">
+      <input v-model="newMessage" @keyup.enter="sendMessage()" placeholder="Escribe un mensaje" class="input-message" />
+      <pv-button @click="sendMessage()" class="enviar-button">
         <i class="pi pi-send"></i>
       </pv-button>
     </div>
   </div>
 </template>
+
 
 <script>
 import * as signalR from "@microsoft/signalr";
@@ -39,13 +40,15 @@ export default {
       connection: null,
       messages: [],
       newMessage: "",
-      selectedUser: "",
+      selectedUser: "3",
       users: [],
+      currentUserId: '',
     };
   },
   mounted() {
     const userClaims = JSON.parse(Cookies.get('userClaims') || null);
-    const name = userClaims.find(claim => claim.type === 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name');
+    this.currentUserId = userClaims.find(claim => claim.type === 'UserId');
+    console.log(this.currentUserId.value);
     this.connection = new signalR.HubConnectionBuilder()
       .withUrl("https://localhost:7209/chatHub")
       .build();
@@ -54,9 +57,8 @@ export default {
 
     this.connection.on("ReceiveMessage", (message) => {
       this.messages.push(message);
-      this.selectedUser = message.ReceiverUserId;
     });
-    
+    console.log(this.message);
   },
   methods: {
     joinChat(user) {
@@ -75,7 +77,7 @@ export default {
     },
     sendMessage() {
       // Enviar mensaje al grupo asociado al usuario seleccionado
-      this.connection.invoke("SendMessage", this.currentUser.id, this.selectedUser.id, this.newMessage);
+      this.connection.invoke("SendMessage", this.currentUserId.value, this.selectedUser, this.newMessage);
 
       // Limpiar el campo de nuevo mensaje, según tus necesidades
       this.newMessage = "";
