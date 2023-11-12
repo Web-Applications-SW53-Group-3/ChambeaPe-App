@@ -48,8 +48,8 @@ onMounted(async () => {
         <div class="UserDescription">{{ employer.description }}</div>
       </div>
       <div class="UserActions">
-        <p-button class="p-button ViewProfileButton">{{$t("btnViewProfile")}}</p-button>
-        <p-button class="p-button ChatButton">{{$t("btnChat")}}</p-button>
+        <pv-button class="pv-button ViewProfileButton">{{$t("btnViewProfile")}}</pv-button>
+        <pv-button class="pv-button ChatButton">{{$t("btnChat")}}</pv-button>
       </div>
     </div>
   </div>

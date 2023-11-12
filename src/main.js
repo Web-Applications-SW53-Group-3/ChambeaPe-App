@@ -29,6 +29,7 @@ import Rating from "primevue/rating";
 
 import Textarea from "primevue/textarea";
 import FileUpload from 'primevue/fileupload';
+import ProgressSpinner from 'primevue/progressspinner';
 
 
 import i18n from "@/i18n";
@@ -64,6 +65,7 @@ app.component('pv-dropdown', Dropdown);
 app.component('pv-inline-message', InlineMessage);
 app.component('pv-carousel', Carousel);
 app.component('pv-rating', Rating);
+app.component('pv-progress-spinner', ProgressSpinner);
 
 app.mount('#app');
 

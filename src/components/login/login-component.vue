@@ -27,6 +27,7 @@ export default {
       showNewPassword: false,
       showUpdatedPassword: false,
       LoginService: new LoginService(),
+      isLoading: false,
     };
   },
   methods: {
@@ -94,13 +95,13 @@ export default {
       this.showUpdatedPassword = false;
     },
     async authenticate(email, password) {
-      try {
+        this.isLoading = true;
         const body={
           email: email,
           password: password
         }
 
-        this.LoginService.login(body)
+        await this.LoginService.login(body)
           .then((response) => {
             if (response.data.success) {
               Cookies.set('userClaims', JSON.stringify(response.data.claims));
@@ -108,14 +109,9 @@ export default {
           }
           })
           .catch((error) => {
-
+            this.isLoading = false;
             alert(error.message);
           });
-      } 
-      catch (error)
-      {
-        console.error(error);
-      }
     },
 
     authorize(response){
@@ -127,7 +123,7 @@ export default {
       else if(role.value == 'W'){
         this.$userRole = 'chambeador';
       }
-      console.log(role.value);
+      this.isLoading = false;
       this.$router.push("/home");  
     }
   },
@@ -142,6 +138,9 @@ export default {
 
 <template>
   <div class="login-container">
+    <div v-if="isLoading" class="loading-overlay">
+      <pv-progress-spinner class="loading-spinner"></pv-progress-spinner>
+    </div>
     <div class="overlay" v-if="showForgotPassword || showVerificationCode || showNewPassword || showUpdatedPassword" @click="closeOverlay"></div>
     <div class="wrapper">
       <h1>{{$t("login")}}</h1>
@@ -230,5 +229,24 @@ export default {
   color: #eeae48;
   cursor: pointer;
 }
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8); /* Fondo semi-transparente */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Valor alto para colocar encima de otros elementos */
+  }
+
+  .loading-spinner{
+    width: 100px;
+    height: 100px;
+  }
+
 </style>
 
