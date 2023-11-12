@@ -3,6 +3,8 @@ import ForgotPasswordComponent from "@/components/login/forgot-password-componen
 import VerificationCodeComponent from "@/components/login/verification-code-component.vue";
 import NewPasswordComponent from "@/components/login/new-password-component.vue";
 import UpdatedPasswordComponent from "@/components/login/updated-password-component.vue";
+import LoginService from "@/services/login.service.js";
+import Cookies from 'js-cookie';
 
 window.handleCredentialResponse = (response) => {
 
@@ -24,6 +26,7 @@ export default {
       showVerificationCode: false,
       showNewPassword: false,
       showUpdatedPassword: false,
+      LoginService: new LoginService(),
     };
   },
   methods: {
@@ -90,23 +93,42 @@ export default {
       this.showNewPassword = false;
       this.showUpdatedPassword = false;
     },
-
-    login(){
+    async authenticate(email, password) {
       try {
-      if(this.email== 'empleador@gmail.com'){
+        const body={
+          email: email,
+          password: password
+        }
+
+        this.LoginService.login(body)
+          .then((response) => {
+            if (response.data.success) {
+              Cookies.set('userClaims', JSON.stringify(response.data.claims));
+              this.authorize(response.data);
+          }
+          })
+          .catch((error) => {
+
+            alert(error.message);
+          });
+      } 
+      catch (error)
+      {
+        console.error(error);
+      }
+    },
+
+    authorize(response){
+      const userClaims = JSON.parse(Cookies.get('userClaims') || null);
+      const role = userClaims.find(claim => claim.type === 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role');
+      if(role.value == 'E'){
         this.$userRole = 'empleador';
       }
-      else if(this.email== 'chambeador@gmail.com'){
+      else if(role.value == 'W'){
         this.$userRole = 'chambeador';
       }
-      else{
-        throw new Error("Email no definido");
-      }
-      this.$router.push("/home");
-
-    } catch (error) {
-      alert("Email o contraseña incorrectos");
-    }  
+      console.log(role.value);
+      this.$router.push("/home");  
     }
   },
   created() {
@@ -134,7 +156,7 @@ export default {
         <label for="password">{{$t("password")}}</label>
       </span>
 
-      <pv-button @click="login()" class="login" :label="$t('login')"></pv-button>
+      <pv-button @click="authenticate(this.email, this.password)" class="login" :label="$t('login')"></pv-button>
       <a  @click="showForgotPasswordComponent" class="forgot">{{$t("forgotPassword")}}</a>
       <pv-button @click="redirectToRegister()">{{$t("register")}}</pv-button>
 

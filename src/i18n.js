@@ -114,6 +114,7 @@ const i18n = createI18n({
             myPosts: 'Mis publicaciones',
             jobs: 'Empleos',
             apply: 'Postular',
+            logout: 'Cerrar sesión',
         },
 
         en: {
@@ -218,6 +219,7 @@ const i18n = createI18n({
             myPosts: 'My posts',
             jobs: 'Jobs',
             apply: 'Apply',
+            logout: 'Log out',
         }
 
     }
