@@ -11,6 +11,11 @@
                 <li class="link">{{ $t("naProfile") }}</li>
             </ul>
             <language-selector v-if="!mobile"></language-selector>
+            <div v-if="!mobile" class="logout">  
+                <li @click="logout()">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </li>
+            </div>
             <div class="icon">
                 <i @click="toggleMobileNav" v-show="mobile" class="fa-solid fa-bars" style="color: white "
                     :class="{ 'icon-active': mobileNav }"></i>
@@ -26,6 +31,12 @@
                     <div>
                         <language-selector class="mobileLink"></language-selector>
                     </div>
+                    <div class="logout">  
+                        <li @click="logout()" class="mobileLink">
+                            {{$t("logout")}}
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                        </li>
+                    </div>
                 </ul>
             </transition>
         </nav>
@@ -33,6 +44,9 @@
 </template>
 <script>
 import LanguageSelector from "@/components/language/language-selector.vue";
+import LoginService from "../../services/login.service";
+import Cookies from 'js-cookie';
+
 export default {
     name: 'NavigationComponent',
     components: {
@@ -43,7 +57,8 @@ export default {
             scrolledNav: null,
             mobile: null,
             mobileNav: null,
-            windowWidth: null
+            windowWidth: null,
+            LoginService: new LoginService(),
         }
     },
     created() {
@@ -88,6 +103,11 @@ export default {
             this.mobile = false;
             this.mobileNav = false;
             return
+        },
+        async logout() {
+            await this.LoginService.logout();
+            Cookies.remove('userClaims');
+            this.$router.push("/login");
         }
     }
 }
@@ -111,6 +131,24 @@ header {
 
         @media (min-width: 1140px) {
             max-width: 71.25rem;
+        }
+
+        .logout{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: .4rem;
+
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+            color: white;
+            list-style: none;
+
+            &:hover {
+                color: #fff;
+            }
         }
 
         ul {
@@ -247,4 +285,6 @@ header {
         }
     }
 }
+
+
 </style>

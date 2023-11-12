@@ -33,7 +33,7 @@ import FileUpload from 'primevue/fileupload';
 
 import i18n from "@/i18n";
 import router from "@/router";
-
+import store from './store';
 
 const app = createApp(App);
 
@@ -42,6 +42,7 @@ app.config.globalProperties.userRole='employer';
 app.use(i18n);
 app.use(router);
 app.use(PrimeVue);
+app.use(store);
 
 app.component('pv-toolbar', Toolbar);
 app.component('pv-input-mask', InputMask);

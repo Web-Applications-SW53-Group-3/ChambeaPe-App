@@ -4,6 +4,7 @@ import VerificationCodeComponent from "@/components/login/verification-code-comp
 import NewPasswordComponent from "@/components/login/new-password-component.vue";
 import UpdatedPasswordComponent from "@/components/login/updated-password-component.vue";
 import LoginService from "@/services/login.service.js";
+import Cookies from 'js-cookie';
 
 window.handleCredentialResponse = (response) => {
 
@@ -102,7 +103,8 @@ export default {
         this.LoginService.login(body)
           .then((response) => {
             if (response.data.success) {
-              this.authorize(response.data)
+              Cookies.set('userClaims', JSON.stringify(response.data.claims));
+              this.authorize(response.data);
           }
           })
           .catch((error) => {
@@ -117,20 +119,16 @@ export default {
     },
 
     authorize(response){
-      try {
-      if(response.role == 'E'){
+      const userClaims = JSON.parse(Cookies.get('userClaims') || null);
+      const role = userClaims.find(claim => claim.type === 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role');
+      if(role.value == 'E'){
         this.$userRole = 'empleador';
       }
-      else if(response.role == 'W'){
+      else if(role.value == 'W'){
         this.$userRole = 'chambeador';
       }
-      console.log(response.email);
-      console.log(response.name);
-      this.$router.push("/home");
-
-    } catch (error) {
-      alert("Email o contraseña incorrectos");
-    }  
+      console.log(role.value);
+      this.$router.push("/home");  
     }
   },
   created() {

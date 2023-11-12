@@ -21,6 +21,10 @@ class LoginService {
     async login(body) {
         return await axios.post("https://localhost:7209/account/login", body);
     }
+
+    async logout() {
+        return await axios.get("https://localhost:7209/account/logout");
+    }
 }
 
 export default LoginService;

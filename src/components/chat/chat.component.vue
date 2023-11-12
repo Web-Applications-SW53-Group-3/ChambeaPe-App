@@ -10,7 +10,7 @@
           />
         </div>
         <div class="user-name">
-          <pv-input v-model="selectedUser" placeholder="Nombre de usuario" />
+          {{ selectedUser }}
       </div>
       </div>
       <Button class="negociar-button" @click="iniciarNegociacion">Negociar</Button>
@@ -31,6 +31,7 @@
 
 <script>
 import * as signalR from "@microsoft/signalr";
+import Cookies from 'js-cookie';
 
 export default {
   data() {
@@ -38,24 +39,51 @@ export default {
       connection: null,
       messages: [],
       newMessage: "",
-      selectedUser: "Usuario2",
+      selectedUser: "",
+      users: [],
     };
   },
   mounted() {
+    const userClaims = JSON.parse(Cookies.get('userClaims') || null);
+    const name = userClaims.find(claim => claim.type === 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name');
     this.connection = new signalR.HubConnectionBuilder()
       .withUrl("https://localhost:7209/chatHub")
       .build();
 
     this.connection.start().catch((err) => console.error(err));
 
-    this.connection.on("ReceiveMessage", (user, message) => {
-      this.messages.push({ user: user, text: message });
+    this.connection.on("ReceiveMessage", (message) => {
+      this.messages.push(message);
+      this.selectedUser = message.ReceiverUserId;
     });
+    
   },
   methods: {
-    enviarMensaje() {
-      this.connection.invoke("SendMessage", this.selectedUser, this.newMessage);
+    joinChat(user) {
+      // Unirse al grupo asociado al usuario seleccionado
+      this.connection.invoke("JoinGroup", user.id);
+
+      // Inicializar el historial de mensajes, según tus necesidades
+      this.messages = this.loadMessageHistory(user.id);
+    },
+    leaveChat(user) {
+      // Salir del grupo asociado al usuario seleccionado
+      this.connection.invoke("LeaveGroup", user.id);
+
+      // Limpiar el historial de mensajes, según tus necesidades
+      this.messages = [];
+    },
+    sendMessage() {
+      // Enviar mensaje al grupo asociado al usuario seleccionado
+      this.connection.invoke("SendMessage", this.currentUser.id, this.selectedUser.id, this.newMessage);
+
+      // Limpiar el campo de nuevo mensaje, según tus necesidades
       this.newMessage = "";
+    },
+    loadMessageHistory(receiverUserId) {
+      // Cargar el historial de mensajes entre el usuario actual y el usuario seleccionado
+      // Invocar un método en el backend para obtener el historial
+      return this.connection.invoke("GetMessageHistory", receiverUserId);
     },
   },
 };
