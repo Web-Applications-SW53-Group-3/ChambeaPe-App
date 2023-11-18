@@ -22,6 +22,11 @@ export default {
       posts,
     };
   },
+  methods: {
+    viewPost(postId) {
+      this.$router.push({path:'/posts/'+postId});
+    },
+  },
 };
 </script>
 

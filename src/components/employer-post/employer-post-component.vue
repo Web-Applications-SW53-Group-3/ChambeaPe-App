@@ -1,6 +1,7 @@
 <script>
 import EmployerPostService from "@/services/employer-post.service";
 import WorkerProfileService from "@/services/worker-profile.service";
+import PublishPostService from "@/services/publish-post.service";
 
 export default {
   name: "user-list.component",
@@ -8,10 +9,10 @@ export default {
     return {
       post: {
         id: 0,
-        postTitle: "",
-        postDescription: "",
-        postSubtitle: "",
-        postImgUrl: "",
+        title: "",
+        description: "",
+        subtitle: "",
+        imgUrl: "",
         workers: [],
       },
       editMode: false
@@ -20,7 +21,7 @@ export default {
   async mounted() {
     try {
       const postId = this.$route.params.id;
-      const response = await new EmployerPostService().getByid(postId);
+      const response = await new PublishPostService().getPublishById(postId)
       this.post = response.data;
     } catch (error) {
 
@@ -73,23 +74,23 @@ export default {
 
   <pv-card class="post-card">
     <template #header >
-      <pv-input-text  class="edit" v-if="editMode" type="text" v-model="post.postImgUrl" :placeholder="$t('placeUrlImage')">
+      <pv-input-text  class="edit" v-if="editMode" type="text" v-model="post.imgUrl" :placeholder="$t('placeUrlImage')">
       </pv-input-text>
-      <img v-if="editMode" class="prev-image" :src="post.postImgUrl" alt="Post Image">
-      <img v-else class="post-image" :src="post.postImgUrl" alt="Post Image">
+      <img v-if="editMode" class="prev-image" :src="post.imgUrl" alt="Post Image">
+      <img v-else class="post-image" :src="post.imgUrl" alt="Post Image">
     </template>
     <template #title>
-      <pv-input-text class="edit"  v-if="editMode" type="text" v-model="post.postTitle" :placeholder="$t('placeTitle')"></pv-input-text>
-      <h1 v-else class="title">{{post.postTitle}}</h1>
+      <pv-input-text class="edit"  v-if="editMode" type="text" v-model="post.title" :placeholder="$t('placeTitle')"></pv-input-text>
+      <h1 v-else class="title">{{post.title}}</h1>
     </template>
     <template #subtitle>
-      <pv-input-text class="edit"  v-if="editMode" type="text" v-model="post.postSubtitle" :placeholder="$t('placeSubtitule')"></pv-input-text>
-      <h3 v-else>{{post.postSubtitle}}</h3>
+      <pv-input-text class="edit"  v-if="editMode" type="text" v-model="post.subtitle" :placeholder="$t('placeSubtitule')"></pv-input-text>
+      <h3 v-else>{{post.subtitle}}</h3>
     </template>
     <template #content>
-      <pv-textarea class="edit"  v-if="editMode" v-model="post.postDescription" :placeholder="$t('placeDescriptionPost')" rows="7" autoResize ></pv-textarea>
+      <pv-textarea class="edit"  v-if="editMode" v-model="post.description" :placeholder="$t('placeDescriptionPost')" rows="7" autoResize ></pv-textarea>
       <p v-else>
-        {{post.postDescription}}
+        {{post.description}}
       </p>
     </template>
     <template #footer>
