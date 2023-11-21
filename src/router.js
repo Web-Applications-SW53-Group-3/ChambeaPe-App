@@ -9,6 +9,7 @@ import supportChatComponent from "@/components/chat/support-chat.component.vue";
 import reviewComponent from "@/components/reviews/review.component.vue";
 import HomeComponent from "@/components/home/home-component.vue";
 import jobPostComponent from "@/components/job-post/job-post.component.vue";
+import PostComponent from "@/components/job-post/post.component.vue";
 
 const routes = [
     {path:'/login', component: loginComponent},
@@ -16,7 +17,7 @@ const routes = [
     {path:'/posts/:id', component: employerPostComponent},
     {path: '/posts', component: employerMypostsComponent},
     {path: '/register', component: registerComponent},
-    {path: '/job-post', component: jobPostComponent},
+    {path: '/job-post', component: PostComponent},
     { path: '/',component: loginComponent },
     { path: '/home', component: HomeComponent },
     { path: '/:pathMatch(.*)*', redirect: '/login' },

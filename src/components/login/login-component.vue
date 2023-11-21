@@ -5,6 +5,7 @@ import NewPasswordComponent from "@/components/login/new-password-component.vue"
 import UpdatedPasswordComponent from "@/components/login/updated-password-component.vue";
 import LoginService from "@/services/login.service.js";
 import Cookies from 'js-cookie';
+import { jwtDecode } from "jwt-decode";
 
 window.handleCredentialResponse = (response) => {
 
@@ -31,13 +32,11 @@ export default {
     };
   },
   methods: {
-    redirectToRegister(){
+    redirectToRegister() {
       this.$router.push('/register')
     },
     handleCredentialResponse(response) {
 
-
-      // TO-DO: Decode JWT Token and map to user object
       let user = {
         firstName: "User",
         lastName: "Test",
@@ -46,17 +45,17 @@ export default {
       };
 
       this.LoginService.create(user)
-          .then((response) => {
-            if (response.status === 201) {
-              alert("User created " + response.data.id);
-            } else {
-              alert("Error creating user");
-            }
-          })
-          .catch((error) => {
+        .then((response) => {
+          if (response.status === 201) {
+            alert("User created " + response.data.id);
+          } else {
+            alert("Error creating user");
+          }
+        })
+        .catch((error) => {
 
-            alert(error.message);
-          });
+          alert(error.message);
+        });
       this.$router.push("/home");
     },
     showForgotPasswordComponent() {
@@ -95,36 +94,44 @@ export default {
       this.showUpdatedPassword = false;
     },
     async authenticate(email, password) {
-        this.isLoading = true;
-        const body={
-          email: email,
-          password: password
-        }
+      this.isLoading = true;
+      const body = {
+        email: email,
+        password: password
+      }
+      const role = 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
 
-        await this.LoginService.login(body)
-          .then((response) => {
-            if (response.data.success) {
-              Cookies.set('userClaims', JSON.stringify(response.data.claims));
-              this.authorize(response.data);
-          }
-          })
-          .catch((error) => {
+      await this.LoginService.login(body)
+        .then((response) => {
+          if (response.data.success) {
+            const token = response.data.token;
+            console.log(token);
+            const decodedToken = jwtDecode(token);
+            console.log(decodedToken[role]);
+            Cookies.set('userToken', token);
+            this.authorize(decodedToken[role]);
+          } else {
+            alert(response.data.message);
             this.isLoading = false;
-            alert(error.message);
-          });
+          }
+        })
+        .catch((error) => {
+          this.isLoading = false;
+          alert(error.message);
+        });
     },
 
-    authorize(response){
-      const userClaims = JSON.parse(Cookies.get('userClaims') || null);
-      const role = userClaims.find(claim => claim.type === 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role');
-      if(role.value == 'E'){
+    authorize(decodedToken) {
+      const role = decodedToken;
+
+      if (role.value == 'E') {
         this.$userRole = 'empleador';
       }
-      else if(role.value == 'W'){
+      else if (role.value == 'W') {
         this.$userRole = 'chambeador';
       }
       this.isLoading = false;
-      this.$router.push("/home");  
+      this.$router.push("/home");
     }
   },
   created() {
@@ -141,23 +148,24 @@ export default {
     <div v-if="isLoading" class="loading-overlay">
       <pv-progress-spinner class="loading-spinner"></pv-progress-spinner>
     </div>
-    <div class="overlay" v-if="showForgotPassword || showVerificationCode || showNewPassword || showUpdatedPassword" @click="closeOverlay"></div>
+    <div class="overlay" v-if="showForgotPassword || showVerificationCode || showNewPassword || showUpdatedPassword"
+      @click="closeOverlay"></div>
     <div class="wrapper">
-      <h1>{{$t("login")}}</h1>
+      <h1>{{ $t("login") }}</h1>
       <br>
       <span class="p-float-label">
         <pv-input-text id="mail" class="mail" v-model="email" />
-        <label for="mail">{{$t("email")}}</label>
+        <label for="mail">{{ $t("email") }}</label>
       </span>
       <br>
       <span class="p-float-label">
         <pv-password v-model="password" toggleMask :feedback="false" input-id="password" />
-        <label for="password">{{$t("password")}}</label>
+        <label for="password">{{ $t("password") }}</label>
       </span>
 
       <pv-button @click="authenticate(this.email, this.password)" class="login" :label="$t('login')"></pv-button>
-      <a  @click="showForgotPasswordComponent" class="forgot">{{$t("forgotPassword")}}</a>
-      <pv-button @click="redirectToRegister()">{{$t("register")}}</pv-button>
+      <a @click="showForgotPasswordComponent" class="forgot">{{ $t("forgotPassword") }}</a>
+      <pv-button @click="redirectToRegister()">{{ $t("register") }}</pv-button>
 
       <div class="forgot-password-modal" v-if="showForgotPassword">
         <ForgotPasswordComponent @reset-password-clicked="showVerificationCodeComponent" />
@@ -171,23 +179,10 @@ export default {
       <div class="updated-password-modal" v-if="showUpdatedPassword">
         <UpdatedPasswordComponent />
       </div>
-      <div
-          id="g_id_onload"
-          data-client_id="1011507135159-kl3lu14n4b4p85drsin8mjq6i7d1ro34.apps.googleusercontent.com"
-          data-context="signin"
-          data-ux_mode="popup"
-          data-callback="handleCredentialResponse"
-          data-itp_support="true"
-      ></div>
-      <div
-          class="g_id_signin"
-          data-type="standard"
-          data-shape="pill"
-          data-theme="outline"
-          data-text="signin_with"
-          data-size="large"
-          data-logo_alignment="left"
-      ></div>
+      <div id="g_id_onload" data-client_id="1011507135159-kl3lu14n4b4p85drsin8mjq6i7d1ro34.apps.googleusercontent.com"
+        data-context="signin" data-ux_mode="popup" data-callback="handleCredentialResponse" data-itp_support="true"></div>
+      <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="outline" data-text="signin_with"
+        data-size="large" data-logo_alignment="left"></div>
     </div>
 
 
@@ -195,7 +190,6 @@ export default {
 </template>
 
 <style scoped>
-
 @import url(../../assets/css/login-component.css);
 
 .overlay {
@@ -211,7 +205,7 @@ export default {
 .forgot-password-modal,
 .verification-code-modal,
 .new-password-modal,
-.updated-password-modal{
+.updated-password-modal {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -231,22 +225,23 @@ export default {
 }
 
 .loading-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.8); /* Fondo semi-transparente */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000; /* Valor alto para colocar encima de otros elementos */
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  /* Fondo semi-transparente */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  /* Valor alto para colocar encima de otros elementos */
+}
 
-  .loading-spinner{
-    width: 100px;
-    height: 100px;
-  }
-
+.loading-spinner {
+  width: 100px;
+  height: 100px;
+}
 </style>
 
