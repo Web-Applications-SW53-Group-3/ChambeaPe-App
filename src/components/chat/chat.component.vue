@@ -1,4 +1,10 @@
 <template>
+  <pv-button @click="showList = true">Mostrar lista</pv-button>
+  <div v-if="showList" class="user-dropdown">
+    
+    <pv-dropdown v-model="selectedUser" :options="users" optionLabel="name" placeholder="Select a user to chat" class="w-full md:w-14rem" />
+  </div>
+  
   <div class="chat-container">
     <div class="chat-header">
       <div class="user-info">
@@ -18,7 +24,7 @@
     </div>
     <div class="messages-container" ref="messagesContainer">
     <div v-for="(message, index) in this.messages" :key="index" class="message-container">
-        <div :class="message.senderUserId === currentUserId.value ? 'message-right' : 'message-left'">
+        <div :class="message.senderUserId === currentUserId ? 'message-right' : 'message-left'">
           {{ message.text }}
         </div>
       </div>
@@ -35,7 +41,9 @@
 
 <script>
 import * as signalR from "@microsoft/signalr";
-import Cookies from 'js-cookie';
+import JwtService from "@/services/jwt.service";
+import WorkerProfileService from "@/services/worker-profile.service";
+import EmployerService from "@/services/employer.service";
 
 export default {
   data() {
@@ -47,12 +55,24 @@ export default {
       users: [],
       currentUserId: '',
       chatGroupId: '',
+      jwtService: '',
+      usersToChat:'',
+      workerService: '',
+      employerService: '',
+      showList: false
     };
   },
   mounted() {
-    const userClaims = JSON.parse(Cookies.get('userClaims') || null);
-    this.currentUserId = userClaims.find(claim => claim.type === 'UserId');
-    console.log(this.currentUserId.value);
+    this.jwtService = new JwtService();
+    this.workerService = new WorkerProfileService();
+    this.employerService = new EmployerService();
+    this.currentUserId = this.jwtService.getSub();
+    if(this.jwtService.getRole() == 'E'){
+      this.getWorkers();
+    }
+    if(this.jwtService.getRole() == 'W'){
+      this.getEmployers();
+    }
     this.connection = new signalR.HubConnectionBuilder()
       .withUrl("https://chambeape.azurewebsites.net/chatHub")
       .build();
@@ -69,17 +89,16 @@ export default {
   },
   methods: {
     async joinChat() {
-      this.chatGroupId = await this.connection.invoke("JoinGroup", this.currentUserId.value, this.selectedUser); 
-      console.log(this.chatGroupId);
+      this.chatGroupId = await this.connection.invoke("JoinGroup", this.currentUserId, this.selectedUser); 
       // this.messages = this.loadMessageHistory(this.currentUserId.value, this.selectedUser);
     },
     leaveChat(user) {
-      this.connection.invoke("LeaveGroup", this.currentUserId.value, this.selectedUser);
+      this.connection.invoke("LeaveGroup", this.currentUserId, this.selectedUser);
 
       this.messages = [];
     },
     sendMessage() {
-      this.connection.invoke("SendMessage", this.currentUserId.value, this.selectedUser, this.chatGroupId, this.newMessage);
+      this.connection.invoke("SendMessage", this.currentUserId, this.selectedUser, this.chatGroupId, this.newMessage);
 
       this.newMessage = "";
     },
@@ -89,6 +108,23 @@ export default {
     scrollMessagesToBottom() {
       const messagesContainer = this.$refs.messagesContainer;
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    },
+    async getWorkers() {
+      await this.workerService.getAllWorker().then((res) => {
+        this.usersToChat = res.data;
+        for(let i = 0; i < this.usersToChat.length; i++){
+          this.users.push(this.usersToChat[i].firstName + ' ' + this.usersToChat[i].lastName);
+        }
+      });
+    },
+    async getEmployers() {
+      await this.employerService.getAllEmployers().then((res) => {
+        this.usersToChat = res.data;
+        this.usersToChat.forEach(element => {
+          this.users.push(element.name);
+        });
+      });
+      
     }
   },
 };
@@ -198,5 +234,9 @@ export default {
   border-radius: 5px;
   cursor: pointer;
   margin-left: 5px;
+}
+
+.user-dropdown{
+  text-align: center;
 }
 </style>

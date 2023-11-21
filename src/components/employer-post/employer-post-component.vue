@@ -1,7 +1,7 @@
 <script>
-import EmployerPostService from "@/services/employer-post.service";
 import WorkerProfileService from "@/services/worker-profile.service";
 import PublishPostService from "@/services/publish-post.service";
+import JwtService from "@/services/jwt.service.js";
 
 export default {
   name: "user-list.component",
@@ -12,17 +12,23 @@ export default {
         title: "",
         description: "",
         subtitle: "",
-        imgUrl: "",
-        workers: [],
+        imgUrl: ""
       },
-      editMode: false
+      editMode: false,
+      userRole: null,
+      workers: [],
     };
+
   },
   async mounted() {
     try {
+      const jwtService = new JwtService();
+      this.userRole = jwtService.getRole();
+      
       const postId = this.$route.params.id;
       const response = await new PublishPostService().getPublishById(postId)
       this.post = response.data;
+      console.log(this.post);
     } catch (error) {
 
     }
@@ -55,16 +61,6 @@ export default {
       this.post.workers = this.post.workers.filter(worker => worker.id !== workerId);
     }
   },
-  watch: {
-    $route: {
-      async handler() {
-        const postId = this.$route.params.id;
-        const response = await new EmployerPostService().getEmployerById(postId);
-        this.post = response.data;
-      },
-      immediate: true,
-    },
-  },
 };
 </script>
 
@@ -93,17 +89,17 @@ export default {
         {{ post.description }}
       </p>
     </template>
-    <template #footer>
-      <pv-button v-if="editMode" icon="pi pi-check" :label="$t('btnEdit')" @click="saveChanges" />
-      <pv-button v-if="editMode" icon="pi pi-times" :label="$t('cancel')" @click="disableEditMode()" severity="secondary"
-        style="margin-left: 0.5em" />
-      <pv-button v-else icon="pi pi-check" :label="$t('btnEdit')" @click="editMode = true" />
-      <pv-button v-if="!editMode" icon="pi pi-times" :label="$t('btnDelete')" @click="deletePost()" severity="secondary"
-        style="margin-left: 0.5em" />
+    <template #footer >
+      <div class="p-card-footer">
+        <pv-button v-if="editMode" icon="pi pi-check" :label="$t('btnEdit')" @click="saveChanges" />
+        <pv-button v-if="editMode" icon="pi pi-times" :label="$t('cancel')" @click="disableEditMode()" severity="secondary"/>
+        <pv-button v-else icon="pi pi-check" :label="$t('btnEdit')" @click="editMode = true" />
+        <pv-button v-if="!editMode" icon="pi pi-times" :label="$t('btnDelete')" @click="deletePost()" severity="secondary"/>    
+      </div>
     </template>
   </pv-card>
 
-  <h1 class="title">Chambeadores</h1>
+  <h1 class="title"> {{ $t('chambeadores') }} </h1>
   <div class="container-champ">
     <pv-card v-for="(worker, index) in post.workers" :key="index" class="example-card">
       <template #header>
@@ -132,7 +128,7 @@ export default {
         </div>
       </template>
     </pv-card>
-    <div v-if="post.workers && post.workers.length === 0">No existen Chambeadores</div>
+    <div v-if="workers.length === 0"> {{ $t('existChambeador') }} </div>
   </div>
 </template>
 
@@ -183,6 +179,12 @@ export default {
   justify-content: center;
 }
 
+.p-card-footer {
+    display: flex !important; 
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 1rem;
+}
 .edit {
   width: 50rem;
 }</style>
