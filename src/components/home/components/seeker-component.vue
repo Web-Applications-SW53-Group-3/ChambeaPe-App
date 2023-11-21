@@ -30,16 +30,6 @@ onMounted(async () => {
 
 <template>
   <div class="SearchContainer">
-    <div class="SearchHeader">
-      <div class="SearchBar">
-        <i class="pi pi-search SearchIcon"></i>
-        <input type="text" class="SearchInput" :placeholder="$t('cancel')" />
-      </div>
-      <div class="SearchActions">
-        <span class="RecentSearches">{{$t("lastSearch")}}</span>
-        <pv-button class="EditButton">{{$t("btnEdit")}}</pv-button>
-      </div>
-    </div>
     <div class="SearchResult">
       <div class="Availability">{{$t("statusOn")}}</div>
       <div class="UserInfo">

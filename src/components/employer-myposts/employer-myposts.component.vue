@@ -8,30 +8,29 @@ export default {
   setup() {
     const posts = ref([]);
     const userRole = ref(null);
+    const userId = ref(null);
 
     onMounted(async () => {
       try {
         const jwtService = new JwtService();
         userRole.value = jwtService.getRole();
-        console.log(userRole.value);
 
-        const postService = new PublishPostService();
-        const response = await postService.getAllPublish();
-        // const employerId = jwtService.getSub();
-        // console.log(employerId);
-        // console.log(response.data.length);
-        // const filteredPosts = [];
+        userId.value = jwtService.getSub();
+        if (userRole.value === 'E') {
+          userId.value = jwtService.getSub();
+          const postService = new PublishPostService();
+          const response = await postService.getPublishByEmployerId(userId.value);
 
-        // for (let i = 0; i < response.data.length; i++) {
-        //   if (response.data[i].employerId === employerId) {
-        //     filteredPosts.push(response.data[i]);
-        //   }
-        // }
+          posts.value = response.data;
+          return;
+        }
+        else if (userRole.value === 'W') {
+          const postService = new PublishPostService();
+          const response = await postService.getAllPublish();
 
-        // console.log(filteredPosts);
-        // posts.value = filteredPosts;
-        posts.value = response.data;
-        console.log(posts.value);
+          posts.value = response.data;
+          return;
+        }
       } catch (error) {
         console.log(error);
       }
@@ -40,6 +39,7 @@ export default {
     return {
       posts,
       userRole,
+      userId,
     };
   },
   methods: {
@@ -77,11 +77,20 @@ export default {
 
         <template #footer>
           <div class="p-card-actions">
-            <pv-button @click="viewPost(post.postId)" class="card-button" style="width: 80%;">
-              <p v-if="userRole === 'E'">
+            <pv-button 
+              @click="viewPost(post.postId)" 
+              class="card-button" 
+              style="width: 80%;"
+              v-if="userRole === 'E'">
+              <p>
                 {{ $t("viewPost") }}
               </p>
-              <p v-if="userRole === 'W'">
+            </pv-button>
+            <pv-button @click="" 
+              class="card-button"
+              style="width: 80%;"
+              v-if="userRole === 'W'">
+              <p>
                 {{ $t("apply") }}
               </p>
             </pv-button>

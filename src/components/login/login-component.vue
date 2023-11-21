@@ -107,11 +107,7 @@ export default {
           if (response.data.success) {
             const token = response.data.token;            
             jwtService.saveToken(token);
-            console.log(jwtService.getToken());
-
-            const getRole = jwtService.getRole();
-            console.log(getRole);
-            
+            const getRole = jwtService.getRole();            
             this.authorize(getRole);
           } else {
             alert(response.data.message);
