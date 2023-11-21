@@ -5,7 +5,7 @@
       <input class="form-input" v-model="post.description" type="text" placeholder="Description">
       <input class="form-input" v-model="post.subtitle" type="text" placeholder="Subtitle">
       <input class="form-input" v-model="post.imgUrl" type="text" placeholder="Image URL">
-      <img :src="post.imgUrl" alt="Image preview" class="image-preview">
+      <img :src="post.imgUrl || image" class="image-preview" alt="Image preview">
       <button class="form-button" type="submit">Publish</button>
     </form>
   </div>
@@ -14,12 +14,12 @@
 <script>
 import { ref } from 'vue';
 import PublishPostService from "@/services/publish-post.service";
-import Cookies from 'js-cookie';
-import { jwtDecode } from 'jwt-decode';
+
+import JwtService from "@/services/jwt.service.js";
 
 export default {
   name: 'PostComponent',
-
+  
   setup() {
     const post = ref({
       title: '',
@@ -27,26 +27,24 @@ export default {
       subtitle: '',
       imgUrl: ''
     });
+    
+    const image  = "https://cdn.discordapp.com/attachments/1142626084358193254/1176479214539649074/image.png?ex=656f04a6&is=655c8fa6&hm=fa88615ff30a26799a3fb05d405e205434c733d3ccbbb6239fe1064c3be8d6e9&"
 
     const publishPostService = new PublishPostService();
 
-    const userToken = Cookies.get('userToken');
-    let userId;
-    if (userToken) {
-      const decodedToken = jwtDecode(userToken);
-      userId = decodedToken.sub;
-    }
+    const jwtService = new JwtService();
+
+    let userId = jwtService.getSub();
 
     const publishPost = async () => {
       try {
-        const response = await publishPostService.postPublishByEmployerId(userId, post.value, userToken);
-        console.log(response);
+        const response = await publishPostService.postPublishByEmployerId(userId, post.value);
+        router.push('/home');
       } catch (error) {
-        console.error(error);
       }
     };
 
-    return { post, publishPost };
+    return { post, publishPost, image };
   },
 };
 </script>

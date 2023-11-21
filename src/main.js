@@ -38,8 +38,6 @@ import store from './store';
 
 const app = createApp(App);
 
-app.config.globalProperties.userRole='employer';
-
 app.use(i18n);
 app.use(router);
 app.use(PrimeVue);

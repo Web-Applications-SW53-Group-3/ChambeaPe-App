@@ -4,8 +4,8 @@ import VerificationCodeComponent from "@/components/login/verification-code-comp
 import NewPasswordComponent from "@/components/login/new-password-component.vue";
 import UpdatedPasswordComponent from "@/components/login/updated-password-component.vue";
 import LoginService from "@/services/login.service.js";
-import Cookies from 'js-cookie';
-import { jwtDecode } from "jwt-decode";
+
+import JwtService from "@/services/jwt.service.js";
 
 window.handleCredentialResponse = (response) => {
 
@@ -99,17 +99,20 @@ export default {
         email: email,
         password: password
       }
-      const role = 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+
+      const jwtService = new JwtService();
 
       await this.LoginService.login(body)
         .then((response) => {
           if (response.data.success) {
-            const token = response.data.token;
-            console.log(token);
-            const decodedToken = jwtDecode(token);
-            console.log(decodedToken[role]);
-            Cookies.set('userToken', token);
-            this.authorize(decodedToken[role]);
+            const token = response.data.token;            
+            jwtService.saveToken(token);
+            console.log(jwtService.getToken());
+
+            const getRole = jwtService.getRole();
+            console.log(getRole);
+            
+            this.authorize(getRole);
           } else {
             alert(response.data.message);
             this.isLoading = false;
@@ -121,13 +124,13 @@ export default {
         });
     },
 
-    authorize(decodedToken) {
-      const role = decodedToken;
+    authorize(role) {
+      const roleValue = role;
 
-      if (role.value == 'E') {
+      if (roleValue == 'E') {
         this.$userRole = 'empleador';
       }
-      else if (role.value == 'W') {
+      else if (roleValue == 'W') {
         this.$userRole = 'chambeador';
       }
       this.isLoading = false;

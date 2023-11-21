@@ -2,15 +2,34 @@
 import { ref, onMounted } from 'vue';
 import EmployerPostService from "@/services/employer-post.service";
 import PublishPostService from "@/services/publish-post.service";
+import JwtService from "@/services/jwt.service.js";
 
 export default {
   setup() {
     const posts = ref([]);
+    const userRole = ref(null);
 
     onMounted(async () => {
       try {
+        const jwtService = new JwtService();
+        userRole.value = jwtService.getRole();
+        console.log(userRole.value);
+
         const postService = new PublishPostService();
         const response = await postService.getAllPublish();
+        // const employerId = jwtService.getSub();
+        // console.log(employerId);
+        // console.log(response.data.length);
+        // const filteredPosts = [];
+
+        // for (let i = 0; i < response.data.length; i++) {
+        //   if (response.data[i].employerId === employerId) {
+        //     filteredPosts.push(response.data[i]);
+        //   }
+        // }
+
+        // console.log(filteredPosts);
+        // posts.value = filteredPosts;
         posts.value = response.data;
         console.log(posts.value);
       } catch (error) {
@@ -20,11 +39,12 @@ export default {
 
     return {
       posts,
+      userRole,
     };
   },
   methods: {
     viewPost(postId) {
-      this.$router.push({path:'/posts/'+postId});
+      this.$router.push({ path: '/posts/' + postId });
     },
   },
 };
@@ -32,8 +52,8 @@ export default {
 
 <template>
   <div>
-    <h1 v-if="this.userRole === 'employer'" class="posts-title" style="text-align: center;">{{ $t("myPosts") }}</h1>
-    <h1 v-if="this.userRole === 'worker'" class="posts-title" style="text-align: center;">{{ $t("jobs") }}</h1>
+    <h1 v-if="userRole === 'E'" class="posts-title" style="text-align: center;">{{ $t("myPosts") }}</h1>
+    <h1 v-if="userRole === 'W'" class="posts-title" style="text-align: center;">{{ $t("jobs") }}</h1>
     <div class="container-champ">
       <pv-card v-for="post in posts" :key="post.postId" class="example-card">
         <template #header>
@@ -54,14 +74,14 @@ export default {
             <p>{{ post.description }}</p>
           </div>
         </template>
-        
+
         <template #footer>
           <div class="p-card-actions">
             <pv-button @click="viewPost(post.postId)" class="card-button" style="width: 80%;">
-              <p v-if="this.userRole === 'employer'">
+              <p v-if="userRole === 'E'">
                 {{ $t("viewPost") }}
               </p>
-              <p v-if="this.userRole === 'worker'">
+              <p v-if="userRole === 'W'">
                 {{ $t("apply") }}
               </p>
             </pv-button>

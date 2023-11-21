@@ -2,7 +2,7 @@
     <header :class="{ 'scrolled-nav': scrolledNav }">
         <nav>
             <div class="branding">
-                <img @click="redirectToLogin()" style="cursor: pointer" src="@/assets/images/Logo.png" alt="">
+                <img @click="redirectToHome" style="cursor: pointer" src="@/assets/images/Logo.png" alt="">
             </div>
             <ul v-show="!mobile" class="navigation">
                 <li class="link" @click="redirectToHome">{{ $t("naHome") }}</li>
@@ -11,7 +11,7 @@
                 <li class="link">{{ $t("naProfile") }}</li>
             </ul>
             <language-selector v-if="!mobile"></language-selector>
-            <div v-if="!mobile" class="logout">  
+            <div v-if="!mobile" class="logout">
                 <li @click="logout()">
                     <i class="fa-solid fa-right-from-bracket"></i>
                 </li>
@@ -30,10 +30,8 @@
                     </div>
                     <div>
                         <language-selector class="mobileLink"></language-selector>
-                    </div>
-                    <div class="logout">  
                         <li @click="logout()" class="mobileLink">
-                            {{$t("logout")}}
+                            {{ $t("logout") }}
                             <i class="fa-solid fa-right-from-bracket"></i>
                         </li>
                     </div>
@@ -45,7 +43,8 @@
 <script>
 import LanguageSelector from "@/components/language/language-selector.vue";
 import LoginService from "../../services/login.service";
-import Cookies from 'js-cookie';
+import JwtService from "@/services/jwt.service.js";
+
 
 export default {
     name: 'NavigationComponent',
@@ -59,6 +58,7 @@ export default {
             mobileNav: null,
             windowWidth: null,
             LoginService: new LoginService(),
+            jwtService: new JwtService()
         }
     },
     created() {
@@ -77,7 +77,14 @@ export default {
             this.$router.push("/login");
         },
         redirectToHome() {
-            this.$router.push("/home");
+            const jwtService = new JwtService();
+            const userToken = jwtService.getToken();
+
+            if (userToken) {
+                this.$router.push("/home");
+            } else {
+                this.$router.push("/login");
+            }
         },
         redirectToEmpleos() {
             this.$router.push("/posts");
@@ -106,7 +113,7 @@ export default {
         },
         async logout() {
             await this.LoginService.logout();
-            Cookies.remove('userClaims');
+            this.jwtService.logout();
             this.$router.push("/login");
         }
     }
@@ -133,7 +140,7 @@ header {
             max-width: 71.25rem;
         }
 
-        .logout{
+        .logout {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -285,6 +292,4 @@ header {
         }
     }
 }
-
-
 </style>
