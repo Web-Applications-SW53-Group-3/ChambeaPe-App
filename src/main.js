@@ -7,6 +7,7 @@ import PrimeVue from 'primevue/config';
 import "primevue/resources/primevue.min.css";
 import '@/assets/css/theme.css'
 import Sidebar from 'primevue/sidebar';
+import ToastService from 'primevue/toastservice';
 
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
@@ -26,6 +27,7 @@ import RadioButton from 'primevue/radiobutton';
 import Checkbox from 'primevue/checkbox';
 import Carousel from "primevue/carousel";
 import Rating from "primevue/rating";
+import Toast from 'primevue/toast';
 
 import Textarea from "primevue/textarea";
 import FileUpload from 'primevue/fileupload';
@@ -42,6 +44,7 @@ app.use(i18n);
 app.use(router);
 app.use(PrimeVue);
 app.use(store);
+app.use(ToastService);
 
 app.component('pv-toolbar', Toolbar);
 app.component('pv-input-mask', InputMask);
@@ -64,6 +67,6 @@ app.component('pv-inline-message', InlineMessage);
 app.component('pv-carousel', Carousel);
 app.component('pv-rating', Rating);
 app.component('pv-progress-spinner', ProgressSpinner);
-
+app.component('pv-toast', Toast);
 app.mount('#app');
 

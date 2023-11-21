@@ -6,11 +6,11 @@
       <div class="flex flex-column gap-1">
         <div class="grid grid-cols-2 justify-content-center gap-8">
           <div class="flex align-items-center">
-            <pv-radiobutton v-model="formData.account" inputId="account1" name="chambeador" value="chambeador" required/>
+            <pv-radiobutton v-model="formData.account" inputId="account1" name="E" value="E" required/>
             <label for="account1" class="ml-2">{{$t("checkEmployer")}}</label>
           </div>
           <div class="flex align-items-center">
-            <pv-radiobutton v-model="formData.account" inputId="account2" name="worker" value="worker" />
+            <pv-radiobutton v-model="formData.account" inputId="account2" name="W" value="W" />
             <label for="account2" class="ml-2">{{$t("checkChambeador")}}</label>
           </div>
 
@@ -44,7 +44,37 @@
           id="phone"
           v-model="formData.phone"
           aria-describedby="username-help"
-          placeholder="999111138"
+          placeholder="999XXXXXX"
+          required
+        />
+      </div>
+      <div class="flex flex-column gap-1">
+        <label for="email">Descripcion</label>
+        <pv-textarea
+          id="description"
+          v-model="formData.description"
+          aria-describedby="email-help"
+          placeholder="Me considero una persona ..."
+          required
+        />
+      </div>
+      <div class="flex flex-column gap-1">
+        <label for="email">Foto de Perfil</label>
+        <pv-input
+          id="picture"
+          v-model="formData.picture"
+          aria-describedby="email-help"
+          placeholder="example@example.com"
+          required
+        />
+      </div>
+      <div class="flex flex-column gap-1">
+        <label for="email">Ocupacion</label>
+        <pv-input
+          id="occupation"
+          v-model="formData.occupation"
+          aria-describedby="email-help"
+          placeholder="example@example.com"
           required
         />
       </div>
@@ -67,7 +97,6 @@
           v-model="formData.email"
           aria-describedby="email-help"
           placeholder="example@example.com"
-          @input="validateEmail(formData.email)"
           required
         />
       </div>
@@ -79,7 +108,7 @@
           id="password"
           v-model="formData.password"
           :feedback="false"
-          @input="validatePassword(formData.password)"
+
           required
           placeholder="*********"
         />
@@ -88,33 +117,31 @@
       <div class="flex flex-column gap-1">
         <div class="grid grid-cols-2 justify-content-center gap-8">
           <div class="flex align-items-center">
-            <pv-radiobutton v-model="formData.gender" inputId="gender1" name="female" value="female" />
+            <pv-radiobutton v-model="formData.gender" inputId="gender1" name="F" value="F" />
             <label for="gender1" class="ml-2">{{$t("inGenderWoman")}}</label>
           </div>
           <div class="flex align-items-center">
-            <pv-radiobutton v-model="formData.gender" inputId="gender2" name="male" value="male" />
+            <pv-radiobutton v-model="formData.gender" inputId="gender2" name="M" value="M" />
             <label for="gender2" class="ml-2">{{$t("inGenderMan")}}</label>
           </div>
         </div>
       </div>
 
       <div class="align-self-center">
-        <pv-button @click="redirectToHome()">{{$t("btnRegister")}}</pv-button>
+        <pv-toast ref="toastRef" />
+        <pv-button :disabled="isRegistrationEnabled" @click="registerUser()">{{$t("btnRegister")}}</pv-button>
       </div>
-    </div>
+      </div>
   </div>
 </template>
 
 <script>
-import { reactive, ref } from 'vue';
+import { reactive } from 'vue';
+import EmployerService from '@/services/employer.service.js';
+import WorkerProfileService from '@/services/worker-profile.service.js';
+import { useToast } from 'primevue/usetoast';
 
 export default {
-  methods: {
-    redirectToHome() {
-      this.$router.push('/home');
-    },
-  },
-  name: 'FormRegister',
   setup() {
     const formData = reactive({
       gender: '',
@@ -126,54 +153,77 @@ export default {
       password: '',
       phone: '',
       document: '',
+      description: '',
+      picture: '',
+      occupation: '',
     });
 
-    const gender = ref('');
-    const account = ref('');
-    const errorMessage = ref(null);
-    
+    const toast = useToast();
 
-    const validateEmail = (email) => {
+    const showSuccess = () => {
+      toast.add({ severity: 'success', summary: 'Success', detail: 'User registered successfully', life: 3000 });
+    };
+
+    const isRegistrationEnabled = () => {
+      const requiredFields = [
+        formData.name,
+        formData.lastname,
+        formData.phone,
+        formData.description,
+        formData.picture,
+        formData.occupation,
+        formData.date,
+        formData.email,
+        formData.gender,
+        formData.account
+      ];
+
+      return requiredFields.every(field => !!field);
+    };
+    const validateEmail = () => {
       const regex = /\S+@\S+\.\S+/;
-      if (!regex.test(email)) {
-        errorMessage.value = 'Invalid email';
+      if (!regex.test(formData.email)) {
       } else {
-        errorMessage.value = '';
       }
     };
 
-    const validatePassword = (password) => {
-      const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
-      if (!regex.test(password)) {
-        errorMessage.value = 'Invalid password';
-      } else {
-        errorMessage.value = '';
+    const registerUser = async () => {
+      const data = {
+        firstName: formData.name,
+        lastName: formData.lastname,
+        email: formData.email,
+        phoneNumber: formData.phone,
+        description: formData.description,
+        birthdate: formData.date,
+        password: formData.password,
+        occupation: formData.occupation,
+        gender: formData.gender,
+        userRole: formData.account,
+        profilePic: formData.picture
+      };
+
+
+      try {
+        if (data.userRole === 'W') {
+          await new WorkerProfileService().postWorker(data);
+        } else if (data.userRole === 'E') {
+          await new EmployerService().createEmployer(data);
+        }
+        showSuccess();
+      } catch (error) {
+        toast.add({ severity: 'error', summary: 'Error', detail: error, life: 3000 });
       }
-    };
-
-
-    const submitForm = () => {
-      this.$router.push('/home');
-    };
-
-    const setIsCandidate = (isCandidate) => {
-      formData.isCandidate = isCandidate;
     };
 
     return {
       formData,
-      validateEmail,
-      validatePassword,
-      submitForm,
-      setIsCandidate,
-      gender,
-      account,
-      errorMessage
+      isRegistrationEnabled,
+      registerUser,
+      showSuccess,
     };
   },
 };
 </script>
 
 <style scoped>
-
 </style>
