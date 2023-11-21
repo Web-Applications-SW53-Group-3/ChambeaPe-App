@@ -8,7 +8,7 @@
                 <li class="link" @click="redirectToHome">{{ $t("naHome") }}</li>
                 <li class="link" @click="redirectToEmpleos" style="cursor: pointer">{{ $t("naJobs") }}</li>
                 <li class="link" @click="redirectToCreatePost"> {{ $t("naPublish") }} </li>
-                <li class="link">{{ $t("naProfile") }}</li>
+                <li class="link" @click="redirectProfile">{{ $t("naProfile") }}</li>
             </ul>
             <language-selector v-if="!mobile"></language-selector>
             <div v-if="!mobile" class="logout">
@@ -26,9 +26,9 @@
                         <li class="mobileLink" @click="redirectToHome">{{ $t("naHome") }}</li>
                         <li class="mobileLink" @click="redirectToEmpleos">{{ $t("naJobs") }}</li>
                         <li class="mobileLink" @click="redirectToCreatePost"> {{ $t("naPublish") }} </li>
-                        <li class="mobileLink">{{ $t("naProfile") }}</li>
+                        <li class="mobileLink" @click="redirectProfile">{{ $t("naProfile") }}</li>
                     </div>
-                    <div>
+                    <div> 
                         <language-selector class="mobileLink"></language-selector>
                         <li @click="logout()" class="mobileLink">
                             {{ $t("logout") }}
@@ -75,6 +75,12 @@ export default {
         },
         redirectToLogin() {
             this.$router.push("/login");
+        },
+        redirectProfile() {
+            const jwtService = new JwtService();
+            const userId = jwtService.getSub();
+            this.$router.push({ path: '/profile/' + userId });
+
         },
         redirectToHome() {
             const jwtService = new JwtService();

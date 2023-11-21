@@ -16,7 +16,7 @@ const routes = [
     { path: '/login', component: loginComponent, meta: { requiresAuth: false } },
     { path: '/register', component: registerComponent },
 
-    { path: '/worker/:id', component: workerProfile },
+    { path: '/profile/:id', component: workerProfile },
     { path: '/posts', component: employerMypostsComponent, meta: { requiresAuth: true } },
     { path: '/posts/:id', component: employerPostComponent, meta: { requiresAuth: true } },
     { path: '/job-post', component: PostComponent, meta: { requiresAuth: true } },

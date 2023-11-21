@@ -2,13 +2,18 @@
 import WorkerProfileService from "@/services/worker-profile.service";
 import EmployerPostService from "@/services/employer-post.service";
 import { ref } from "vue";
+import JwtService from "@/services/jwt.service.js";
 
 export default {
   name: "worker-profile",
+  setup() {
+    const userRole = ref(null);
+  },
   data() {
     return {
       workerId: this.$route.params.id,
       worker: '',
+      
       employer: [],
       isWorker: true
     };
@@ -18,12 +23,21 @@ export default {
   },
   async mounted() {
     try {
-      const response = await new WorkerProfileService().getWorkerById(this.workerId);
-      this.worker = response.data;
+      const userRole = ref(null);
+      const jwtService = new JwtService();
+        userRole.value = jwtService.getRole();
 
-      for (let review of this.worker.reviews) {
-        const employerResponse = await new EmployerPostService().getEmployerById(review.employerId);
-        review.employerData = employerResponse.data;
+      if (userRole.value === 'E') {
+        const response = await new EmployerPostService().getEmployerById(this.workerId);
+        this.worker = response.data;
+      }else{
+        const response = await new WorkerProfileService().getWorkerById(this.workerId);
+        this.worker = response.data;
+  
+        for (let review of this.worker.reviews) {
+          const employerResponse = await new EmployerPostService().getEmployerById(review.employerId);
+          review.employerData = employerResponse.data;
+        }
       }
     } catch (error) {
       console.error(error);
@@ -67,14 +81,14 @@ const responsiveOptions = ref([
       </p>
     </div>
 
-    <div class="skills-container">
+    <div class="skills-container" v-if="worker.skills && worker.skills.length > 0">
       <h4 class="subtitle" aria-label="Habilidades">{{ $t("skills") }}</h4>
       <pv-button class="skill-button" v-for="(skill, index) in worker.skills" :key="index">
         {{ skill.content }}
       </pv-button>
     </div>
 
-    <div class="portfolio-container">
+    <div class="portfolio-container" v-if="worker.portfolio && worker.portfolio.length > 0">
       <h4 class="subtitle" aria-label="Portafolio">{{ $t("portfolio") }}</h4>
       <div class="carousel-container">
         <pv-carousel class="carousel" :circular="true" :autoplay-interval="3000" :value="worker.portfolio" :numVisible="1"
@@ -90,7 +104,7 @@ const responsiveOptions = ref([
       </div>
     </div>
 
-    <div class="certificates-container">
+    <div class="certificates-container"  v-if="worker.certificates && worker.certificates.length > 0">
       <h4 class="subtitle" aria-label="Certificados">{{ $t("certificates") }}</h4>
       <div v-if="isWorker" class="add-icon">
         <i class="pi pi-plus-circle gear-icon"></i>
@@ -113,10 +127,10 @@ const responsiveOptions = ref([
           </template>
         </pv-card>
       </div>
-      <pv-button>{{ $t("viewMore") }}</pv-button>
+
     </div>
 
-    <div class="reviews">
+    <div class="reviews" v-if="worker.reviews && worker.reviews.length > 0">
       <h4 class="subtitle" aria-label="Comentarios">{{ $t("reviews") }}</h4>
       <div class="review-card-container">
         <pv-card v-for="(review, index) in worker.reviews" :key="index" class="review-card" style="width: 25em">
@@ -135,10 +149,8 @@ const responsiveOptions = ref([
         </pv-card>
       </div>
     </div>
-    <pv-button>{{ $t("viewMore") }}</pv-button>
-    <router-link to="/reviews">
-      <pv-button style="margin-left: 1rem;">Publicar reseña</pv-button>
-    </router-link>
+
+
   </div>
 </template>
 
