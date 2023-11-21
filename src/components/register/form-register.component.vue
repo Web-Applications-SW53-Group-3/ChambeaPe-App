@@ -6,11 +6,11 @@
       <div class="flex flex-column gap-1">
         <div class="grid grid-cols-2 justify-content-center gap-8">
           <div class="flex align-items-center">
-            <pv-radiobutton v-model="formData.account" inputId="account1" name="chambeador" value="chambeador" required/>
+            <pv-radiobutton v-model="formData.account" inputId="account1" name="E" value="E" required/>
             <label for="account1" class="ml-2">{{$t("checkEmployer")}}</label>
           </div>
           <div class="flex align-items-center">
-            <pv-radiobutton v-model="formData.account" inputId="account2" name="worker" value="worker" />
+            <pv-radiobutton v-model="formData.account" inputId="account2" name="W" value="W" />
             <label for="account2" class="ml-2">{{$t("checkChambeador")}}</label>
           </div>
 
@@ -48,6 +48,36 @@
           required
         />
       </div>
+      <div class="flex flex-column gap-1">
+        <label for="email">Descripcion</label>
+        <pv-textarea
+          id="description"
+          v-model="formData.description"
+          aria-describedby="email-help"
+          placeholder="Me considero una persona ..."
+          required
+        />
+      </div>
+      <div class="flex flex-column gap-1">
+        <label for="email">Foto de Perfil</label>
+        <pv-input
+          id="picture"
+          v-model="formData.picture"
+          aria-describedby="email-help"
+          placeholder="example@example.com"
+          required
+        />
+      </div>
+      <div class="flex flex-column gap-1">
+        <label for="email">Ocupacion</label>
+        <pv-input
+          id="occupation"
+          v-model="formData.occupation"
+          aria-describedby="email-help"
+          placeholder="example@example.com"
+          required
+        />
+      </div>
 
       <div class="card flex justify-content-center flex-column gap-1">
         <label for="calendar">{{$t("inBirthDate")}}</label>
@@ -79,7 +109,7 @@
           id="password"
           v-model="formData.password"
           :feedback="false"
-          @input="validatePassword(formData.password)"
+
           required
           placeholder="*********"
         />
@@ -88,31 +118,98 @@
       <div class="flex flex-column gap-1">
         <div class="grid grid-cols-2 justify-content-center gap-8">
           <div class="flex align-items-center">
-            <pv-radiobutton v-model="formData.gender" inputId="gender1" name="female" value="female" />
+            <pv-radiobutton v-model="formData.gender" inputId="gender1" name="F" value="F" />
             <label for="gender1" class="ml-2">{{$t("inGenderWoman")}}</label>
           </div>
           <div class="flex align-items-center">
-            <pv-radiobutton v-model="formData.gender" inputId="gender2" name="male" value="male" />
+            <pv-radiobutton v-model="formData.gender" inputId="gender2" name="M" value="M" />
             <label for="gender2" class="ml-2">{{$t("inGenderMan")}}</label>
           </div>
         </div>
       </div>
 
       <div class="align-self-center">
-        <pv-button @click="redirectToHome()">{{$t("btnRegister")}}</pv-button>
+        <pv-button :disabled="!isRegistrationEnabled" @click="registerUser()">{{$t("btnRegister")}}</pv-button>
       </div>
+
+      
     </div>
   </div>
 </template>
-
 <script>
 import { reactive, ref } from 'vue';
+import EmployerService from '@/services/employer.service.js';
+import WorkerProfileService from '@/services/worker-profile.service.js';
+import { useToast } from 'primevue/usetoast';
 
 export default {
+  setup() {
+    const toast = useToast();
+
+    const show = () => {
+      toast.add({ severity: 'info', summary: 'Info', detail: 'Message Content', life: 3000 });
+    };
+  },
+  
+  computed: {
+    isRegistrationEnabled() {
+      return this.areAllFieldsFilled() && !this.errorMessage;
+    },
+  },
   methods: {
+    areAllFieldsFilled() {
+      const requiredFields = [
+        this.formData.name,
+        this.formData.lastname,
+        this.formData.phone,
+        this.formData.description,
+        this.formData.picture,
+        this.formData.occupation,
+        this.formData.date,
+        this.formData.email,
+        // this.formData.password,
+        this.formData.gender,
+        this.formData.account
+      ];
+
+      return requiredFields.every(field => !!field);
+    },
+
     redirectToHome() {
       this.$router.push('/home');
     },
+
+    async registerUser(){
+      let data ={
+            firstName: this.formData.name,
+            lastName: this.formData.lastname,
+            email: this.formData.email,
+            phoneNumber: this.formData.phone,
+            description: this.formData.description,
+            birthdate: this.formData.date,
+            password: this.formData.password,
+            occupation: this.formData.occupation,
+            gender: this.formData.gender,
+            userRole: this.formData.account,
+            profilePic: this.formData.picture
+      }
+      console.log(data);
+      try {
+          if (data.userRole === 'W') {
+            await new WorkerProfileService().postWorker(data);
+          } else if (data.userRole === 'E') {
+            await new EmployerService().createEmployer(data);
+          }
+          // showSuccess('Usuario creado correctamente');
+          this.$router.push('/home');
+      } catch (error) {
+        // Capturar el error y mostrarlo en el toast
+        // showError('Error al crear el usuario');
+      }
+
+      // this.$router.push('/home');
+
+    }
   },
   name: 'FormRegister',
   setup() {
@@ -126,6 +223,9 @@ export default {
       password: '',
       phone: '',
       document: '',
+      description: '',
+      picture: '',
+      occupation: '',
     });
 
     const gender = ref('');
@@ -159,6 +259,7 @@ export default {
     const setIsCandidate = (isCandidate) => {
       formData.isCandidate = isCandidate;
     };
+    let toast = ref(null);
 
     return {
       formData,
@@ -168,7 +269,8 @@ export default {
       setIsCandidate,
       gender,
       account,
-      errorMessage
+      errorMessage,
+      toast,
     };
   },
 };
