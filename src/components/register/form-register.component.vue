@@ -64,7 +64,7 @@
           id="picture"
           v-model="formData.picture"
           aria-describedby="email-help"
-          placeholder="example@example.com"
+          placeholder="www.example.co"
           required
         />
       </div>
@@ -74,7 +74,7 @@
           id="occupation"
           v-model="formData.occupation"
           aria-describedby="email-help"
-          placeholder="example@example.com"
+          placeholder="Chef"
           required
         />
       </div>
@@ -129,26 +129,41 @@
       </div>
 
       <div class="align-self-center">
+        <pv-toast/>
         <pv-button :disabled="!isRegistrationEnabled" @click="registerUser()">{{$t("btnRegister")}}</pv-button>
       </div>
 
       
     </div>
   </div>
+
 </template>
-<script>
+
+<script >
 import { reactive, ref } from 'vue';
 import EmployerService from '@/services/employer.service.js';
 import WorkerProfileService from '@/services/worker-profile.service.js';
 import { useToast } from 'primevue/usetoast';
 
 export default {
+  data(){
+    return{
+      toast: null
+    }
+  },
+  created() {
+    this.toast = useToast();
+  }, 
   setup() {
     const toast = useToast();
 
     const show = () => {
       toast.add({ severity: 'info', summary: 'Info', detail: 'Message Content', life: 3000 });
     };
+    return{
+      toast,
+      show
+    }
   },
   
   computed: {
@@ -200,14 +215,12 @@ export default {
           } else if (data.userRole === 'E') {
             await new EmployerService().createEmployer(data);
           }
-          // showSuccess('Usuario creado correctamente');
-          this.$router.push('/home');
-      } catch (error) {
-        // Capturar el error y mostrarlo en el toast
-        // showError('Error al crear el usuario');
-      }
+          this.$toast.add({ severity: 'success', summary: 'success', detail: 'User Created Succesfully', life: 3000 });
 
-      // this.$router.push('/home');
+      } catch (error) {
+        this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Please, check all the fields', life: 3000 });
+
+      }
 
     }
   },

@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import WorkerProfileService from "@/services/worker-profile.service";
+import { useRouter } from 'vue-router';
 
 const employer = ref({
   name: '',
@@ -13,19 +14,21 @@ onMounted(async () => {
     const workerService = new WorkerProfileService();
     const response = await workerService.getAllWorker();
     if (response.status === 200 && response.data) {
-      const firstEmployer = response.data[0];
+      const firstEmployer = response.data[1];
       if (firstEmployer) {
         employer.value = firstEmployer;
       } else {
-
+        
       }
     } else {
-
+  
     }
   } catch (error) {
-
   }
+
+
 });
+
 </script>
 
 <template>
@@ -48,8 +51,8 @@ onMounted(async () => {
         <div class="UserDescription">{{ employer.description }}</div>
       </div>
       <div class="UserActions">
-        <pv-button class="pv-button ViewProfileButton">{{$t("btnViewProfile")}}</pv-button>
-        <pv-button class="pv-button ChatButton">{{$t("btnChat")}}</pv-button>
+        <pv-button    class="pv-button ViewProfileButton">{{$t("btnViewProfile")}}</pv-button>
+        <pv-button  class="pv-button ChatButton">{{$t("btnChat")}}</pv-button>
       </div>
     </div>
   </div>
