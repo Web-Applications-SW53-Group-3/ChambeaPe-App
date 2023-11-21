@@ -35,6 +35,14 @@ class JwtService {
     return decodedToken[role];
   }
 
+  getExpiration() {
+    const decodedToken = this.decodeToken();
+    if (!decodedToken) {
+      return null;
+    }
+    return decodedToken.exp;
+  }
+
   logout() {
     Cookies.remove('jwt');
   }

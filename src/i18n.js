@@ -115,6 +115,8 @@ const i18n = createI18n({
             jobs: 'Empleos',
             apply: 'Postular',
             logout: 'Cerrar sesión',
+            chambeadores: 'Chambeadores',
+            existChambeador: 'No existen Chambeadores'
         },
 
         en: {
@@ -220,6 +222,8 @@ const i18n = createI18n({
             jobs: 'Jobs',
             apply: 'Apply',
             logout: 'Log out',
+            chambeadores: 'Workers',
+            existChambeador: 'There are no workers'
         }
 
     }
