@@ -15,12 +15,11 @@ class WorkerProfileService{
             return response.data;
           } catch (error) {
             if (error.response && error.response.data && error.response.data.errors && error.response.data.errors.ProfilePic) {
-              // Acceder al mensaje de error específico de ProfilePic
               const errorMessage = error.response.data.errors.ProfilePic[0];
               console.error('Error en la solicitud POST:', errorMessage);
-              throw errorMessage; // Lanzar solo el mensaje de error específico de ProfilePic
+              throw errorMessage; 
             } else if (error.response && error.response.data && error.response.data.title) {
-              // Si no hay error específico de ProfilePic, tomar el mensaje general
+
               const errorMessage = error.response.data.title;
               console.error('Error en la solicitud POST:', errorMessage);
               throw errorMessage;

@@ -44,7 +44,7 @@
           id="phone"
           v-model="formData.phone"
           aria-describedby="username-help"
-          placeholder="999XXXXXX"
+          placeholder="999111138"
           required
         />
       </div>
@@ -97,6 +97,7 @@
           v-model="formData.email"
           aria-describedby="email-help"
           placeholder="example@example.com"
+          @input="validateEmail(formData.email)"
           required
         />
       </div>
@@ -128,20 +129,89 @@
       </div>
 
       <div class="align-self-center">
-        <pv-toast ref="toastRef" />
-        <pv-button :disabled="isRegistrationEnabled" @click="registerUser()">{{$t("btnRegister")}}</pv-button>
+        <pv-button :disabled="!isRegistrationEnabled" @click="registerUser()">{{$t("btnRegister")}}</pv-button>
       </div>
-      </div>
+
+      
+    </div>
   </div>
 </template>
-
 <script>
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import EmployerService from '@/services/employer.service.js';
 import WorkerProfileService from '@/services/worker-profile.service.js';
 import { useToast } from 'primevue/usetoast';
 
 export default {
+  setup() {
+    const toast = useToast();
+
+    const show = () => {
+      toast.add({ severity: 'info', summary: 'Info', detail: 'Message Content', life: 3000 });
+    };
+  },
+  
+  computed: {
+    isRegistrationEnabled() {
+      return this.areAllFieldsFilled() && !this.errorMessage;
+    },
+  },
+  methods: {
+    areAllFieldsFilled() {
+      const requiredFields = [
+        this.formData.name,
+        this.formData.lastname,
+        this.formData.phone,
+        this.formData.description,
+        this.formData.picture,
+        this.formData.occupation,
+        this.formData.date,
+        this.formData.email,
+        // this.formData.password,
+        this.formData.gender,
+        this.formData.account
+      ];
+
+      return requiredFields.every(field => !!field);
+    },
+
+    redirectToHome() {
+      this.$router.push('/home');
+    },
+
+    async registerUser(){
+      let data ={
+            firstName: this.formData.name,
+            lastName: this.formData.lastname,
+            email: this.formData.email,
+            phoneNumber: this.formData.phone,
+            description: this.formData.description,
+            birthdate: this.formData.date,
+            password: this.formData.password,
+            occupation: this.formData.occupation,
+            gender: this.formData.gender,
+            userRole: this.formData.account,
+            profilePic: this.formData.picture
+      }
+      console.log(data);
+      try {
+          if (data.userRole === 'W') {
+            await new WorkerProfileService().postWorker(data);
+          } else if (data.userRole === 'E') {
+            await new EmployerService().createEmployer(data);
+          }
+          // showSuccess('Usuario creado correctamente');
+          this.$router.push('/home');
+      } catch (error) {
+        // Capturar el error y mostrarlo en el toast
+        // showError('Error al crear el usuario');
+      }
+
+      // this.$router.push('/home');
+
+    }
+  },
+  name: 'FormRegister',
   setup() {
     const formData = reactive({
       gender: '',
@@ -158,72 +228,54 @@ export default {
       occupation: '',
     });
 
-    const toast = useToast();
+    const gender = ref('');
+    const account = ref('');
+    const errorMessage = ref(null);
+    
 
-    const showSuccess = () => {
-      toast.add({ severity: 'success', summary: 'Success', detail: 'User registered successfully', life: 3000 });
-    };
-
-    const isRegistrationEnabled = () => {
-      const requiredFields = [
-        formData.name,
-        formData.lastname,
-        formData.phone,
-        formData.description,
-        formData.picture,
-        formData.occupation,
-        formData.date,
-        formData.email,
-        formData.gender,
-        formData.account
-      ];
-
-      return requiredFields.every(field => !!field);
-    };
-    const validateEmail = () => {
+    const validateEmail = (email) => {
       const regex = /\S+@\S+\.\S+/;
-      if (!regex.test(formData.email)) {
+      if (!regex.test(email)) {
+        errorMessage.value = 'Invalid email';
       } else {
+        errorMessage.value = '';
       }
     };
 
-    const registerUser = async () => {
-      const data = {
-        firstName: formData.name,
-        lastName: formData.lastname,
-        email: formData.email,
-        phoneNumber: formData.phone,
-        description: formData.description,
-        birthdate: formData.date,
-        password: formData.password,
-        occupation: formData.occupation,
-        gender: formData.gender,
-        userRole: formData.account,
-        profilePic: formData.picture
-      };
-
-
-      try {
-        if (data.userRole === 'W') {
-          await new WorkerProfileService().postWorker(data);
-        } else if (data.userRole === 'E') {
-          await new EmployerService().createEmployer(data);
-        }
-        showSuccess();
-      } catch (error) {
-        toast.add({ severity: 'error', summary: 'Error', detail: error, life: 3000 });
+    const validatePassword = (password) => {
+      const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+      if (!regex.test(password)) {
+        errorMessage.value = 'Invalid password';
+      } else {
+        errorMessage.value = '';
       }
     };
+
+
+    const submitForm = () => {
+      this.$router.push('/home');
+    };
+
+    const setIsCandidate = (isCandidate) => {
+      formData.isCandidate = isCandidate;
+    };
+    let toast = ref(null);
 
     return {
       formData,
-      isRegistrationEnabled,
-      registerUser,
-      showSuccess,
+      validateEmail,
+      validatePassword,
+      submitForm,
+      setIsCandidate,
+      gender,
+      account,
+      errorMessage,
+      toast,
     };
   },
 };
 </script>
 
 <style scoped>
+
 </style>
