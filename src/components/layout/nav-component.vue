@@ -7,7 +7,8 @@
             <ul v-show="!mobile" class="navigation">
                 <li class="link" @click="redirectToHome">{{ $t("naHome") }}</li>
                 <li class="link" @click="redirectToEmpleos" style="cursor: pointer">{{ $t("naJobs") }}</li>
-                <li class="link" @click="redirectToCreatePost"> {{ $t("naPublish") }} </li>
+                <li class="link" @click="redirectToCreatePost" v-if="userRole() === 'E'"> {{ $t("naPublish") }} </li>
+                <li class="link" @click="redirectToCreatePost" v-if="userRole() === 'W'"> {{ $t("naPost") }} </li>
                 <li class="link">{{ $t("naProfile") }}</li>
             </ul>
             <language-selector v-if="!mobile"></language-selector>
@@ -25,7 +26,8 @@
                     <div>
                         <li class="mobileLink" @click="redirectToHome">{{ $t("naHome") }}</li>
                         <li class="mobileLink" @click="redirectToEmpleos">{{ $t("naJobs") }}</li>
-                        <li class="mobileLink" @click="redirectToCreatePost"> {{ $t("naPublish") }} </li>
+                        <li class="mobileLink" @click="redirectToCreatePost" v-if="userRole() === 'E'"> {{ $t("naPublish") }} </li>
+                        <li class="mobileLink" @click="redirectToCreatePost" v-if="userRole() === 'W'"> {{ $t("naPost") }} </li>
                         <li class="mobileLink">{{ $t("naProfile") }}</li>
                     </div>
                     <div>
@@ -52,13 +54,14 @@ export default {
         LanguageSelector
     },
     data() {
+
         return {
             scrolledNav: null,
             mobile: null,
             mobileNav: null,
             windowWidth: null,
             LoginService: new LoginService(),
-            jwtService: new JwtService()
+            jwtService: new JwtService(),
         }
     },
     created() {
@@ -70,6 +73,7 @@ export default {
         this.updateScroll();
     },
     methods: {
+
         redirectToCreatePost() {
             this.$router.push("/job-post");
         },
@@ -115,6 +119,11 @@ export default {
             await this.LoginService.logout();
             this.jwtService.logout();
             this.$router.push("/login");
+        },
+        userRole() {
+            const jwtService = new JwtService();
+            const userRole = jwtService.getRole();
+            return userRole;
         }
     }
 }

@@ -1,13 +1,16 @@
 <template>
-  <div class="form-container">
+  <div class="form-container" v-if="userRole === 'E'">
     <form @submit.prevent="publishPost">
-      <input class="form-input" v-model="post.title" type="text" placeholder="Title">
-      <input class="form-input" v-model="post.description" type="text" placeholder="Description">
-      <input class="form-input" v-model="post.subtitle" type="text" placeholder="Subtitle">
-      <input class="form-input" v-model="post.imgUrl" type="text" placeholder="Image URL">
+      <input class="form-input" v-model="post.title" type="text" :placeholder="$t('title')">
+      <input class="form-input" v-model="post.description" type="text" :placeholder="$t('description')">
+      <input class="form-input" v-model="post.subtitle" type="text" :placeholder="$t('subtitle')">
+      <input class="form-input" v-model="post.imgUrl" type="text" :placeholder="$t('imageURL')">
       <img :src="post.imgUrl || image" class="image-preview" alt="Image preview">
-      <button class="form-button" type="submit">Publish</button>
+      <button class="form-button" type="submit"> {{ $t('publish') }} </button>
     </form>
+  </div>
+  <div class="container-worker" v-if="userRole === 'W'" >
+    Aqui va el componente de trabajador
   </div>
 </template>
 
@@ -34,6 +37,8 @@ export default {
 
     const jwtService = new JwtService();
 
+    const userRole = jwtService.getRole();
+
     let userId = jwtService.getSub();
 
     const publishPost = async () => {
@@ -44,7 +49,7 @@ export default {
       }
     };
 
-    return { post, publishPost, image };
+    return { post, publishPost, image, userRole };
   },
 };
 </script>

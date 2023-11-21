@@ -71,6 +71,7 @@ const i18n = createI18n({
             naPublish: 'Publicar',
             naProfile: 'Perfil',
             naJobs: 'Trabajos',
+            naPost: 'Postulaciones',
 
             tittleRegister: 'Regístrate',
             checkEmployer: 'Empleador',
@@ -116,7 +117,12 @@ const i18n = createI18n({
             apply: 'Postular',
             logout: 'Cerrar sesión',
             chambeadores: 'Chambeadores',
-            existChambeador: 'No existen Chambeadores'
+            existChambeador: 'No existen Chambeadores',
+            publish: 'Publicar',
+            title: 'Título',
+            subtitle: 'Subtítulo',
+            description: 'Descripción',
+            imageURL: 'URL de la imagen',
         },
 
         en: {
@@ -179,6 +185,7 @@ const i18n = createI18n({
             naPublish: 'Publish',
             naProfile: 'Profile',
             naJobs: 'Jobs',
+            naPost: 'Posts',
 
 
             tittleRegister: 'Register',
@@ -223,7 +230,12 @@ const i18n = createI18n({
             apply: 'Apply',
             logout: 'Log out',
             chambeadores: 'Workers',
-            existChambeador: 'There are no workers'
+            existChambeador: 'There are no workers',
+            publish: 'Publish',
+            title: 'Title',
+            subtitle: 'Subtitle',
+            description: 'Description',
+            imageURL: 'Image URL',
         }
 
     }
