@@ -1,8 +1,15 @@
 import axios from "axios";
-import {environment} from "@/environments/environment";
+import { environment } from "@/environments/environment";
+import JwtService from "@/services/jwt.service.js";
 
-class PublishPostService{
+class PublishPostService {
     baseUrl = environment.baseUrl + '/post/';
+
+    constructor() {
+        const jwtService = new JwtService();
+        const token = jwtService.getToken();
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    }
 
     getAllPublish() {
         return axios.get(this.baseUrl);
@@ -25,7 +32,7 @@ class PublishPostService{
     }
 
     postPublishByEmployerId(id, data) {
-        return axios.post(environment.baseUrl + '/employer/' + id + '/post' , data);
+        return axios.post(environment.baseUrl + '/employer/' + id + '/post', data);
     }
 }
 

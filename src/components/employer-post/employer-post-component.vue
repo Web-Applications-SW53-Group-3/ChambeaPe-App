@@ -30,30 +30,28 @@ export default {
   methods: {
     viewPost(workerId) {
       const postId = this.$route.params.id;
-      this.$router.push({path:'/worker/'+workerId,query:{postId: postId}});
+      this.$router.push({ path: '/worker/' + workerId, query: { postId: postId } });
     },
     async saveChanges() {
       try {
         const postId = this.$route.params.id;
-        const response = await new EmployerPostService().update(postId, this.post);
+        const response = await new PublishPostService().putPublishById(postId, this.post);
         this.editMode = false;
       } catch (error) {
 
       }
-
     },
-    disableEditMode(){
-      this.editMode = false;
-    },
-    async deletePost(){
+    async deletePost() {
       const postId = this.$route.params.id;
-      new EmployerPostService().delete(postId);
-      await new EmployerPostService().getAll();
+      await new PublishPostService().deletePublishById(postId);
       this.$router.push('/posts');
     },
-    deleteWorker(workerId){
+    disableEditMode() {
+      this.editMode = false;
+    },
+    deleteWorker(workerId) {
       let postId = this.$route.params.id;
-      new WorkerProfileService().delete(workerId,postId);
+      new WorkerProfileService().delete(workerId, postId);
       this.post.workers = this.post.workers.filter(worker => worker.id !== workerId);
     }
   },
@@ -61,7 +59,7 @@ export default {
     $route: {
       async handler() {
         const postId = this.$route.params.id;
-        const response = await new EmployerPostService().getByid(postId);
+        const response = await new EmployerPostService().getEmployerById(postId);
         this.post = response.data;
       },
       immediate: true,
@@ -71,33 +69,37 @@ export default {
 </script>
 
 <template>
-
   <pv-card class="post-card">
-    <template #header >
-      <pv-input-text  class="edit" v-if="editMode" type="text" v-model="post.imgUrl" :placeholder="$t('placeUrlImage')">
+    <template #header>
+      <pv-input-text class="edit" v-if="editMode" type="text" v-model="post.imgUrl" :placeholder="$t('placeUrlImage')">
       </pv-input-text>
       <img v-if="editMode" class="prev-image" :src="post.imgUrl" alt="Post Image">
       <img v-else class="post-image" :src="post.imgUrl" alt="Post Image">
     </template>
     <template #title>
-      <pv-input-text class="edit"  v-if="editMode" type="text" v-model="post.title" :placeholder="$t('placeTitle')"></pv-input-text>
-      <h1 v-else class="title">{{post.title}}</h1>
+      <pv-input-text class="edit" v-if="editMode" type="text" v-model="post.title"
+        :placeholder="$t('placeTitle')"></pv-input-text>
+      <h1 v-else class="title">{{ post.title }}</h1>
     </template>
     <template #subtitle>
-      <pv-input-text class="edit"  v-if="editMode" type="text" v-model="post.subtitle" :placeholder="$t('placeSubtitule')"></pv-input-text>
-      <h3 v-else>{{post.subtitle}}</h3>
+      <pv-input-text class="edit" v-if="editMode" type="text" v-model="post.subtitle"
+        :placeholder="$t('placeSubtitule')"></pv-input-text>
+      <h3 v-else>{{ post.subtitle }}</h3>
     </template>
     <template #content>
-      <pv-textarea class="edit"  v-if="editMode" v-model="post.description" :placeholder="$t('placeDescriptionPost')" rows="7" autoResize ></pv-textarea>
+      <pv-textarea class="edit" v-if="editMode" v-model="post.description" :placeholder="$t('placeDescriptionPost')"
+        rows="7" autoResize></pv-textarea>
       <p v-else>
-        {{post.description}}
+        {{ post.description }}
       </p>
     </template>
     <template #footer>
-      <pv-button v-if="editMode" icon="pi pi-check" :label="$t('btnEdit')" @click="saveChanges"/>
-      <pv-button v-if="editMode" icon="pi pi-times" :label="$t('cancel')" @click="disableEditMode()" severity="secondary" style="margin-left: 0.5em" />
-      <pv-button v-else icon="pi pi-check" :label="$t('btnEdit')" @click="editMode = true"/>
-      <pv-button v-if="!editMode" icon="pi pi-times" :label="$t('btnDelete')" @click="deletePost()" severity="secondary" style="margin-left: 0.5em" />
+      <pv-button v-if="editMode" icon="pi pi-check" :label="$t('btnEdit')" @click="saveChanges" />
+      <pv-button v-if="editMode" icon="pi pi-times" :label="$t('cancel')" @click="disableEditMode()" severity="secondary"
+        style="margin-left: 0.5em" />
+      <pv-button v-else icon="pi pi-check" :label="$t('btnEdit')" @click="editMode = true" />
+      <pv-button v-if="!editMode" icon="pi pi-times" :label="$t('btnDelete')" @click="deletePost()" severity="secondary"
+        style="margin-left: 0.5em" />
     </template>
   </pv-card>
 
@@ -112,8 +114,8 @@ export default {
 
       <template #title>
         <span>{{ worker.name }}</span>
-        <span class="p-card-subtitle" v-if="worker.status">{{$t('statusOn')}}</span>
-        <span class="p-card-subtitle" v-if="!worker.status">{{$t('statusOff')}}</span>
+        <span class="p-card-subtitle" v-if="worker.status">{{ $t('statusOn') }}</span>
+        <span class="p-card-subtitle" v-if="!worker.status">{{ $t('statusOff') }}</span>
       </template>
 
       <template #content>
@@ -130,18 +132,18 @@ export default {
         </div>
       </template>
     </pv-card>
+    <div v-if="post.workers && post.workers.length === 0">No existen Chambeadores</div>
   </div>
-
 </template>
 
 <style scoped>
 @import url(../../assets/css/employer-post.css);
 
-.post-card{
+.post-card {
   width: 60%;
   margin: 0 auto;
   padding: 2rem;
-  display: flex;  
+  display: flex;
   flex-flow: column nowrap;
   align-items: center;
   justify-content: center;
@@ -149,15 +151,17 @@ export default {
 
 }
 
-.p-card-image{
+.p-card-image {
   padding-top: 2rem;
 }
-.post-image{
+
+.post-image {
   width: 12rem;
   height: 12rem;
   object-fit: cover;
 }
-.prev-image{
+
+.prev-image {
   display: block;
   margin: 1rem auto;
   width: 12rem;
@@ -181,5 +185,4 @@ export default {
 
 .edit {
   width: 50rem;
-}
-</style>
+}</style>
