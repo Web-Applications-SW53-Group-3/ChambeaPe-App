@@ -49,33 +49,33 @@
         />
       </div>
       <div class="flex flex-column gap-1">
-        <label for="email">Descripcion</label>
+        <label for="email">{{$t("description")}}</label>
         <pv-textarea
           id="description"
           v-model="formData.description"
           aria-describedby="email-help"
-          placeholder="Me considero una persona ..."
+          :placeholder="$t('descrptionMessage')"
           required
         />
       </div>
       <div class="flex flex-column gap-1">
-        <label for="email">Foto de Perfil</label>
+        <label for="email">{{$t("pictureProfile")}}</label>
         <pv-input
           id="picture"
           v-model="formData.picture"
           aria-describedby="email-help"
-          placeholder="www.example.co"
+          placeholder="https://www.google.com/..."
           required
         />
       </div>
       <div class="flex flex-column gap-1">
-        <label for="email">Ocupacion</label>
+        <label for="email">{{$t("occupation")}}</label>
         <pv-input
           id="occupation"
           v-model="formData.occupation"
           aria-describedby="email-help"
-          placeholder="Chef"
-          required
+          :placeholder="$t('occupationMessage')"
+                    required
         />
       </div>
 

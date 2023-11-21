@@ -87,6 +87,7 @@ const i18n = createI18n({
             pickDate: 'Selecciona una fecha',
             viewPost: 'Ver publicación',
 
+
             btnDelete: 'Eliminar',
             btnSave: 'Guardar',
 
@@ -115,9 +116,25 @@ const i18n = createI18n({
             jobs: 'Empleos',
             apply: 'Postular',
             logout: 'Cerrar sesión',
+
+            description: 'Descripción',
+            descrptionMessage: 'Me considero una persona ',
+            pictureProfile: 'Foto de perfil',
+            pictureProfileMessage: 'Sube una foto de perfil',   
+            occupation: 'Ocupación',
+            occupationMessage: '¿Cual es tu trabajo actual?',
+            correoMessage: 'ejemplo@ejmplo.com'
         },
 
         en: {
+
+            description: 'Description',
+            pictureProfile: 'Profile picture',
+            pictureProfileMessage: 'Upload a profile picture',
+            occupation: 'Occupation',
+            occupationMessage: 'What is your current job?',
+            correoMessage: 'example@example.com',
+
             welcome: 'Welcome to Chambea Pe',
             login: 'Login',
             email: 'Email',
