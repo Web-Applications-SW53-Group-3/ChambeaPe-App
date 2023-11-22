@@ -21,7 +21,7 @@ const routes = [
     { path: '/posts/:id', component: employerPostComponent, meta: { requiresAuth: true } },
     { path: '/job-post', component: PostComponent, meta: { requiresAuth: true } },
     { path: '/home', component: HomeComponent, meta: { requiresAuth: true } },
-    { path: '/chat', component: chatComponent },
+    { path: '/chat', component: chatComponent, meta: { requiresAuth: true }},
     { path: '/support-chat', component: supportChatComponent },
     { path: '/reviews', component: reviewComponent },
     { path: '/:pathMatch(.*)*', redirect: '/' },
