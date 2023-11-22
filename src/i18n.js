@@ -71,7 +71,6 @@ const i18n = createI18n({
             naPublish: 'Publicar',
             naProfile: 'Perfil',
             naJobs: 'Trabajos',
-            naPost: 'Postulaciones',
 
             tittleRegister: 'Regístrate',
             checkEmployer: 'Empleador',
@@ -87,6 +86,7 @@ const i18n = createI18n({
             btnRegister: 'Regístrate',
             pickDate: 'Selecciona una fecha',
             viewPost: 'Ver publicación',
+
 
             btnDelete: 'Eliminar',
             btnSave: 'Guardar',
@@ -116,18 +116,30 @@ const i18n = createI18n({
             jobs: 'Empleos',
             apply: 'Postular',
             logout: 'Cerrar sesión',
-            chambeadores: 'Chambeadores',
-            existChambeador: 'No existen Chambeadores',
-            publish: 'Publicar',
-            title: 'Título',
-            subtitle: 'Subtítulo',
+
             description: 'Descripción',
+
             imageURL: 'URL de la imagen',
             myPostulations: 'Mis postulaciones',
 
+
+            descrptionMessage: 'Me considero una persona ',
+            pictureProfile: 'Foto de perfil',
+            pictureProfileMessage: 'Sube una foto de perfil',   
+            occupation: 'Ocupación',
+            occupationMessage: '¿Cual es tu trabajo actual?',
+            correoMessage: 'ejemplo@ejmplo.com'
         },
 
         en: {
+
+            description: 'Description',
+            pictureProfile: 'Profile picture',
+            pictureProfileMessage: 'Upload a profile picture',
+            occupation: 'Occupation',
+            occupationMessage: 'What is your current job?',
+            correoMessage: 'example@example.com',
+
             welcome: 'Welcome to Chambea Pe',
             login: 'Login',
             email: 'Email',
@@ -187,7 +199,6 @@ const i18n = createI18n({
             naPublish: 'Publish',
             naProfile: 'Profile',
             naJobs: 'Jobs',
-            naPost: 'Posts',
 
 
             tittleRegister: 'Register',
