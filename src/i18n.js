@@ -123,6 +123,8 @@ const i18n = createI18n({
             subtitle: 'Subtítulo',
             description: 'Descripción',
             imageURL: 'URL de la imagen',
+            myPostulations: 'Mis postulaciones',
+
         },
 
         en: {
@@ -236,6 +238,7 @@ const i18n = createI18n({
             subtitle: 'Subtitle',
             description: 'Description',
             imageURL: 'Image URL',
+            myPostulations: 'My postulations',
         }
 
     }

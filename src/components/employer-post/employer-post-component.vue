@@ -1,6 +1,8 @@
 <script>
 import WorkerProfileService from "@/services/worker-profile.service";
 import PublishPostService from "@/services/publish-post.service";
+import PostulationService from "@/services/postulation.service.js";
+
 import JwtService from "@/services/jwt.service.js";
 
 export default {
@@ -17,6 +19,7 @@ export default {
       editMode: false,
       userRole: null,
       workers: [],
+      workersData: [],
     };
 
   },
@@ -24,13 +27,15 @@ export default {
     try {
       const jwtService = new JwtService();
       this.userRole = jwtService.getRole();
-      
       const postId = this.$route.params.id;
-      const response = await new PublishPostService().getPublishById(postId)
-      this.post = response.data;
-      console.log(this.post);
-    } catch (error) {
 
+      if (this.userRole === 'W') {
+        await this.fetchWorkersData(postId);
+      } else if (this.userRole === 'E') {
+        const response = await new PublishPostService().getPublishById(postId);
+        this.post = response.data;
+      }
+    } catch (error) {
     }
   },
   methods: {
@@ -57,9 +62,17 @@ export default {
     },
     deleteWorker(workerId) {
       let postId = this.$route.params.id;
-      new WorkerProfileService().delete(workerId, postId);
-      this.post.workers = this.post.workers.filter(worker => worker.id !== workerId);
+      new PostulationService().deletePostulationById(workerId);
+    },
+    async fetchWorkersData(postId) {
+    const postulationService = new PostulationService();
+    this.workers = await postulationService.getPostsPostulations(postId);
+    this.workersData = [];
+    for (let i = 0; i < this.workers.data.length; i++) {
+      const workerData = await new WorkerProfileService().getWorkerById(this.workers.data[i].workerId);
+      this.workersData.push(workerData.data);
     }
+  },
   },
 };
 </script>
@@ -89,22 +102,25 @@ export default {
         {{ post.description }}
       </p>
     </template>
-    <template #footer >
+    <template #footer>
       <div class="p-card-footer">
         <pv-button v-if="editMode" icon="pi pi-check" :label="$t('btnEdit')" @click="saveChanges" />
-        <pv-button v-if="editMode" icon="pi pi-times" :label="$t('cancel')" @click="disableEditMode()" severity="secondary"/>
+        <pv-button v-if="editMode" icon="pi pi-times" :label="$t('cancel')" @click="disableEditMode()"
+          severity="secondary" />
         <pv-button v-else icon="pi pi-check" :label="$t('btnEdit')" @click="editMode = true" />
-        <pv-button v-if="!editMode" icon="pi pi-times" :label="$t('btnDelete')" @click="deletePost()" severity="secondary"/>    
+        <pv-button v-if="!editMode" icon="pi pi-times" :label="$t('btnDelete')" @click="deletePost()"
+          severity="secondary" />
       </div>
     </template>
   </pv-card>
 
   <h1 class="title"> {{ $t('chambeadores') }} </h1>
   <div class="container-champ">
-    <pv-card v-for="(worker, index) in post.workers" :key="index" class="example-card">
+    <pv-card v-for="(worker, index) in workersData" :key="index" class="example-card">
+      <!-- Cambia post.workers a workersData aquí -->
       <template #header>
         <div class="p-card-image">
-          <img alt="user photo" :src="worker.image" />
+          <img alt="user photo" :src="worker.profilePic" />
         </div>
       </template>
 
@@ -128,7 +144,7 @@ export default {
         </div>
       </template>
     </pv-card>
-    <div v-if="workers.length === 0"> {{ $t('existChambeador') }} </div>
+    <div v-if="workersData.length === 0"> {{ $t('existChambeador') }} </div>
   </div>
 </template>
 
@@ -180,11 +196,13 @@ export default {
 }
 
 .p-card-footer {
-    display: flex !important; 
-    flex-wrap: wrap !important;
-    justify-content: center !important;
-    gap: 1rem;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  gap: 1rem;
 }
+
 .edit {
   width: 50rem;
-}</style>
+}
+</style>

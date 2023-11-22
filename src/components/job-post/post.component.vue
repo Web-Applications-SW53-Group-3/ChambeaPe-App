@@ -9,20 +9,23 @@
       <button class="form-button" type="submit"> {{ $t('publish') }} </button>
     </form>
   </div>
-  <div class="container-worker" v-if="userRole === 'W'" >
+  <div class="container-worker" v-if="userRole === 'W'">
     Aqui va el componente de trabajador
   </div>
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import PublishPostService from "@/services/publish-post.service";
+import EmployerService from "@/services/employer.service";
+import router from "@/router";
+
 
 import JwtService from "@/services/jwt.service.js";
 
 export default {
   name: 'PostComponent',
-  
+
   setup() {
     const post = ref({
       title: '',
@@ -30,10 +33,39 @@ export default {
       subtitle: '',
       imgUrl: ''
     });
-    
-    const image  = "https://cdn.discordapp.com/attachments/1142626084358193254/1176479214539649074/image.png?ex=656f04a6&is=655c8fa6&hm=fa88615ff30a26799a3fb05d405e205434c733d3ccbbb6239fe1064c3be8d6e9&"
+
+    const image = "https://cdn.discordapp.com/attachments/1142626084358193254/1176479214539649074/image.png?ex=656f04a6&is=655c8fa6&hm=fa88615ff30a26799a3fb05d405e205434c733d3ccbbb6239fe1064c3be8d6e9&"
 
     const publishPostService = new PublishPostService();
+
+
+    onMounted(async () => {
+      try {
+        const employerService = new EmployerService();
+        const employer = await employerService.getAllEmployer();
+
+        const jwtService = new JwtService();
+        const userRole = jwtService.getRole();
+        const userId = jwtService.getSub();
+        const userEmail = jwtService.getEmail();
+
+        console.log(employer);
+        console.log(`User Role: ${userRole}`);
+        console.log(`User ID: ${userId}`);  
+
+        for (let i = 0; i < employer.data.length; i++) {
+          if (employer.data[i].email === userEmail) {
+            console.log('Employer found');
+            console.log(employer.data[i]);            
+            return data = employer.data[i];
+          }
+        }
+      } catch (error) {
+        console.error('Error during initialization:', error);
+      }
+    });
+
+    let data = ref(null);
 
     const jwtService = new JwtService();
 
@@ -43,14 +75,19 @@ export default {
 
     const publishPost = async () => {
       try {
-        const response = await publishPostService.postPublishByEmployerId(userId, post.value);
+        const response = await publishPostService.postPublishByEmployerId(data.employerId, post.value);
+        console.log(response);
         router.push('/home');
       } catch (error) {
+        console.error(error);
       }
     };
 
     return { post, publishPost, image, userRole };
+
+
   },
+
 };
 </script>
 

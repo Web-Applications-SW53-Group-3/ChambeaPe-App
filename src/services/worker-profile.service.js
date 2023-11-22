@@ -30,7 +30,6 @@ class WorkerProfileService{
           }
           
       }
-      
 
     async getWorkerById(id) {
         return await axios.get(this.baseUrl + '/' + id);

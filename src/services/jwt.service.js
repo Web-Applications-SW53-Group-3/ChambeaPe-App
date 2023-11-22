@@ -35,6 +35,15 @@ class JwtService {
     return decodedToken[role];
   }
 
+  getEmail() {
+    const email = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'
+    const decodedToken = this.decodeToken();
+    if (!decodedToken) {
+      return null;
+    }
+    return decodedToken[email];
+  }
+
   getExpiration() {
     const decodedToken = this.decodeToken();
     if (!decodedToken) {

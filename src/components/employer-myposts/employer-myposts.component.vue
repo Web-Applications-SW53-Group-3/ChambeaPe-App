@@ -3,19 +3,22 @@ import { ref, onMounted } from 'vue';
 import EmployerPostService from "@/services/employer-post.service";
 import PublishPostService from "@/services/publish-post.service";
 import JwtService from "@/services/jwt.service.js";
+import PostulationService from "@/services/postulation.service.js";
 
 export default {
   setup() {
     const posts = ref([]);
     const userRole = ref(null);
     const userId = ref(null);
-
+    const workerId = ref(null);
+    
     onMounted(async () => {
       try {
         const jwtService = new JwtService();
-        userRole.value = jwtService.getRole();
 
-        userId.value = jwtService.getSub();
+        userRole.value = jwtService.getRole();
+        userId.value = jwtService.getSub();        
+
         if (userRole.value === 'E') {
           userId.value = jwtService.getSub();
           const postService = new PublishPostService();
@@ -27,6 +30,8 @@ export default {
         else if (userRole.value === 'W') {
           const postService = new PublishPostService();
           const response = await postService.getAllPublish();
+          
+          workerId.value = userId.value;
 
           posts.value = response.data;
           return;
@@ -40,11 +45,21 @@ export default {
       posts,
       userRole,
       userId,
+      workerId,
     };
   },
   methods: {
     viewPost(postId) {
       this.$router.push({ path: '/posts/' + postId });
+    },
+    postulation(postId) {
+      let data = {
+        workerId: this.workerId,
+        postId: postId,
+      }
+      console.log(data);
+      new PostulationService().postPostulation(data);
+      alert("Postulación realizada con éxito");
     },
   },
 };
@@ -86,7 +101,7 @@ export default {
                 {{ $t("viewPost") }}
               </p>
             </pv-button>
-            <pv-button @click="" 
+            <pv-button @click="postulation(post.postId)" 
               class="card-button"
               style="width: 80%;"
               v-if="userRole === 'W'">
