@@ -1,9 +1,5 @@
 <template>
-  <pv-button @click="showList = true">Mostrar lista</pv-button>
-  <div v-if="showList" class="user-dropdown">
-    
-    <pv-dropdown v-model="selectedUser" :options="users" optionLabel="name" placeholder="Select a user to chat" class="w-full md:w-14rem" />
-  </div>
+
   
   <div class="chat-container">
     <div class="chat-header">

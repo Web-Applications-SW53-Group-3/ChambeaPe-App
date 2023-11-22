@@ -9,6 +9,7 @@
                 <li class="link" @click="redirectToEmpleos" style="cursor: pointer">{{ $t("naJobs") }}</li>
                 <li class="link" @click="redirectToCreatePost"> {{ $t("naPublish") }} </li>
                 <li class="link" @click="redirectProfile">{{ $t("naProfile") }}</li>
+                <li class="link" @click="redirectToChat">Chat</li>
             </ul>
             <language-selector v-if="!mobile"></language-selector>
             <div v-if="!mobile" class="logout">
@@ -27,6 +28,7 @@
                         <li class="mobileLink" @click="redirectToEmpleos">{{ $t("naJobs") }}</li>
                         <li class="mobileLink" @click="redirectToCreatePost"> {{ $t("naPublish") }} </li>
                         <li class="mobileLink" @click="redirectProfile">{{ $t("naProfile") }}</li>
+                        <li class="mobileLink" @click="redirectToChat">Chat</li>
                     </div>
                     <div> 
                         <language-selector class="mobileLink"></language-selector>
@@ -81,6 +83,9 @@ export default {
             const userId = jwtService.getSub();
             this.$router.push({ path: '/profile/' + userId });
 
+        },
+        redirectToChat() {
+            this.$router.push("/chat");
         },
         redirectToHome() {
             const jwtService = new JwtService();
