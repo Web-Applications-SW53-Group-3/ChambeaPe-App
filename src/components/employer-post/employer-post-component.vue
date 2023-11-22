@@ -144,7 +144,7 @@ export default {
         </div>
       </template>
     </pv-card>
-    <div v-if="workersData.length === 0"> {{ $t('existChambeador') }} </div>
+    <div v-if="workers.length === 0"> {{ $t('existChambeador') }} </div>
   </div>
 </template>
 

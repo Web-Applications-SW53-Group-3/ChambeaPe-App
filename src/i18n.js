@@ -128,7 +128,17 @@ const i18n = createI18n({
             pictureProfileMessage: 'Sube una foto de perfil',   
             occupation: 'Ocupación',
             occupationMessage: '¿Cual es tu trabajo actual?',
-            correoMessage: 'ejemplo@ejmplo.com'
+            correoMessage: 'ejemplo@ejmplo.com',
+            existChambeador: 'No hay chambeadores',
+            publish: 'Publicar',
+            title: 'Título',
+            subtitle: 'Subtítulo',
+            description: 'Descripción',
+            imageURL: 'URL de la imagen',
+            viewPost: 'Ver publicación',
+            btnDelete: 'Eliminar',
+            btnSave: 'Guardar',
+            
         },
 
         en: {
